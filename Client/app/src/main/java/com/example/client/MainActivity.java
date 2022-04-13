@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    PDFView pdfView = findViewById(R.id.pdfView);
+    PDFView pdfView;
     // pdf 페이지 수
     Integer pageNumber = 0;
     // pdf 파일 이름
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        pdfView = findViewById(R.id.pdfView);
         openPdfFromAsset(sample);
 
         Button prevBtn = (Button) findViewById(R.id.prevBtn);
