@@ -1,0 +1,324 @@
+# `코드 컨벤션`
+
+## 1.1. 파일 인코딩은 UTF-8 사용
+
+## 1.2. 들여쓰기
+
+- tab 문자 대신 space 문자 4개 사용
+
+- tab 문자는 에디터 프로그램이나 사용자 설정에 따라 간격이 다르게 보여질 수 있기 때문에
+tab 문자 대신 space 문자를 사용한다.
+
+## 1.3. 중괄호
+
+- K&R 스타일 사용. 시작하는 중괄호는 새로운 라인에서 시작하지 않고 제어문과 같은 라인을 사용한다.
+  
+``` java
+    if (superHero == theTick)
+    {
+        System.out.println("Spoon!");
+    }                                            // NO!     
+    if (superHero == theTick) {
+        System.out.println("Spoon!");
+    }                                            // YES!  
+```   
+
+- 제어문이 한 줄이더라도 중괄호를 생략하지 않는다.
+  
+``` java
+    if (superHero == theTick) System.out.println("Spoon!");  // NO!
+
+    if (superHero == theTick)
+        System.out.println("Spoon!");  // NO!
+
+    if (superHero == theTick) {
+        System.out.println("Spoon!");
+    }                                            // YES!    
+```     
+
+## 1.4. 띄어쓰기
+
+- 메소드 이름 다음에는 띄어쓰기 없이 왼쪽 괄호를 사용
+  
+``` java
+    foo (i, j); // NO!
+    foo(i, j);  // YES!
+```
+
+- 배열 다음에는 띄어쓰기 없이 왼쪽 괄호를 사용
+  
+``` java
+    args [0];  // NO!
+    args[0];   // YES!
+```
+
+- 이진 연산자 간에는 양쪽에 띄어쓰기를 사용
+  
+``` java
+    a=b+c;          // NO!
+    a = b+c;        // NO!
+    a=b + c;        // NO!
+    a = b + c;      // YES!
+
+    z = 2*x + 3*y;         // NO!
+    z = 2 * x + 3 * y;     // YES!
+    z = (2 * x) + (3 * y); // YES!
+```
+
+- 쉼표와 세미콜론 뒤에는 띄어쓰기를 사용
+  
+``` java
+     for (int i = 0;i < 10;i++)   // NO!
+     for (int i = 0; i < 10; i++) // YES!
+
+     getPancakes(syrupQuantity,butterQuantity);  // NO!
+     getPancakes(syrupQuantity, butterQuantity); // YES!
+```
+
+- cast 사용시 띄어쓰기 없이 작성
+
+``` java
+    (MyClass) v.get(3);  // NO!
+    ( MyClass )v.get(3); // NO!
+    (MyClass)v.get(3);   // YES!
+
+```
+
+- if, while, for, switch, catch 문 뒤에는 띄어쓰기를 사용
+
+``` java
+     if(hungry)  // NO!
+     if (hungry) // YES!
+
+     while(pancakes < 7)  // NO!
+     while (pancakes < 7) // YES!
+
+     for(int i = 0; i < 10; i++)  // NO!
+     for (int i = 0; i < 10; i++) // YES!
+
+     catch(TooManyPancakesException e)  // NO!
+     catch (TooManyPancakesException e) // YES!
+```
+
+## 1.5. 클래스 멤버는 필드(전역변수), 생성자, 메소드 순서로 정렬한다.
+
+``` java
+    class Order
+    {
+        // fields (attributes)
+
+        // constructors
+
+        // methods
+    }
+```
+
+## 1.6. 라인 최대 길이
+
+- 100 칸을 넘지 않는다.
+
+## 1.7. C 스타일 배열 선언 사용 금지
+
+``` java
+String args[]   // bad
+String[] args   // good
+```
+
+## 1.8. 지시자의 표기는 자바언어 사양상의 등장 순서를 지킨다.
+
+``` java
+public protected private abstract static final transient volatile synchronized native strictfp
+```
+
+## 2. 네이밍
+
+- 모든 식별자는 영문 대소문자와 숫자만 사용
+
+## 2.1. 클래스와 인터페이스명
+
+- 각 단어의 첫 글자는 대문자로 나머지는 소문자를 사용.
+  
+``` java
+Examples:
+    Customer
+    SalesOrder
+```
+
+- 두문자어(acronym)도 같은 규칙을 사용.
+
+``` java
+XMLHTTPRequest  // NO!
+XmlHttpRequest  // YES!
+
+getCustomerID   // NO!
+getCustomerId   // YES!
+
+class HTML      // NO!
+class Html      // YES!
+
+String URL      // NO!
+String url      // YES!
+
+long ID         // NO!
+long id         // YES!
+```
+
+2.2. 패키지명
+
+- 소문자만 사용. 8자 이내로 사용.
+
+``` java
+Examples:
+    common
+    core
+    lang
+```
+
+- 복합단어를 사용하지 않는다.
+
+``` java
+Examples:
+    subwayzone  // NO!
+    zone.subway // YES!
+```
+
+## 2.3. 그 외의 모든 식별자
+
+- 필드 식별자, 변수, 메소드, 파라미터는 다음의 네이밍 규칙을 따른다.
+
+- 첫 단어를 제외한 첫 글자는 대문자로 나머지는 소문자를 사용. 두문자어(acronym)는 대문자 사용하되 첫 단어인 경우는 모두 소문자를 사용.
+
+``` java
+Examples:
+    customer
+    salesOrder
+    addToTotal()
+    targetURL
+    urlTarget
+```
+
+## 2.3.1. 헝가리안 표기법 및 범위 식별자는 사용하지 않음
+
+- 헝가리안 표기법과 범위 식별자는 사용하지 않음
+
+``` java
+    public class Person
+    {
+        private String sFirstName; // NO! (Hungarian notation: s for String)
+        private String firstName;  // YES!
+
+        private String mLastName;  // NO! (Scope identification: m for member variable)
+        private String _lastName;  // NO! (Scope identification: _ for member variable)
+        private String lastName;   // YES!
+
+        // ...
+    }
+```
+
+## 2.3.2. 테스트 코드
+
+- 테스트 코드는 메소드와 필드 식별자에 밑줄을 사용하는 것이 허용된다.
+
+``` java
+Example:
+
+    Code to test a method double eatSomePie(double amount) may use variables such as:
+
+    eatSomePie_count
+    eatSomePie_amount
+    eatSomePie_return
+    eatSomePie_exception
+``` 
+
+## 3. 코딩
+
+## 3.1. 피해야할 사항
+
+## 3.1.1. do..while 사용하지 않는다.
+
+- do..while 문은 조건이 코드 아래 부분에 있기 때문에 가독성이 좋지 않고, 경험이 적은 프로그래머에게도 익숙하지 않은 문법이다.
+
+``` java
+So rather than:
+    boolean done = false;
+    do
+    {
+        ...
+    } while (!done)
+use:
+    boolean done = false;
+    while (!done)
+    {
+       ...
+    }
+```
+
+## 3.1.2. 메소드 중간에 return을 사용하지 않는다.
+
+- return은 메소드 마지막에 사용한다.
+
+- return이 중간에 있다면 메소드를 수정할 경우 고려할 사항이 많아지고 버그를 유발시킬 가능성이 높아진다.
+
+## 3.1.3. continue를 사용하지 않는다.
+
+- 수정 시에 2개 이상의 end point를 고려해야 하기 때문에 코드 수정이 어려워 진다.
+
+## 3.1.4. break는 switch 이외의 다른 제어문에서 사용하지 않는다.
+
+- 수정 시에 2개 이상의 end point를 고려해야 하기 때문에 코드 수정이 어려워 진다.
+
+## 3.2. 증감 연산자는 분리된 라인에서 사용
+
+- 증감 연산자는 분리된 라인에서 단독으로 사용한다.
+
+``` java
+Examples:
+    foo(x++); // NO!
+
+    foo(x);   // YES!
+    x++;
+
+    y += 100 * x++;  // NO!
+
+    y += 100 * x;    // YES!
+    x++;
+```
+
+## 3.3. 초기화
+
+- 변수가 사용되는 곳의 가까운 위치에 변수를 선언.
+
+``` java
+Examples:
+    int totalWide;
+    int firstWide = 20;
+    int secondWide = 12;
+    firstWide = doFoo(firstWide, secondWide);
+    doBar(firstWide, secondWide);
+    totalWide = firstWide + secondWide;         //  wrong!
+
+    int firstWide = 20;
+    int secondWide = 12;
+    firstWide = doFoo(firstWide, secondWide);
+    doBar(firstWide, secondWide);
+    int totalWide = firstWide + secondWide;     //  right!
+
+    int secondWide = 12;
+    int firstWide = doFoo(20, secondWide);
+    doBar(firstWide, secondWide);
+    int totalWide = firstWide + secondWide;     //  even better!
+```
+
+## 3.4. 접근
+
+상수를 제외한 모든 필드는 private 해야 한다.
+
+## 3.5 와일드 카드 임포트 사용 금지
+
+```java
+import java.io.*; // bad
+import java.io.File; // good
+import java.io.FileReader; // good
+
+```java
+## 3.6. 스위치문 사용시엔 반드시 default구를 정의한다.
