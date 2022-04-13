@@ -7,11 +7,11 @@ assignees: ''
 
 ---
 
-## 📝이슈 내용
+##  📝이슈 내용
 
 > description
 
-## ✅체크리스트
+##  ✅체크리스트
 
 - [ ] todo1
 - [ ] todo2
