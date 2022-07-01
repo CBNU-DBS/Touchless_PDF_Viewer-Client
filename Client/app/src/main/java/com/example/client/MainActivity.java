@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.example.client.java.LivePreviewActivity;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
@@ -88,6 +90,13 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
             @Override
             public void onClick(View view) {
                 scrollDown();
+            }
+        });
+        Button testBtn = (Button) findViewById(R.id.scrollDownBtn);
+        scrollDownBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //
             }
         });
     }

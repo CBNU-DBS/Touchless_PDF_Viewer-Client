@@ -4,6 +4,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
+        maven { url 'https://androidx.dev/snapshots/builds/6787662/artifacts/repository/' }
     }
 }
 rootProject.name = "Client"

@@ -3,6 +3,26 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/drawable/ic_launcher_background.xml" value="0.225" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/drawable/list_item_background.xml" value="0.225" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout-land/activity_vision_camerax_live_preview.xml" value="0.18606701940035272" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout-land/activity_vision_cameraxsource_demo.xml" value="0.18606701940035272" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout-land/activity_vision_live_preview.xml" value="0.18606701940035272" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_chooser.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_settings.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_still_image.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_vision_camerax_live_preview.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_vision_cameraxsource_demo.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_vision_entry_choice.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_vision_live_preview.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/settings_style.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/spinner_style.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/toggle_style.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/menu/camera_button_menu.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/menu/options.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/xml/preference_live_preview_quickstart.xml" value="0.21979166666666666" />
+        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/xml/preference_still_image.xml" value="0.33" />
         <entry key="app/src/main/res/drawable/button_patter.xml" value="0.2535" />
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.197" />
         <entry key="app/src/main/res/drawable/edittext_border.xml" value="0.197" />
