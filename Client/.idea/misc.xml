@@ -26,11 +26,15 @@
         <entry key="app/src/main/res/drawable/button_patter.xml" value="0.2535" />
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.197" />
         <entry key="app/src/main/res/drawable/edittext_border.xml" value="0.197" />
-        <entry key="app/src/main/res/layout/activity_join.xml" value="0.165" />
+        <entry key="app/src/main/res/layout-land/activity_vision_cameraxsource_demo.xml" value="0.1875" />
+        <entry key="app/src/main/res/layout/activity_join.xml" value="0.55" />
         <entry key="app/src/main/res/layout/activity_join2.xml" value="0.24682971014492755" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2776268115942029" />
         <entry key="app/src/main/res/layout/activity_mypage.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/activity_personal_info_setting.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.24682971014492755" />
+        <entry key="app/src/main/res/layout/activity_vision_cameraxsource_demo.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_vision_entry_choice.xml" value="0.15552178318135765" />
         <entry key="app/src/main/res/layout/content_join.xml" value="0.24682971014492755" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.24682971014492755" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.24682971014492755" />

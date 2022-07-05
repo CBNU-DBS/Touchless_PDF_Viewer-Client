@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Personal_info_setting_Activity">
+
+    <TextView
+        android:id="@+id/Personal_info_setting_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="개인정보 변경"
+        android:textColor="#000000"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="비밀번호"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.095"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Personal_info_setting_Title" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="172dp"
+        android:text="이메일"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Personal_info_setting_Title" />
+
+    <Button
+        android:id="@+id/password_set_btn"
+        android:layout_width="69dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="154dp"
+        android:text="수정"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.235"
+        app:layout_constraintStart_toEndOf="@+id/Password_changeEditText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/email_set_btn"
+        android:layout_width="69dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="70dp"
+        android:text="수정"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.277"
+        app:layout_constraintStart_toEndOf="@+id/Email_change_EditText"
+        app:layout_constraintTop_toBottomOf="@+id/password_set_btn" />
+
+    <EditText
+        android:id="@+id/Email_change_EditText"
+        android:layout_width="274dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:hint="   새로운 이메일을 입력해주세요"
+        android:textSize="18sp"
+        android:background="@drawable/edittext_border"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.233"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/Phonenum_change_EditTedt"
+        android:layout_width="274dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:hint="   새로운 전화번호를 입력해주세요"
+        android:textSize="18sp"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/edittext_border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.233"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <!-- Password_changeEditText에서는 새로 바꿀 비밀번호를 가시적으로 확인하기 위해서
+     inputType을 textPersonName으로 선택함. inputType을 Password로 하면 암호처리되서
+     점으로 입력되어 변경하려는 비밀번호를 확인하지 못하는 경우 발생 (차재현)-->
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="292dp"
+        android:text="전화번호"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.095"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Personal_info_setting_Title" />
+
+    <Button
+        android:id="@+id/phonenum_set_btn"
+        android:layout_width="69dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="70dp"
+        android:text="수정"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.277"
+        app:layout_constraintStart_toEndOf="@+id/Phonenum_change_EditTedt"
+        app:layout_constraintTop_toBottomOf="@+id/email_set_btn" />
+
+    <EditText
+        android:id="@+id/Password_changeEditText"
+        android:layout_width="276dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:hint="   새로운 비밀번호를 입력해주세요"
+        android:inputType="textPersonName"
+        android:textSize="18sp"
+        android:background="@drawable/edittext_border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.237"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Button
+        android:id="@+id/back_to_mypage_btn"
+        android:layout_width="210dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="96dp"
+        android:text="마이페이지로 돌아가기"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
