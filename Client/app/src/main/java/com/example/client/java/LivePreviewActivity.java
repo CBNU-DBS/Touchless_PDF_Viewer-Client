@@ -73,7 +73,6 @@ public final class LivePreviewActivity extends AppCompatActivity
     private CameraSource cameraSource = null;
     private CameraSourcePreview preview;
     private GraphicOverlay graphicOverlay;
-    /*수정 부분 : 차재현(기본 selectedModel을 Object_detection에서 Face_detection으로 수정함)*/
     private String selectedModel = FACE_DETECTION;
 
     @Override

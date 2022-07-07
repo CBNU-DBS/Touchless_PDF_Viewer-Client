@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.client"
-    android:installLocation="auto">
+    android:installLocation="auto" >
 
-    <uses-sdk
-        tools:overrideLibrary="
-          androidx.camera.camera2, androidx.camera.core,
-          androidx.camera.view, androidx.camera.lifecycle" />
+    <uses-sdk tools:overrideLibrary="           androidx.camera.camera2, androidx.camera.core,           androidx.camera.view, androidx.camera.lifecycle" />
 
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
 
     <application
         android:name=".ActivityLocal"
@@ -24,63 +27,57 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Client">
+        <activity
+            android:name=".Personal_info_setting_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".MotionSettingActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
-
+            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
-            android:value="barcode,face,ocr,ica,custom_ica"/>
+            android:value="barcode,face,ocr,ica,custom_ica" />
 
         <activity
-                android:name=".MainActivity"
-                android:exported="true">
-        </activity>
-
-        <activity
-            android:name=".java.ChooserActivity"
-            android:exported="false">
-        </activity>
-
-        <activity
-            android:name=".java.LivePreviewActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme">
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
 
+        </activity>
+        <activity
+            android:name=".java.ChooserActivity"
+            android:exported="false" >
+        </activity>
+        <activity
+            android:name=".java.LivePreviewActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme"
+        </activity>
         <activity
             android:name=".java.CameraXLivePreviewActivity"
             android:exported="false"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
         </activity>
-
         <activity
             android:name=".java.CameraXSourceDemoActivity"
             android:exported="false"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
         </activity>
-
         <activity
             android:name=".java.StillImageActivity"
             android:exported="false"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
         </activity>
-
         <activity
             android:name=".preference.SettingsActivity"
-            android:exported="false">
+            android:exported="false" >
         </activity>
-
     </application>
-    <queries>
-        <intent>
-            <action android:name="android.media.action.IMAGE_CAPTURE" />
-        </intent>
-    </queries>
 
 </manifest>
