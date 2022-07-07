@@ -80,7 +80,7 @@ public class PreferenceUtils {
     public static boolean shouldHideDetectionInfo(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String prefKey = context.getString(R.string.pref_key_info_hide);
-        return sharedPreferences.getBoolean(prefKey, false);
+        return sharedPreferences.getBoolean(prefKey, true);
     }
 
     public static ObjectDetectorOptions getObjectDetectorOptionsForStillImage(Context context) {
@@ -183,7 +183,7 @@ public class PreferenceUtils {
                 getModeTypePreferenceValue(
                         context,
                         R.string.pref_key_live_preview_face_detection_classification_mode,
-                        FaceDetectorOptions.CLASSIFICATION_MODE_NONE);
+                        FaceDetectorOptions.CLASSIFICATION_MODE_ALL);
         int performanceMode =
                 getModeTypePreferenceValue(
                         context,
