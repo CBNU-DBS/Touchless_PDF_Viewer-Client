@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/gi500/Touchless_PDF_Viewer-Client/Client/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.4955" />
+        <entry key="..\:/Users/gi500/Touchless_PDF_Viewer-Client/Client/app/src/main/res/drawable/ic_launcher_background.xml" value="0.4955" />
+        <entry key="..\:/Users/gi500/Touchless_PDF_Viewer-Client/Client/app/src/main/res/drawable/logo_mlkit.xml" value="0.4955" />
+        <entry key="..\:/Users/gi500/Touchless_PDF_Viewer-Client/Client/app/src/main/res/drawable/rounded_corner.xml" value="0.4955" />
+        <entry key="..\:/Users/gi500/Touchless_PDF_Viewer-Client/Client/app/src/main/res/drawable/rounded_corner_button.xml" value="0.4955" />
+        <entry key="..\:/Users/gi500/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_settings.xml" value="0.20185185185185187" />
+        <entry key="..\:/Users/gi500/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_still_image.xml" value="0.20185185185185187" />
+        <entry key="..\:/Users/gi500/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/login.xml" value="0.33" />
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/drawable/ic_launcher_background.xml" value="0.225" />
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/drawable/list_item_background.xml" value="0.225" />
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout-land/activity_vision_camerax_live_preview.xml" value="0.18606701940035272" />
