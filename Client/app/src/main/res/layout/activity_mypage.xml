@@ -124,19 +124,19 @@
         app:srcCompat="@drawable/mail" />
 
     <Button
-        android:id="@+id/account_set_btn"
+        android:id="@+id/btn_account_set"
         android:layout_width="350dp"
         android:layout_height="60dp"
         android:layout_marginBottom="20dp"
         android:text="개인정보 설정"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/logout_btn"
+        app:layout_constraintBottom_toTopOf="@+id/btn_logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/logout_btn"
+        android:id="@+id/btn_logout"
         android:layout_width="350dp"
         android:layout_height="60dp"
         android:layout_marginBottom="32dp"
