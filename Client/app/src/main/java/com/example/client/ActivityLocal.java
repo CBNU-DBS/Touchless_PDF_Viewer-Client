@@ -11,6 +11,8 @@ public class ActivityLocal extends Application {
     long time2 = 0;
     Queue<Float> leftqueue = new LinkedList<>();
     Queue<Float> rightqueue = new LinkedList<>();
+    Queue<Float> eulerXqueue = new LinkedList<>();
+    Queue<Float> eulerYqueue = new LinkedList<>();
 
     public long gettime1() {
         return time1;
@@ -54,6 +56,22 @@ public class ActivityLocal extends Application {
 
     public int getrightsize() {
         return rightqueue.size();
+    }
+
+    public float geteulerX() {
+        return eulerXqueue.poll();
+    }
+
+    public void seteulerX( float id ) {
+        this.eulerXqueue.add(id);
+    }
+
+    public float geteulerY() {
+        return eulerYqueue.poll();
+    }
+
+    public void seteulerY( float id ) {
+        this.eulerYqueue.add(id);
     }
 
 
