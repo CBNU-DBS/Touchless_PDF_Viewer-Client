@@ -88,6 +88,10 @@
             android:name=".preference.SettingsActivity"
             android:exported="false" >
         </activity>
+        <activity
+            android:name=".SelectPdfActivity"
+            android:exported="false" >
+        </activity>
     </application>
 
 </manifest>
