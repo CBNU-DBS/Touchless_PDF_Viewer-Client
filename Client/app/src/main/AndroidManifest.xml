@@ -27,13 +27,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Client">
-        <activity
-            android:name=".Personal_info_setting_Activity"
-            android:exported="false" />
-        <activity
-            android:name=".MotionSettingActivity"
-            android:exported="false" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -42,13 +35,30 @@
             android:value="barcode,face,ocr,ica,custom_ica" />
 
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".LoginActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
 
+        <activity android:name=".HomeActivity"></activity>
+
+        <activity android:name=".JoinActivity"></activity>
+
+        <activity android:name=".MypageActivity"></activity>
+
+        <activity
+            android:name=".Personal_info_setting_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".MotionSettingActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
         </activity>
         <activity
             android:name=".java.ChooserActivity"

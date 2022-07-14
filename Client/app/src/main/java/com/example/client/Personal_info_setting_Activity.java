@@ -2,6 +2,7 @@ package com.example.client;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -40,11 +41,12 @@ public class Personal_info_setting_Activity extends AppCompatActivity {
             }
         });
 
-        Button back_to_mypage_Btn = (Button) findViewById(R.id.back_to_mypage_btn);
-        phonenum_set_Btn.setOnClickListener(new View.OnClickListener() {
+        Button back_to_mypage_Btn = (Button) findViewById(R.id.btn_back_to_mypage);
+        back_to_mypage_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //마이페이지로 돌아갑니다.
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
             }
         });
     }
