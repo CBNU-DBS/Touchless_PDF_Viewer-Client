@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:cardUseCompatPadding="true"
+    android:id="@+id/container"
+    android:layout_row="0"
+    android:layout_rowWeight="1"
+    android:layout_column="0"
+    android:layout_columnWeight="1"
+    android:layout_gravity="fill"
+    android:layout_margin="8dp"
+    android:background="#FFFFFF"
+    android:elevation="40dp"
+    app:cardCornerRadius="15dp"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:src="@drawable/samplepdfimage"
+            android:background="@color/light_grey_400"
+            />
+        <TextView
+            android:id="@+id/pdfTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="pdfTitle"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:layout_margin="5dp"
+            />
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2022/07/14"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
