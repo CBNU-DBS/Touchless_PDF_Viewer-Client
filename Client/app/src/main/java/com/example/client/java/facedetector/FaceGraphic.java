@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.util.Log;
 import android.widget.Toast;
 import com.example.client.MainActivity;
 
@@ -11,6 +12,9 @@ import com.example.client.ActivityLocal;
 import com.example.client.GraphicOverlay;
 import com.example.client.GraphicOverlay.Graphic;
 import com.google.mlkit.vision.face.Face;
+import com.google.mlkit.vision.face.FaceDetection;
+import com.google.mlkit.vision.face.FaceDetector;
+import com.google.mlkit.vision.face.FaceDetectorOptions;
 import com.google.mlkit.vision.face.FaceContour;
 import com.google.mlkit.vision.face.FaceLandmark;
 import com.google.mlkit.vision.face.FaceLandmark.LandmarkType;
@@ -52,12 +56,29 @@ public class FaceGraphic extends Graphic {
     private final Paint[] labelPaints;
 
     private volatile Face face;
+    int botheyecheck = 0;
+    int leftcheck = 0;
+    int rightcheck = 0;
+    int faceup = 0;
+    int facedown = 0;
+    int faceleft = 0;
+    int faceright = 0;
+    float eulerXdegree = 0.0F;
+    float eulerYdegree = 0.0F;
+    float lefteye = 0.0F;
+    float righteye = 0.0F;
 
-    //수정중
-    boolean leftcheck = true;
-    boolean rightcheck = true;
     Toast leftToast = Toast.makeText(this.getApplicationContext(),"왼쪽눈 감기 확인", Toast.LENGTH_SHORT);
     Toast rightToast = Toast.makeText(this.getApplicationContext(),"오른쪽눈 감기 확인", Toast.LENGTH_SHORT);
+    Toast bothToast = Toast.makeText(this.getApplicationContext(),"양눈 감기 확인", Toast.LENGTH_SHORT);
+    Toast facerightToast = Toast.makeText(this.getApplicationContext(),"머리 오른쪽 확인", Toast.LENGTH_SHORT);
+    Toast faceleftToast = Toast.makeText(this.getApplicationContext(),"머리 왼쪽 확인", Toast.LENGTH_SHORT);
+    Toast faceupToast = Toast.makeText(this.getApplicationContext(),"고개 들기 확인", Toast.LENGTH_SHORT);
+    Toast facedownToast = Toast.makeText(this.getApplicationContext(),"고개 숙이기 확인", Toast.LENGTH_SHORT);
+
+//    Log.v(MANUAL_TESTING_LOG, "face Euler Angle X: " + face.getHeadEulerAngleX());
+//    Log.v(MANUAL_TESTING_LOG, "face Euler Angle Y: " + face.getHeadEulerAngleY());
+//    Log.v(MANUAL_TESTING_LOG, "face Euler Angle Z: " + face.getHeadEulerAngleZ());
 
     FaceGraphic(GraphicOverlay overlay, Face face) {
         super(overlay);
@@ -102,8 +123,12 @@ public class FaceGraphic extends Graphic {
                 if(face.getLeftEyeOpenProbability() != null && face.getRightEyeOpenProbability() != null) {
                     float left = face.getLeftEyeOpenProbability();
                     float right = face.getRightEyeOpenProbability();
-                    ((ActivityLocal) getApplicationContext()).setleft(left);
-                    ((ActivityLocal) getApplicationContext()).setright(right);
+                    float eulerX = face.getHeadEulerAngleX();
+                    float eulerY = face.getHeadEulerAngleY();
+                    ((ActivityLocal) getApplicationContext()).setleft(right);
+                    ((ActivityLocal) getApplicationContext()).setright(left);
+                    ((ActivityLocal) getApplicationContext()).seteulerX(eulerX);
+                    ((ActivityLocal) getApplicationContext()).seteulerY(eulerY);
                 }
             }
         }
@@ -113,25 +138,66 @@ public class FaceGraphic extends Graphic {
         }
 
         if(( (ActivityLocal) getApplicationContext() ).getleftsize() >= 10){
-            leftcheck = true;
-            rightcheck = true;
+            botheyecheck = 0;
+            leftcheck = 0;
+            rightcheck = 0;
+            faceup = 0;
+            facedown = 0;
+            faceleft = 0;
+            faceright = 0;
 
             for(int k = 0; k<10; k++){
-                if(( (ActivityLocal) getApplicationContext() ).getleft()>0.7){
-                    leftcheck = false;
+                lefteye = ( (ActivityLocal) getApplicationContext() ).getleft();
+                righteye = ( (ActivityLocal) getApplicationContext() ).getright();
+                eulerXdegree = ( (ActivityLocal) getApplicationContext() ).geteulerX();
+                eulerYdegree = ( (ActivityLocal) getApplicationContext() ).geteulerY();
+                if(lefteye < 0.7 && righteye < 0.7){
+                    botheyecheck += 1;
                 }
-                if(( (ActivityLocal) getApplicationContext() ).getright()>0.7){
-                    rightcheck = false;
+                if(lefteye <0.7){
+                    leftcheck += 1;
+                }
+                if(righteye <0.7){
+                    rightcheck += 1;
+                }
+                if(eulerXdegree > 12){
+                    faceup += 1;
+                }
+                if(eulerXdegree < -12){
+                    facedown += 1;
+                }
+                if(eulerYdegree > 12){
+                    faceleft += 1;
+                }
+                if(eulerYdegree < -12){
+                    faceright += 1;
                 }
             }
-            if(leftcheck == true) {
+
+            if(faceup == 10) {
+                faceupToast.show();
+            }
+            else if(facedown == 10) {
+                facedownToast.show();
+            }
+            else if(faceleft == 10) {
+                faceleftToast.show();
+            }
+            else if(faceright == 10) {
+                facerightToast.show();
+            }
+            else if(botheyecheck >= 8) {
+                bothToast.show();
+            }
+            else if(leftcheck == 10) {
                 leftToast.show();
                 MainActivity.scrollUp();
             }
-            if(rightcheck == true) {
+            else if(rightcheck == 10) {
                 rightToast.show();
                 MainActivity.scrollDown();
             }
+
         }
 
 
