@@ -31,13 +31,7 @@ import com.example.client.CameraSource;
 import com.example.client.CameraSourcePreview;
 import com.example.client.GraphicOverlay;
 import com.example.client.R;
-import com.example.client.java.barcodescanner.BarcodeScannerProcessor;
 import com.example.client.java.facedetector.FaceDetectorProcessor;
-import com.example.client.java.labeldetector.LabelDetectorProcessor;
-import com.example.client.java.objectdetector.ObjectDetectorProcessor;
-import com.example.client.java.posedetector.PoseDetectorProcessor;
-import com.example.client.java.segmenter.SegmenterProcessor;
-import com.example.client.java.textdetector.TextRecognitionProcessor;
 import com.example.client.preference.PreferenceUtils;
 import com.example.client.preference.SettingsActivity;
 import com.google.mlkit.vision.label.custom.CustomImageLabelerOptions;
@@ -67,7 +61,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 
 
-public class MainActivity extends AppCompatActivity implements OnPageChangeListener, OnLoadCompleteListener, OnItemSelectedListener, CompoundButton.OnCheckedChangeListener,
+public class PDF_View_Activity extends AppCompatActivity implements OnPageChangeListener, OnLoadCompleteListener, OnItemSelectedListener, CompoundButton.OnCheckedChangeListener,
         ActivityCompat.OnRequestPermissionsResultCallback, OnPageErrorListener {
 
     //private static final String TAG = MainActivity.class.getSimpleName();

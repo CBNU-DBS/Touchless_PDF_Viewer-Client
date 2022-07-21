@@ -3,25 +3,14 @@ package com.example.client.java.facedetector;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PointF;
-import android.util.Log;
 import android.widget.Toast;
-import com.example.client.MainActivity;
+import com.example.client.PDF_View_Activity;
 
 import com.example.client.ActivityLocal;
 import com.example.client.GraphicOverlay;
 import com.example.client.GraphicOverlay.Graphic;
 import com.google.mlkit.vision.face.Face;
-import com.google.mlkit.vision.face.FaceDetection;
-import com.google.mlkit.vision.face.FaceDetector;
-import com.google.mlkit.vision.face.FaceDetectorOptions;
-import com.google.mlkit.vision.face.FaceContour;
-import com.google.mlkit.vision.face.FaceLandmark;
-import com.google.mlkit.vision.face.FaceLandmark.LandmarkType;
-import java.util.Locale;
-import java.util.LinkedList; //import
-import java.util.Queue; //import
-import android.app.Application;
+
 
 /**
  * Graphic instance for rendering face position, contour, and landmarks within the associated
@@ -191,11 +180,11 @@ public class FaceGraphic extends Graphic {
             }
             else if(leftcheck == 10) {
                 leftToast.show();
-                MainActivity.scrollUp();
+                PDF_View_Activity.scrollUp();
             }
             else if(rightcheck == 10) {
                 rightToast.show();
-                MainActivity.scrollDown();
+                PDF_View_Activity.scrollDown();
             }
 
         }
