@@ -21,7 +21,6 @@ import com.google.mlkit.vision.camera.DetectionTaskCallback;
 import com.example.client.GraphicOverlay;
 import com.example.client.InferenceInfoGraphic;
 import com.example.client.R;
-import com.example.client.java.objectdetector.ObjectGraphic;
 import com.example.client.preference.PreferenceUtils;
 import com.example.client.preference.SettingsActivity;
 import com.google.mlkit.vision.objects.DetectedObject;
@@ -172,9 +171,6 @@ public final class CameraXSourceDemoActivity extends AppCompatActivity
             }
         }
         Log.v(TAG, "Number of object been detected: " + results.size());
-        for (DetectedObject object : results) {
-            graphicOverlay.add(new ObjectGraphic(graphicOverlay, object));
-        }
         graphicOverlay.add(new InferenceInfoGraphic(graphicOverlay));
         graphicOverlay.postInvalidate();
     }
