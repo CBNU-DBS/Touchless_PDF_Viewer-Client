@@ -118,6 +118,9 @@ dependencies {
     // On Device Machine Learnings
     implementation "com.google.android.odml:image:1.0.0-beta1"
 
+    //Volley 1.1.0 - API 연결
+    implementation 'com.android.volley:volley:1.1.0'
+
 
 
     testImplementation 'junit:junit:4.+'

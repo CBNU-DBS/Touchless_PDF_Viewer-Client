@@ -30,12 +30,12 @@
         android:text="이름"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/nameEditText"
+        app:layout_constraintBottom_toTopOf="@+id/et_join_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/nameEditText"
+        android:id="@+id/et_join_name"
         android:layout_width="270dp"
         android:layout_height="50dp"
         android:layout_marginTop="40dp"
@@ -45,42 +45,13 @@
         android:inputType="textPersonName"
         android:padding="10dp"
         android:paddingStart="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/idEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/joinTitle" />
 
     <TextView
-        android:id="@+id/idTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="71dp"
-        android:layout_marginEnd="321dp"
-        android:text="ID"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/idEditText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/idEditText"
-        android:layout_width="270dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/edittext_border"
-        android:ems="10"
-        android:hint="  4~10자리 ID를 입력해주세요"
-        android:inputType="textPersonName"
-        android:padding="10dp"
-        android:paddingStart="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
-
-    <TextView
-        android:id="@+id/pwTitle"
+        android:id="@+id/tv_join_pw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="71dp"
@@ -88,12 +59,28 @@
         android:text="비밀번호"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/pwEditText"
+        app:layout_constraintBottom_toTopOf="@+id/et_join_password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_join_name" />
+
+    <TextView
+        android:id="@+id/tv_join_comfirmPw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="223dp"
+        android:layout_marginStart="71dp"
+        android:layout_marginTop="5dp"
+        android:text="비밀번호 확인"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/et_join_confirmPw"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_join_password" />
 
     <EditText
-        android:id="@+id/pwEditText"
+        android:id="@+id/et_join_password"
         android:layout_width="270dp"
         android:layout_height="50dp"
         android:layout_marginTop="32dp"
@@ -106,7 +93,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/et_join_name" />
+
+    <EditText
+        android:id="@+id/et_join_confirmPw"
+        android:layout_width="270dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/edittext_border"
+        android:ems="10"
+        android:hint="한번 더 입력해주세요"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:paddingStart="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_join_password" />
 
     <TextView
         android:id="@+id/phoneTitle"
@@ -117,7 +120,7 @@
         android:text="전화번호"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPhone"
+        app:layout_constraintBottom_toTopOf="@+id/et_join_phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -125,17 +128,17 @@
         android:id="@+id/mailTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="71dp"
         android:layout_marginEnd="285dp"
+        android:layout_marginStart="71dp"
         android:text="이메일"
         android:textColor="#000000"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/emailEditText"
+        app:layout_constraintBottom_toTopOf="@+id/et_join_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/emailEditText"
+        android:id="@+id/et_join_email"
         android:layout_width="270dp"
         android:layout_height="50dp"
         android:layout_marginTop="32dp"
@@ -148,10 +151,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pwEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/et_join_confirmPw" />
 
     <EditText
-        android:id="@+id/editTextPhone"
+        android:id="@+id/et_join_phone"
         android:layout_width="270dp"
         android:layout_height="50dp"
         android:layout_marginTop="32dp"
@@ -159,14 +162,16 @@
         android:ems="10"
         android:hint="  010-1234-5678"
         android:inputType="phone"
+        android:maxLength="13"
         android:padding="10dp"
         android:paddingStart="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/et_join_email"
+        tools:text="010-0000-0000" />
 
     <Button
-        android:id="@+id/btn_register"
+        android:id="@+id/btn_join_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button_shape"
@@ -176,6 +181,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/et_join_phone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
