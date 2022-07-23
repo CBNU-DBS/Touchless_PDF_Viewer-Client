@@ -30,7 +30,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Client">
         <activity
-            android:name=".preference.SpechToTextActivity"
+            android:name=".preference.SpeechToTextActivity"
             android:exported="false" />
         <activity
             android:name=".Personal_info_setting_Activity"
@@ -60,13 +60,6 @@
         <activity android:name=".JoinActivity"></activity>
 
         <activity android:name=".MypageActivity"></activity>
-
-        <activity
-            android:name=".Personal_info_setting_Activity"
-            android:exported="false" />
-        <activity
-            android:name=".MotionSettingActivity"
-            android:exported="false" />
 
         <activity
             android:name=".PDF_View_Activity"
