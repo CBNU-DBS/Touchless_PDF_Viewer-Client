@@ -2,8 +2,6 @@ package com.example.client;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
@@ -16,21 +14,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.client.api.UserApi;
+import com.example.client.dto.ResponseDTO;
+import com.example.client.dto.UserDTO;
+import com.google.gson.Gson;
 
-import org.intellij.lang.annotations.RegExp;
-
-import java.util.HashMap;
 import java.util.IllegalFormatException;
-import java.util.Map;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class JoinActivity extends AppCompatActivity {
     EditText    et_join_name;
@@ -39,22 +32,23 @@ public class JoinActivity extends AppCompatActivity {
     EditText    et_join_email;
     EditText    et_join_phone;
     Button      btn_join_register;
-
     String emailValidation = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+    UserApi userApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
-
+        userApi = RetrofitClient.getClient().create(UserApi.class);
         et_join_name        = findViewById(R.id.et_join_name);
         et_join_email       = findViewById(R.id.et_join_email);
         et_join_password    = findViewById(R.id.et_join_password);
         et_join_confirmPw   = findViewById(R.id.et_join_confirmPw);
         et_join_phone       = findViewById(R.id.et_join_phone);
         btn_join_register   = findViewById(R.id.btn_join_register);
-        // 회원가입 버튼 이벤트 리스너
 
+        // 회원가입 버튼 이벤트 리스너
         btn_join_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) throws IllegalFormatException {
@@ -63,7 +57,6 @@ public class JoinActivity extends AppCompatActivity {
                 String password     = et_join_password.getText().toString();
                 String confirmPw    = et_join_confirmPw.getText().toString();
                 String phone        = et_join_phone.getText().toString();
-
                 if(false == checkName(name)){
                     return;
                 }
@@ -76,71 +69,14 @@ public class JoinActivity extends AppCompatActivity {
                 if(false == checkPhone(phone)){
                     return;
                 }
+                UserDTO user = new UserDTO(name,email,password, phone);
 
-                StringRequest stringRequest = new StringRequest(
-                        Request.Method.POST,
-                        VolleyHelper.getBaseUrl("users"),
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
-                                Log.i("SUCCESS",response);
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();
-                                Log.e("ERROR", error.getMessage());
-                            }
-                        }
-                ) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> param = new HashMap<>();
-                        param.put("name", name);
-                        param.put("password", password);
-                        param.put("email", email);
-                        param.put("phone", phone);
-                        return param;
-                    }
-                };
-
-                VolleyHelper.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+                join(user);
 
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-
                 startActivity(intent);
             }
         });
-
-        // 이메일 형식 확인
-        et_join_email.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String email    = editable.toString().trim();
-                Boolean check   = Pattern.matches(emailValidation, email);
-                if(check){
-                    et_join_email.setTextColor(getResources().getColor(R.color.black));
-                } else {
-                    et_join_email.setTextColor(-65536);
-                }
-
-            }
-        });
-        // 자동으로 하이푼 추가?
-        et_join_phone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-
     }
 
     private Boolean checkName(String name){
@@ -206,6 +142,28 @@ public class JoinActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private void join(UserDTO user){
+        userApi.joinUser(user).enqueue(new Callback<ResponseDTO<UserDTO>>() {
+            @Override
+            public void onResponse(Call<ResponseDTO<UserDTO>> call,
+                    retrofit2.Response<ResponseDTO<UserDTO>> response) {
+                ResponseDTO<UserDTO> result = response.body();
+                Toast.makeText(getApplicationContext(), result.getResultMsg(), Toast.LENGTH_SHORT).show();
+                if(result.getResultCode() == 0){
+                    finish();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseDTO<UserDTO>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();
+                Log.e("Sign Up Error", t.getMessage());
+                t.printStackTrace();
+            }
+        });
     }
 
 }
