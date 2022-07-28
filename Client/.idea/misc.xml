@@ -63,6 +63,7 @@
         <entry key="app/src/main/res/layout/spinner_style.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/toggle_style.xml" value="0.1890625" />
         <entry key="app/src/main/res/menu/options.xml" value="0.37395833333333334" />
+        <entry key="app/src/main/res/xml/network_security_config.xml" value="0.1890625" />
       </map>
     </option>
   </component>
