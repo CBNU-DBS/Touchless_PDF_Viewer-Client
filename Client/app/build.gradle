@@ -118,7 +118,12 @@ dependencies {
     // On Device Machine Learnings
     implementation "com.google.android.odml:image:1.0.0-beta1"
 
+    //Volley 1.1.0 - API 연결
+    implementation 'com.android.volley:volley:1.1.0'
 
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

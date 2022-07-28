@@ -1,5 +1,6 @@
 package com.example.client.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -31,6 +32,17 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        // 구글 드라이브 실행 이벤트 리스너
+        Button btn_google_drive = (Button) view.findViewById(R.id.btn_google_drive);
+        btn_google_drive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage("com.google.android.apps.docs");
+                startActivity(intent);
+            }
+        });
+
         // 로그아웃 버튼 이벤트 리스너
         Button btn_logout = (Button) view.findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(new View.OnClickListener() {
