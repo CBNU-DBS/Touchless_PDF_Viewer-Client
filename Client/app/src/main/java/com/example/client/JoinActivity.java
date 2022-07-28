@@ -4,10 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.telephony.PhoneNumberFormattingTextWatcher;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +14,6 @@ import android.widget.Toast;
 import com.example.client.api.UserApi;
 import com.example.client.dto.ResponseDTO;
 import com.example.client.dto.UserDTO;
-import com.google.gson.Gson;
 
 import java.util.IllegalFormatException;
 import java.util.regex.Pattern;
