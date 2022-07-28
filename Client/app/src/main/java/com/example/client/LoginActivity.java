@@ -34,5 +34,27 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+
+        // 잠시 테스트중
+        Button btn_test1 = (Button) findViewById(R.id.btn_test1);
+        btn_test1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), PDF_View_Activity.class);
+                intent.putExtra("pdfname", "test1.pdf");
+                startActivity(intent);
+            }
+        });
+        Button btn_test2 = (Button) findViewById(R.id.btn_test2);
+        btn_test2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), PDF_View_Activity.class);
+                intent.putExtra("pdfname", "test2.pdf");
+                startActivity(intent);
+            }
+        });
+
     }
 }

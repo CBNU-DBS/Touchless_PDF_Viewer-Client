@@ -1,14 +1,20 @@
 package com.example.client;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PointF;
+import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
@@ -44,6 +50,8 @@ import com.google.mlkit.vision.text.devanagari.DevanagariTextRecognizerOptions;
 import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions;
 import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +123,7 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
             Log.d(TAG, "graphicOverlay is null");
         }
         openPdfFromAsset(sample);
+        createCameraSource(selectedModel);
 
         //설정버튼, 일단 주석처리
 //        ImageView settingsButton = findViewById(R.id.settings_button);
@@ -125,9 +134,6 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
 //                            SettingsActivity.EXTRA_LAUNCH_SOURCE, SettingsActivity.LaunchSource.LIVE_PREVIEW);
 //                    startActivity(intent);
 //                });
-
-        createCameraSource(selectedModel);
-
 //        Button prevBtn = (Button) findViewById(R.id.prevBtn);
 //        prevBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -180,6 +186,7 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
 //        });
     }
 
+
     void pickFile() {
         int permissionCheck = ContextCompat.checkSelfPermission(this,
                 READ_EXTERNAL_STORAGE);
@@ -209,8 +216,15 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
     }
 
     private void openPdfFromAsset(String assetName) {
-        pdfFileName = assetName;
-        pdfView.fromAsset(assetName)
+        Intent pdfintent = getIntent();
+        pdfFileName = pdfintent.getStringExtra("pdfname");
+        File PDFPath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), pdfintent.getStringExtra("pdfname"));
+        Log.d("check", String.valueOf(PDFPath));
+
+//        File Mypdffile = new File(PDFPath, "test1.pdf");
+//        Log.d("check", String.valueOf(Mypdffile));
+
+        pdfView.fromFile(PDFPath)
                 .defaultPage(pageNumber)
                 .onPageChange(this)
                 .enableAnnotationRendering(true)
@@ -220,6 +234,17 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
                 .onPageError(this)
                 .load();
         setTitle(pdfFileName);
+
+//        pdfView.fromAsset(assetName)
+//                .defaultPage(pageNumber)
+//                .onPageChange(this)
+//                .enableAnnotationRendering(true)
+//                .onLoad(this)
+//                .scrollHandle(new DefaultScrollHandle(this))
+//                .spacing(10) // in dp
+//                .onPageError(this)
+//                .load();
+//        setTitle(pdfFileName);
     }
 
     // 아래로 스크롤 메소드
@@ -272,6 +297,7 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
         Toast.makeText(getApplicationContext(),"이전 페이지!",Toast.LENGTH_SHORT).show();
         pdfView.jumpTo(pdfView.getCurrentPage()-1);
     }
+
 
     @Override
     public void loadComplete(int nbPages) {
