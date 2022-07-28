@@ -13,9 +13,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <!-- Line15 : 차재현 음성인식 위한 권한허가 코드 입력-->
+    <!-- Line15 : 차재현, 음성인식 위한 권한허가 코드 입력-->
 
     <queries>
+        <package android:name="com.google.android.apps.docs" />
+        <!-- Line 19 : 외부 앱 구글드라이브 실행을 위한 허가 코드 -->
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
@@ -30,7 +32,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Client">
         <activity
-            android:name=".preference.SpechToTextActivity"
+            android:name=".preference.SpeechToTextActivity"
             android:exported="false" />
         <activity
             android:name=".Personal_info_setting_Activity"
@@ -60,13 +62,6 @@
         <activity android:name=".JoinActivity"></activity>
 
         <activity android:name=".MypageActivity"></activity>
-
-        <activity
-            android:name=".Personal_info_setting_Activity"
-            android:exported="false" />
-        <activity
-            android:name=".MotionSettingActivity"
-            android:exported="false" />
 
         <activity
             android:name=".PDF_View_Activity"
