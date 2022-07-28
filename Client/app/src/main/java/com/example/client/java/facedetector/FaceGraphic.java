@@ -180,11 +180,11 @@ public class FaceGraphic extends Graphic {
             }
             else if(leftcheck == 10) {
                 leftToast.show();
-                PDF_View_Activity.scrollUp();
+//                PDF_View_Activity.scrollUp();
             }
             else if(rightcheck == 10) {
                 rightToast.show();
-                PDF_View_Activity.scrollDown();
+//                PDF_View_Activity.scrollDown();
             }
 
         }
