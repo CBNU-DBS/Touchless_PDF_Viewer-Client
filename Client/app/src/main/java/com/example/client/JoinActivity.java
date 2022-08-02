@@ -68,9 +68,6 @@ public class JoinActivity extends AppCompatActivity {
                 UserDTO user = new UserDTO(name,email,password, phone);
 
                 join(user);
-
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
             }
         });
     }
@@ -145,10 +142,13 @@ public class JoinActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseDTO<UserDTO>> call,
                     retrofit2.Response<ResponseDTO<UserDTO>> response) {
-                ResponseDTO<UserDTO> result = response.body();
-                Toast.makeText(getApplicationContext(), result.getResultMsg(), Toast.LENGTH_SHORT).show();
-                if(result.getResultCode() == 0){
+                if(response.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), response.body().getResultMsg(), Toast.LENGTH_SHORT).show();
                     finish();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();
                 }
 
             }
