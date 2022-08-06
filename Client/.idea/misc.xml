@@ -34,6 +34,9 @@
         <entry key="app/src/main/res/drawable/button_patter.xml" value="0.2535" />
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.197" />
         <entry key="app/src/main/res/drawable/edittext_border.xml" value="0.197" />
+        <entry key="app/src/main/res/drawable/rounded_corner.xml" value="0.115" />
+        <entry key="app/src/main/res/drawable/rounded_corner_button.xml" value="0.115" />
+        <entry key="app/src/main/res/drawable/spinner_motionsetting.xml" value="0.115" />
         <entry key="app/src/main/res/layout-land/activity_vision_camerax_live_preview.xml" value="0.16005291005291006" />
         <entry key="app/src/main/res/layout-land/activity_vision_live_preview.xml" value="0.16005291005291006" />
         <entry key="app/src/main/res/layout/activity_chooser.xml" value="0.1890625" />
@@ -42,7 +45,7 @@
         <entry key="app/src/main/res/layout/activity_join2.xml" value="0.24682971014492755" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_motion_setting.xml" value="0.1890625" />
+        <entry key="app/src/main/res/layout/activity_motion_setting.xml" value="0.193896484375" />
         <entry key="app/src/main/res/layout/activity_mypage.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_personal_info_setting.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/activity_select_pdf.xml" value="0.1890625" />
@@ -61,6 +64,7 @@
         <entry key="app/src/main/res/layout/motion_setting.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/pdfview_item.xml" value="0.11548913043478261" />
         <entry key="app/src/main/res/layout/settings_style.xml" value="0.1890625" />
+        <entry key="app/src/main/res/layout/spinner_inner_style.xml" value="0.1" />
         <entry key="app/src/main/res/layout/spinner_style.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/toggle_style.xml" value="0.1890625" />
         <entry key="app/src/main/res/menu/options.xml" value="0.37395833333333334" />

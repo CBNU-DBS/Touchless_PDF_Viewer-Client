@@ -8,6 +8,26 @@
     tools:context=".MotionSettingActivity"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/motionSettingTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="모션 - 기능 설정"
+            android:textSize="34sp" />
+
+        <Button
+            android:id="@+id/btn_ms_save"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="저장" />
+
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,112 +41,136 @@
                 android:id="@+id/scrollDownTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:text="아래로 스크롤"
                 android:textSize="24sp" />
 
             <Spinner
-                android:id="@+id/scrollDownSpinner"
-                android:layout_width="match_parent"
+                android:id="@+id/spinner_ms_scrollDown"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:entries="@array/motion_array"
-                android:minHeight="48dp" />
+                android:minHeight="48dp"
+                android:spinnerMode="dialog" />
 
             <TextView
                 android:id="@+id/scrollUpTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:text="위로 스크롤"
                 android:textSize="24sp" />
 
             <Spinner
-                android:id="@+id/scrollUpSpinner"
-                android:layout_width="match_parent"
+                android:id="@+id/spinner_ms_scrollUp"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:entries="@array/motion_array"
+                android:spinnerMode="dialog"
                 android:minHeight="48dp" />
 
             <TextView
                 android:id="@+id/nextPgTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:text="다음페이지"
                 android:textSize="24sp" />
 
             <Spinner
-                android:id="@+id/nextPgSpinner"
-                android:layout_width="match_parent"
+                android:id="@+id/spinner_ms_nextPg"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:entries="@array/motion_array"
+                android:spinnerMode="dialog"
                 android:minHeight="48dp" />
 
             <TextView
                 android:id="@+id/prevPgTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:text="이전페이지"
                 android:textSize="24sp" />
 
             <Spinner
-                android:id="@+id/prevPgSpinner"
-                android:layout_width="match_parent"
+                android:id="@+id/spinner_ms_prevPg"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:entries="@array/motion_array"
+                android:spinnerMode="dialog"
                 android:minHeight="48dp" />
 
             <TextView
                 android:id="@+id/backTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:text="뒤로가기"
                 android:textSize="24sp" />
 
             <Spinner
-                android:id="@+id/backSpinner"
-                android:layout_width="match_parent"
+                android:id="@+id/spinner_ms_back"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:entries="@array/motion_array"
+                android:spinnerMode="dialog"
                 android:minHeight="48dp" />
 
             <TextView
                 android:id="@+id/searchTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:text="검색"
                 android:textSize="24sp" />
 
             <Spinner
-                android:id="@+id/searchSpinner"
-                android:layout_width="match_parent"
+                android:id="@+id/spinner_ms_search"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:entries="@array/motion_array"
+                android:spinnerMode="dialog"
                 android:minHeight="48dp" />
 
             <TextView
                 android:id="@+id/zoomoutTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:text="페이지축소"
                 android:textSize="24sp" />
 
             <Spinner
-                android:id="@+id/zoomoutSpinner"
-                android:layout_width="match_parent"
+                android:id="@+id/spinner_ms_zoomOut"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:entries="@array/motion_array"
+                android:spinnerMode="dialog"
                 android:minHeight="48dp" />
 
             <TextView
                 android:id="@+id/zoomInTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:text="페이지확대"
                 android:textSize="24sp" />
 
             <Spinner
-                android:id="@+id/zoomInSpinner"
-                android:layout_width="match_parent"
+                android:id="@+id/spinner_ms_zoomIn"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:entries="@array/motion_array"
+                android:spinnerMode="dialog"
                 android:minHeight="48dp" />
 
         </LinearLayout>
