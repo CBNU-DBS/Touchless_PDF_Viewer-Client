@@ -165,26 +165,32 @@ public class FaceGraphic extends Graphic {
 
             if(faceup == 10) {
                 faceupToast.show();
+                PDF_View_Activity.scrollUp();
             }
             else if(facedown == 10) {
                 facedownToast.show();
+                PDF_View_Activity.scrollDown();
             }
             else if(faceleft == 10) {
                 faceleftToast.show();
+                PDF_View_Activity.zoomIn();
             }
             else if(faceright == 10) {
                 facerightToast.show();
+                PDF_View_Activity.zoomOut();
             }
             else if(botheyecheck >= 8) {
                 bothToast.show();
+                PDF_View_Activity.pdffinish();
             }
             else if(leftcheck == 10) {
                 leftToast.show();
-//                PDF_View_Activity.scrollUp();
+                PDF_View_Activity.prevPage();
             }
             else if(rightcheck == 10) {
                 rightToast.show();
-//                PDF_View_Activity.scrollDown();
+                PDF_View_Activity.nextPage();
+
             }
 
         }

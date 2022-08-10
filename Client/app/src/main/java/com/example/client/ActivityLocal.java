@@ -2,17 +2,26 @@ package com.example.client;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class ActivityLocal extends Application {
+    private static Context context;
+
+    public void onCreate(){
+        super.onCreate();
+        ActivityLocal.context = getApplicationContext();
+    }
+
     long time1 = 1000;
     long time2 = 0;
     Queue<Float> leftqueue = new LinkedList<>();
     Queue<Float> rightqueue = new LinkedList<>();
     Queue<Float> eulerXqueue = new LinkedList<>();
     Queue<Float> eulerYqueue = new LinkedList<>();
+
 
     public long gettime1() {
         return time1;
@@ -72,6 +81,10 @@ public class ActivityLocal extends Application {
 
     public void seteulerY( float id ) {
         this.eulerYqueue.add(id);
+    }
+
+    public static Context getAppContext() {
+        return ActivityLocal.context;
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.client;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -50,6 +51,7 @@ import com.google.mlkit.vision.text.devanagari.DevanagariTextRecognizerOptions;
 import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions;
 import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
+import com.example.client.ActivityLocal;
 
 import java.io.File;
 import java.io.IOException;
@@ -96,6 +98,7 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
     private CameraSourcePreview preview;
     private GraphicOverlay graphicOverlay;
     private String selectedModel = FACE_DETECTION;
+    public static Activity activity;
 
     // pdf 페이지 수
     Integer pageNumber = 0;
@@ -115,6 +118,7 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
         setContentView(R.layout.activity_main);
         pdfView = findViewById(R.id.pdfView);
         preview = findViewById(R.id.preview_view);
+        activity = this;
         if (preview == null) {
             Log.d(TAG, "Preview is null");
         }
@@ -262,40 +266,46 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
         pdfView.loadPages();
     }
     // 축소 메소드
-    public void zoomOut() {
-        Toast.makeText(getApplicationContext(), "축소!", Toast.LENGTH_SHORT).show();
+    public static void zoomOut() {
+        Toast.makeText(ActivityLocal.getAppContext(), "축소!", Toast.LENGTH_SHORT).show();
         float curZoom = pdfView.getZoom();
         float nextZoom = curZoom - 0.5f;
         if(nextZoom >= pdfView.getMinZoom()){
-            Toast.makeText(getApplicationContext(), "축소 실행", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityLocal.getAppContext(), "축소 실행", Toast.LENGTH_SHORT).show();
             PointF curpivot = new PointF(pdfView.getPivotX(),pdfView.getPivotY());
             pdfView.zoomCenteredTo(nextZoom, curpivot);
         } else {
-            Toast.makeText(getApplicationContext(), "최고로 축소한 거임", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityLocal.getAppContext(), "최고로 축소한 거임", Toast.LENGTH_SHORT).show();
         }
     }
     // 확대 메소드
-    public void zoomIn() {
-        Toast.makeText(getApplicationContext(), "확대!", Toast.LENGTH_SHORT).show();
+    public static void zoomIn() {
+        Toast.makeText(ActivityLocal.getAppContext(), "확대!", Toast.LENGTH_SHORT).show();
         float curZoom = pdfView.getZoom();
         float nextZoom = curZoom + 0.5f;
         if(nextZoom <= pdfView.getMaxZoom()){
-            Toast.makeText(getApplicationContext(), "확대 실행", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityLocal.getAppContext(), "확대 실행", Toast.LENGTH_SHORT).show();
             PointF curpivot = new PointF(pdfView.getPivotX(),pdfView.getPivotY());
             pdfView.zoomCenteredTo(nextZoom, curpivot);
         } else {
-            Toast.makeText(getApplicationContext(), "최고로 확대한 거임", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ActivityLocal.getAppContext(), "최고로 확대한 거임", Toast.LENGTH_SHORT).show();
         }
     }
     // 다음 페이지 메소드
-    public void nextPage() {
-        Toast.makeText(getApplicationContext(), "다음 페이지!", Toast.LENGTH_SHORT).show();
+    public static void nextPage() {
+        Toast.makeText(ActivityLocal.getAppContext(), "다음 페이지!", Toast.LENGTH_SHORT).show();
         pdfView.jumpTo(pdfView.getCurrentPage()+1);
     }
     // 이전 페이지 메소드
-    public void prevPage(){
-        Toast.makeText(getApplicationContext(),"이전 페이지!",Toast.LENGTH_SHORT).show();
+    public static void prevPage(){
+        Toast.makeText(ActivityLocal.getAppContext(),"이전 페이지!",Toast.LENGTH_SHORT).show();
         pdfView.jumpTo(pdfView.getCurrentPage()-1);
+    }
+
+    // 이전 페이지 메소드
+    public static void pdffinish(){
+        Toast.makeText(ActivityLocal.getAppContext(),"뒤로 가기!",Toast.LENGTH_SHORT).show();
+        activity.finish();
     }
 
 
@@ -339,6 +349,8 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
     }
+
+
 
     //카메라 부분
     @Override
