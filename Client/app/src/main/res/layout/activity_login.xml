@@ -72,24 +72,7 @@
             android:textColor="#fff"
             android:layout_width="wrap_content"
             android:layout_height="40dp" />
-        <Button
-            android:id="@+id/btn_test1"
-            android:paddingRight="20dp"
-            android:paddingLeft="20dp"
-            android:background="@drawable/rounded_corner_button"
-            android:text="test1"
-            android:textColor="#fff"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp" />
-        <Button
-            android:id="@+id/btn_test2"
-            android:paddingRight="20dp"
-            android:paddingLeft="20dp"
-            android:background="@drawable/rounded_corner_button"
-            android:text="test2"
-            android:textColor="#fff"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp" />
+
 
     </LinearLayout>
 
