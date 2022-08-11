@@ -2,6 +2,7 @@
 <resources>
     <!--모션 세팅 Spinner 모션 배열 -->
     <string-array name="motion_array">
+        <item>없음</item>
         <item>머리 위로</item>
         <item>머리 아래로</item>
         <item>머리 왼쪽으로</item>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="PDF 제어">
+        <ListPreference
+            android:entries="@array/motion_select"
+            android:entryValues="@array/motion_select"
+            android:key="mspms1"
+            android:summary="머리 위로"
+            android:title="위로 스크롤"/>
+        <ListPreference
+            android:entries="@array/motion_select"
+            android:entryValues="@array/motion_select"
+            android:key="mspms2"
+            android:summary="머리 아래로"
+            android:title="아래로 스크롤"/>
+        <ListPreference
+            android:entries="@array/motion_select"
+            android:entryValues="@array/motion_select"
+            android:key="mspms3"
+            android:summary="머리 왼쪽으로"
+            android:title="이전 페이지"/>
+        <ListPreference
+            android:entries="@array/motion_select"
+            android:entryValues="@array/motion_select"
+            android:key="mspms4"
+            android:summary="머리 오른쪽으로"
+            android:title="다음 페이지"/>
+        <ListPreference
+            android:entries="@array/motion_select"
+            android:entryValues="@array/motion_select"
+            android:key="mspms5"
+            android:summary="양쪽 눈 감기"
+            android:title="뒤로 가기"/>
+        <ListPreference
+            android:entries="@array/motion_select"
+            android:entryValues="@array/motion_select"
+            android:key="mspms6"
+            android:summary="왼쪽 눈 감기"
+            android:title="화면 확대"/>
+        <ListPreference
+            android:entries="@array/motion_select"
+            android:entryValues="@array/motion_select"
+            android:key="mspms7"
+            android:summary="오른쪽 눈 감기"
+            android:title="화면 축소"/>
+<!--        <ListPreference-->
+<!--            android:entries="@array/motion_select"-->
+<!--            android:entryValues="@array/motion_select"-->
+<!--            android:key="mspms8"-->
+<!--            android:summary="머리 위로"-->
+<!--            android:title="검색"/>-->
+    </PreferenceCategory>
+</PreferenceScreen>

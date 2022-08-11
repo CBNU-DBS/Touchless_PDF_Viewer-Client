@@ -1,10 +1,14 @@
 package com.example.client.java.facedetector;
 
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 import com.example.client.PDF_View_Activity;
+import com.example.client.MotionSettingActivity;
 
 import com.example.client.ActivityLocal;
 import com.example.client.GraphicOverlay;
@@ -43,6 +47,8 @@ public class FaceGraphic extends Graphic {
     private final Paint[] idPaints;
     private final Paint[] boxPaints;
     private final Paint[] labelPaints;
+
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
     private volatile Face face;
     int botheyecheck = 0;
@@ -102,6 +108,7 @@ public class FaceGraphic extends Graphic {
     @Override
     public void draw(Canvas canvas) {
         ( (ActivityLocal) getApplicationContext() ).settime1(System.currentTimeMillis());
+
         Face face = this.face;
         if (face == null) {
             return;
@@ -165,32 +172,31 @@ public class FaceGraphic extends Graphic {
 
             if(faceup == 10) {
                 faceupToast.show();
-                PDF_View_Activity.scrollUp();
+                action("머리 위로");
             }
             else if(facedown == 10) {
                 facedownToast.show();
-                PDF_View_Activity.scrollDown();
+                action("머리 아래로");
             }
             else if(faceleft == 10) {
                 faceleftToast.show();
-                PDF_View_Activity.zoomIn();
+                action("머리 왼쪽으로");
             }
             else if(faceright == 10) {
                 facerightToast.show();
-                PDF_View_Activity.zoomOut();
+                action("머리 오른쪽으로");
             }
             else if(botheyecheck >= 8) {
                 bothToast.show();
-                PDF_View_Activity.pdffinish();
+                action("양쪽 눈 감기");
             }
             else if(leftcheck == 10) {
                 leftToast.show();
-                PDF_View_Activity.prevPage();
+                action("왼쪽 눈 감기");
             }
             else if(rightcheck == 10) {
                 rightToast.show();
-                PDF_View_Activity.nextPage();
-
+                action("오른쪽 눈 감기");
             }
 
         }
@@ -365,4 +371,30 @@ public class FaceGraphic extends Graphic {
 //                    facePositionPaint);
 //        }
 //    }
+
+    public void action(String str) {
+        if(prefs.getString("mspms1","").equals(str)){
+            PDF_View_Activity.scrollUp();
+        }
+        else if(prefs.getString("mspms2","").equals(str)){
+            PDF_View_Activity.scrollDown();
+        }
+        else if(prefs.getString("mspms3","").equals(str)){
+            PDF_View_Activity.prevPage();
+        }
+        else if(prefs.getString("mspms4","").equals(str)){
+            PDF_View_Activity.nextPage();
+        }
+        else if(prefs.getString("mspms5","").equals(str)){
+            PDF_View_Activity.pdffinish();
+        }
+        else if(prefs.getString("mspms6","").equals(str)){
+            PDF_View_Activity.zoomIn();
+        }
+        else if(prefs.getString("mspms7","").equals(str)){
+            PDF_View_Activity.zoomOut();
+        }
+    }
+
+
 }
