@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.client.LoginActivity;
 import com.example.client.Personal_info_setting_Activity;
@@ -21,6 +22,20 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_mypage, container, false);
+
+//        // 마이페이지 개인 정보 입력
+//        Intent info_intent = getIntent();
+//        String user_name = getIntent().getStringExtra("Name");
+//        String user_email = getIntent().getStringExtra("Email");
+//        String user_phone = getIntent().getStringExtra("Phone");
+//
+//        TextView name_tv = (TextView) view.findViewById(R.id.user_name);
+//        TextView email_tv = (TextView) view.findViewById(R.id.user_mail);
+//        TextView phone_tv = (TextView) view.findViewById(R.id.user_phone);
+//
+//        name_tv.setText("안녕하세요" + user_name +"님 환영합니다!");
+//        email_tv.setText(user_email);
+//        phone_tv.setText(user_phone);
 
         // 마이페이지 설정 버튼 이벤트 리스너
         Button btn_account_set = (Button) view.findViewById(R.id.btn_account_set);
