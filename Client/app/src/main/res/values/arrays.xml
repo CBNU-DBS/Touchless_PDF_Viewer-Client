@@ -50,4 +50,15 @@
     <item>@string/pref_entry_values_pose_detector_performance_mode_fast</item>
     <item>@string/pref_entry_values_pose_detector_performance_mode_accurate</item>
   </string-array>
+
+  <string-array name="motion_select">
+    <item>없음</item>
+    <item>머리 위로</item>
+    <item>머리 아래로</item>
+    <item>머리 왼쪽으로</item>
+    <item>머리 오른쪽으로</item>
+    <item>양쪽 눈 감기</item>
+    <item>왼쪽 눈 감기</item>
+    <item>오른쪽 눈 감기</item>
+  </string-array>
 </resources>
