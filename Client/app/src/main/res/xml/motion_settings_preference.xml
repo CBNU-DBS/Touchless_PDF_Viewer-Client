@@ -49,5 +49,9 @@
 <!--            android:key="mspms8"-->
 <!--            android:summary="머리 위로"-->
 <!--            android:title="검색"/>-->
+        <Preference
+            android:key ="save"
+            android:summary="모션 세팅 저장하기"
+            android:title="저장하기"/>
     </PreferenceCategory>
 </PreferenceScreen>
