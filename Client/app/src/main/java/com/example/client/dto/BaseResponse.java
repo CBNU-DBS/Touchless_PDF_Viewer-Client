@@ -1,10 +1,14 @@
 package com.example.client.dto;
 
-public class Response {
-    private int resultCode;
-    private String resultMsg;
+public class BaseResponse {
+    protected int resultCode;
+    protected String resultMsg;
 
-    public Response(int resultCode, String resultMsg) {
+    public BaseResponse(){
+
+    }
+
+    public BaseResponse(int resultCode, String resultMsg) {
         this.resultCode = resultCode;
         this.resultMsg = resultMsg;
     }

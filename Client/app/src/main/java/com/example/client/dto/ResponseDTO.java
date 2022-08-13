@@ -3,26 +3,8 @@ package com.example.client.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResponseDTO<T> {
-    private int resultCode;
-    private String resultMsg;
+public class ResponseDTO<T> extends BaseResponse {
     private List<T> list;
-
-    public int getResultCode() {
-        return resultCode;
-    }
-
-    public void setResultCode(int resultCode) {
-        this.resultCode = resultCode;
-    }
-
-    public String getResultMsg() {
-        return resultMsg;
-    }
-
-    public void setResultMsg(String resultMsg) {
-        this.resultMsg = resultMsg;
-    }
 
     public List<T> getList() {
         return list;
@@ -33,6 +15,7 @@ public class ResponseDTO<T> {
     }
 
     public ResponseDTO() {
+        list = new ArrayList<>();
     }
 
     public ResponseDTO(String resultMsg) {

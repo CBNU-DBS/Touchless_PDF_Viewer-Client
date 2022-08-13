@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.example.client.api.MotionFunctionApi;
 import com.example.client.dto.MotionFunctionDTO;
-import com.example.client.dto.Response;
+import com.example.client.dto.BaseResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,13 +104,13 @@ public class MotionSettingActivity extends PreferenceFragment {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     List<MotionFunctionDTO> motionFunctionDTOList = new ArrayList<>();
-                    motionFunctionDTOList.add(new MotionFunctionDTO(1, motion1, "위로 스크롤"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(1, motion2, "아래로 스크롤"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(1, motion3, "이전 페이지"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(1, motion4, "다음 페이지"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(1, motion5, "뒤로 가기"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(1, motion6, "화면 확대"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(1, motion7, "화면 축소"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms1","머리 위로"), "위로 스크롤"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms2","머리 위로"), "아래로 스크롤"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms3","머리 위로"), "이전 페이지"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms4","머리 위로"), "다음 페이지"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms5","머리 위로"), "뒤로 가기"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms6","머리 위로"), "화면 확대"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms7","머리 위로"), "화면 축소"));
                     saveMotionSetting(motionFunctionDTOList);
                     return true;
                 }
@@ -287,20 +287,20 @@ public class MotionSettingActivity extends PreferenceFragment {
 
     private void saveMotionSetting(List<MotionFunctionDTO> motionFunctionDTOList){
         motionFunctionApi.saveMotionSetting(motionFunctionDTOList).enqueue(
-                new Callback<Response>() {
+                new Callback<BaseResponse>() {
                     @Override
-                    public void onResponse(Call<Response> call,
-                            retrofit2.Response<Response> response) {
+                    public void onResponse(Call<BaseResponse> call,
+                            retrofit2.Response<BaseResponse> response) {
                         if(response.isSuccessful()){
                             Toast.makeText(getActivity(), response.body().getResultMsg(), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(getActivity(), "저장 실패", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "저장 실패2", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<Response> call, Throwable t) {
-                        Toast.makeText(getActivity(), "저장 실패", Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call<BaseResponse> call, Throwable t) {
+                        Toast.makeText(getActivity(), "저장 실패1", Toast.LENGTH_SHORT).show();
                         Log.e("Motion Setting Error", t.getMessage());
                         t.printStackTrace();
                     }
