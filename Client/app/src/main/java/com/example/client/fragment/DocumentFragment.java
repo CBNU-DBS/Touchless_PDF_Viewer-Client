@@ -116,7 +116,7 @@ public class DocumentFragment extends Fragment {
     }
     public void uploadWithTransferUtilty(String fileName, File file) {
 
-        AWSCredentials awsCredentials = new BasicAWSCredentials("AKIAWHWHK5FXJ6RFB2MP", "GZwJwAQmcLe2au4ldR0kkmr5VYlNqyUq2sZxX1Cm");    // IAM 생성하며 받은 것 입력
+        AWSCredentials awsCredentials = new BasicAWSCredentials("", "");    // IAM 생성하며 받은 것 입력
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
 
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
@@ -146,7 +146,7 @@ public class DocumentFragment extends Fragment {
     }
     public void downloadWithTransferUtilty(String fileName, File file) {
 
-        AWSCredentials awsCredentials = new BasicAWSCredentials("AKIAWHWHK5FXJ6RFB2MP", "GZwJwAQmcLe2au4ldR0kkmr5VYlNqyUq2sZxX1Cm");    // IAM 생성하며 받은 것 입력
+        AWSCredentials awsCredentials = new BasicAWSCredentials("", "");    // IAM 생성하며 받은 것 입력
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
 
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
