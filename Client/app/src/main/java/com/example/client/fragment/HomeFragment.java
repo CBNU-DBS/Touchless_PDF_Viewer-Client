@@ -2,8 +2,11 @@ package com.example.client.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,26 +26,26 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_mypage, container, false);
 
-//        // 마이페이지 개인 정보 입력
-//        Intent info_intent = getIntent();
-//        String user_name = getIntent().getStringExtra("Name");
-//        String user_email = getIntent().getStringExtra("Email");
-//        String user_phone = getIntent().getStringExtra("Phone");
-//
-//        TextView name_tv = (TextView) view.findViewById(R.id.user_name);
-//        TextView email_tv = (TextView) view.findViewById(R.id.user_mail);
-//        TextView phone_tv = (TextView) view.findViewById(R.id.user_phone);
-//
-//        name_tv.setText("안녕하세요" + user_name +"님 환영합니다!");
-//        email_tv.setText(user_email);
-//        phone_tv.setText(user_phone);
+        TextView us_name = view.findViewById(R.id.user_name);
+        TextView us_mail = view.findViewById(R.id.user_mail);
+        TextView us_phone = view.findViewById(R.id.user_phone);
 
-        // 마이페이지 설정 버튼 이벤트 리스너
+        //넘어온 메시지를 변수에 담기
+        String name = getArguments().getString("user_name");
+        String email = getArguments().getString("user_email");
+        String phone = getArguments().getString("user_phone");
+        Log.e("넘어온 이름",name);
+
+        //메시지를 텍스트뷰에 담기
+        us_name.setText(name + "님 환영합니다!" );
+        us_mail.setText(email);
+        us_phone.setText(phone);
+
+        // 마이페이지 개인정보 설정 버튼 이벤트 리스너
         Button btn_account_set = (Button) view.findViewById(R.id.btn_account_set);
         btn_account_set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //move to account setting page
                 Intent intent = new Intent(view.getContext(), Personal_info_setting_Activity.class);
                 startActivity(intent);
             }
@@ -63,7 +66,16 @@ public class HomeFragment extends Fragment {
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //move to login page with logout(It needs to be changed to log in again)
+                //로그아웃 시, 자동 로그인 정보를 삭제합니다.
+                SharedPreferences sharedPref_login = getActivity().getSharedPreferences("auto_login",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor_login = sharedPref_login.edit();
+                editor_login.clear();
+                editor_login.commit();
+
+                Log.e("로그아웃 후 아이디",sharedPref_login.getString("auto_id0",""));
+                Log.e("로그아웃 후 패스워드",sharedPref_login.getString("auto_pw0",""));
+
+                //다시 로그인화면으로 돌아갑니다. 앱 재실행 시, 다시 직접 로그인해야됩니다.
                 Intent intent = new Intent(view.getContext(), LoginActivity.class);
                 startActivity(intent);
             }

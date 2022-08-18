@@ -3,6 +3,7 @@ package com.example.client;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,6 +39,17 @@ public class LoginActivity extends AppCompatActivity {
         et_login_email = findViewById(R.id.text_input_id);
         et_login_password = findViewById(R.id.text_input_password);
 
+        //첫 로그인 이후에 ID와 PW의 저장 유무 확인을 통한 자동로그인
+        SharedPreferences sharedPref_login = getSharedPreferences("auto_login",MODE_PRIVATE);
+        String auto_id1 = sharedPref_login.getString("auto_id0","");
+        String auto_pw1 = sharedPref_login.getString("auto_pw0","");
+
+        if(auto_id1 != "" && auto_pw1 != ""){
+            Toast.makeText(getApplicationContext(), "자동로그인", Toast.LENGTH_SHORT).show();
+            UserDTO user = new UserDTO("", auto_id1, auto_pw1, "");
+            login(user);
+        }
+
         // 로그인 버튼 이벤트 리스너
         Button btn_login = (Button) findViewById(R.id.btn_login);
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +57,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = et_login_email.getText().toString();
                 String password = et_login_password.getText().toString();
+                // 자동로그인을 위한 패스워드 저장
+                SharedPreferences sharedPref_login = getSharedPreferences("auto_login",MODE_PRIVATE);
+                SharedPreferences.Editor editor_login = sharedPref_login.edit();
+                editor_login.putString("auto_pw0", password);
+                editor_login.commit();
+                Log.e("저장된 패스워드",sharedPref_login.getString("auto_pw0",""));
+
+
                 if(false == checkEmail(email)){
                     return;
                 }
@@ -52,7 +72,8 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                UserDTO user = new UserDTO("",email, password,"");
+
+                UserDTO user = new UserDTO("", email, password, "");
 
                 login(user);
             }
@@ -112,11 +133,21 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("", "로그인 성공");
                     finish();
 
-                    //로그인 시, 유저 정보를 다른 액티비티로 옮김.
+                    //로그인 시, 유저 정보를 다른 액티비티로 옮김
                     Intent logined_intent = new Intent(getApplicationContext(), HomeActivity.class);
                     logined_intent.putExtra("Name",result.getList().get(0).getName());
                     logined_intent.putExtra("Email",result.getList().get(0).getEmail());
                     logined_intent.putExtra("Phone",result.getList().get(0).getPhone());
+
+                    //로그인 성공 후, 자동 로그인 설정
+                    SharedPreferences sharedPref_login = getSharedPreferences("auto_login",MODE_PRIVATE);
+                    SharedPreferences.Editor editor_login = sharedPref_login.edit();
+
+                    //자동로그인을 위한 아이디와 패스워드 저장
+                    editor_login.putString("auto_id0",result.getList().get(0).getEmail());
+                    editor_login.commit();
+                    Log.e("저장된 아이디",sharedPref_login.getString("auto_id0",""));
+
 
                     //로그인 성공하여 마이페이지로 이동
                     startActivity(logined_intent);
