@@ -12,4 +12,7 @@ public interface UserApi {
     @Headers({"Content-Type: application/json"})
     @POST("/users")
     Call<ResponseDTO<UserDTO>> joinUser(@Body UserDTO user);
+
+    @POST("/users/login")
+    Call<ResponseDTO<UserDTO>> loginUser(@Body UserDTO user);
 }
