@@ -51,7 +51,6 @@
         android:layout_height="38dp"
         android:layout_marginTop="20dp"
         android:gravity=""
-        android:text="DBS@cbnu.ac.kr"
         android:textColor="#000000"
         android:textSize="15sp"
         android:textStyle="bold"
