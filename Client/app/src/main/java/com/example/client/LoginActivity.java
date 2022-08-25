@@ -41,12 +41,13 @@ public class LoginActivity extends AppCompatActivity {
 
         //첫 로그인 이후에 ID와 PW의 저장 유무 확인을 통한 자동로그인
         SharedPreferences sharedPref_login = getSharedPreferences("auto_login",MODE_PRIVATE);
-        String auto_id1 = sharedPref_login.getString("auto_id0","");
+        String auto_email1 = sharedPref_login.getString("auto_email0","");
         String auto_pw1 = sharedPref_login.getString("auto_pw0","");
 
-        if(auto_id1 != "" && auto_pw1 != ""){
+        //로그인을 성공한 이후에는 자동로그인 실행
+        if(auto_email1 != "" && auto_pw1 != ""){
             Toast.makeText(getApplicationContext(), "자동로그인", Toast.LENGTH_SHORT).show();
-            UserDTO user = new UserDTO("", auto_id1, auto_pw1, "");
+            UserDTO user = new UserDTO("", auto_email1, auto_pw1, "");
             login(user);
         }
 
@@ -133,21 +134,19 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("", "로그인 성공");
                     finish();
 
-                    //로그인 시, 유저 정보를 다른 액티비티로 옮김
                     Intent logined_intent = new Intent(getApplicationContext(), HomeActivity.class);
-                    logined_intent.putExtra("Name",result.getList().get(0).getName());
-                    logined_intent.putExtra("Email",result.getList().get(0).getEmail());
-                    logined_intent.putExtra("Phone",result.getList().get(0).getPhone());
 
                     //로그인 성공 후, 자동 로그인 설정
                     SharedPreferences sharedPref_login = getSharedPreferences("auto_login",MODE_PRIVATE);
                     SharedPreferences.Editor editor_login = sharedPref_login.edit();
 
-                    //자동로그인을 위한 아이디와 패스워드 저장
-                    editor_login.putString("auto_id0",result.getList().get(0).getEmail());
+                    //자동로그인을 위한 아이디(이메일) 저장
+                    editor_login.putString("auto_email0",result.getList().get(0).getEmail());
+                    //앱을 사용동안 사용될 유저 개인정보 저장
+                    editor_login.putString("auto_name0",result.getList().get(0).getName());
+                    editor_login.putLong("auto_id0",result.getList().get(0).getId());
+                    editor_login.putString("auto_phone0",result.getList().get(0).getPhone());
                     editor_login.commit();
-                    Log.e("저장된 아이디",sharedPref_login.getString("auto_id0",""));
-
 
                     //로그인 성공하여 마이페이지로 이동
                     startActivity(logined_intent);

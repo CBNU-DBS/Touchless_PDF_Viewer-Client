@@ -1,5 +1,7 @@
 package com.example.client.fragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,16 +32,14 @@ public class HomeFragment extends Fragment {
         TextView us_mail = view.findViewById(R.id.user_mail);
         TextView us_phone = view.findViewById(R.id.user_phone);
 
-        //넘어온 메시지를 변수에 담기
-        String name = getArguments().getString("user_name");
-        String email = getArguments().getString("user_email");
-        String phone = getArguments().getString("user_phone");
-        Log.e("넘어온 이름",name);
+        //프래그먼트에서 SharedPreference 선언
+        SharedPreferences sharedPref_login = getActivity().getSharedPreferences("auto_login",MODE_PRIVATE);
 
-        //메시지를 텍스트뷰에 담기
-        us_name.setText(name + "님 환영합니다!" );
-        us_mail.setText(email);
-        us_phone.setText(phone);
+        //SharedPreference로 저장되있는 key-value 형식의 유저정보 출력
+        us_name.setText(sharedPref_login.getString("auto_name0","") + "님 환영합니다!" );
+        us_mail.setText(sharedPref_login.getString("auto_email0",""));
+        us_phone.setText(sharedPref_login.getString("auto_phone0",""));
+
 
         // 마이페이지 개인정보 설정 버튼 이벤트 리스너
         Button btn_account_set = (Button) view.findViewById(R.id.btn_account_set);
@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //로그아웃 시, 자동 로그인 정보를 삭제합니다.
-                SharedPreferences sharedPref_login = getActivity().getSharedPreferences("auto_login",Context.MODE_PRIVATE);
+                SharedPreferences sharedPref_login = getActivity().getSharedPreferences("auto_login", MODE_PRIVATE);
                 SharedPreferences.Editor editor_login = sharedPref_login.edit();
                 editor_login.clear();
                 editor_login.commit();
