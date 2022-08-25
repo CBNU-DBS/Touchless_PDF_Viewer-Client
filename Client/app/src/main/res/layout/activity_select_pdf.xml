@@ -15,13 +15,21 @@
         />
 
     <Button
-        android:id="@+id/btn_addPdf"
+        android:id="@+id/btn_uploadPdf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add PDF"
+        android:text="Upload PDF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btn_downloadPdf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Download PDF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

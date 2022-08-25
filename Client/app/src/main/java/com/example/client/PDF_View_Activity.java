@@ -107,6 +107,7 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
 
     String sample = "sample.pdf";
 
+    File Localdir;
     private final static int REQUEST_CODE = 42;
     public static final int PERMISSION_CODE = 42042;
 
@@ -118,6 +119,7 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
         setContentView(R.layout.activity_main);
         pdfView = findViewById(R.id.pdfView);
         preview = findViewById(R.id.preview_view);
+        Localdir = pdfView.getContext().getFilesDir();
         activity = this;
         if (preview == null) {
             Log.d(TAG, "Preview is null");
@@ -222,7 +224,7 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
     private void openPdfFromAsset(String assetName) {
         Intent pdfintent = getIntent();
         pdfFileName = pdfintent.getStringExtra("pdfname");
-        File PDFPath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), pdfintent.getStringExtra("pdfname"));
+        File PDFPath = new File(Localdir,pdfFileName);
         Log.d("check", String.valueOf(PDFPath));
 
 //        File Mypdffile = new File(PDFPath, "test1.pdf");
