@@ -41,10 +41,13 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Locale;
+import com.example.client.aws.*;
+import java.util.UUID;
 
 public class DocumentFragment extends Fragment {
     public ViewGroup rootView;
     public File[] files;
+    private File LocalDir;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -72,14 +75,16 @@ public class DocumentFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        File file = new File("/storage/emulated/0/Download/sample.pdf");
-        Button addPdf = getView().findViewById(R.id.btn_addPdf);
+         File file = new File("/storage/emulated/0/Download/sample.pdf");
+        // 흠
+        Button addPdf = getView().findViewById(R.id.btn_uploadPdf);
         addPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("STATE", "LOG in SERVER");
-                uploadWithTransferUtilty(file.getName(),file);
-                downloadWithTransferUtilty(file.getName(),file);
+                String key = UUID.randomUUID().toString();
+//                uploadWithTransferUtilty(key,file);
+                downloadWithTransferUtilty(key,file.getName());
             }
         });
 
@@ -91,6 +96,8 @@ public class DocumentFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.activity_select_pdf,container,false);
         // Inflate the layout for this fragment
+        LocalDir = container.getContext().getFilesDir();
+        Log.d("LocalDir", "onCreateView: "+LocalDir.toString());
         getFolderFileList();
         return inflater.inflate(R.layout.activity_select_pdf, container, false);
     }
@@ -105,25 +112,23 @@ public class DocumentFragment extends Fragment {
 //            Log.d("PDF"," f : "+f.getPath() +" , "+f.getPath());
 //            Log.d("PDF"," f : "+f.getName() +" , "+f.getName());
 //        }
-        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath().toString());
-        Log.d("Files","dirPath : "+dir.getPath());
-        files = dir.listFiles();
+        Log.d("Files","dirPath : "+LocalDir.getPath());
+        files = LocalDir.listFiles();
+        Log.d("files Length",files.length+"");
         for (int i = 0; i < files.length; i++)
         {
             Log.d("Files", "FileName:" + files[i].getName());
             Log.d("Files", "Filepath:" + files[i].getPath());
         }
     }
-    public void uploadWithTransferUtilty(String fileName, File file) {
-
-        AWSCredentials awsCredentials = new BasicAWSCredentials("", "");    // IAM 생성하며 받은 것 입력
+    public void uploadWithTransferUtilty(String key,File file) {
+        awsAccess aws = new awsAccess();
+        AWSCredentials awsCredentials = new BasicAWSCredentials(aws.getAccessKey(), aws.getAccessScretKey());    // IAM 생성하며 받은 것 입력
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
 
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
         TransferNetworkLossHandler.getInstance(getActivity().getApplicationContext());
-
-        TransferObserver uploadObserver = transferUtility.upload("ai-image-bucket/pdf", fileName, file);    // (bucket api, file이름, file객체)
-
+        TransferObserver uploadObserver = transferUtility.upload("touchlesspdf", key, file);    // (bucket api, file이름, file객체)
         uploadObserver.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
@@ -144,16 +149,16 @@ public class DocumentFragment extends Fragment {
             }
         });
     }
-    public void downloadWithTransferUtilty(String fileName, File file) {
-
-        AWSCredentials awsCredentials = new BasicAWSCredentials("", "");    // IAM 생성하며 받은 것 입력
+    public void downloadWithTransferUtilty(String key, String filename) {
+        Log.d("key : ",key+"");
+        awsAccess aws = new awsAccess();
+        AWSCredentials awsCredentials = new BasicAWSCredentials(aws.getAccessKey(), aws.getAccessScretKey());    // IAM 생성하며 받은 것 입력
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
 
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
         TransferNetworkLossHandler.getInstance(getActivity().getApplicationContext());
 
-        TransferObserver downloadObserver = transferUtility.download("ai-image-bucket/pdf",fileName, new File(Environment.DIRECTORY_DOWNLOADS+"/"+fileName));
-
+        TransferObserver downloadObserver = transferUtility.download("touchlesspdf",key, new File(LocalDir.getPath()+"/"+filename));
         downloadObserver.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
@@ -166,7 +171,7 @@ public class DocumentFragment extends Fragment {
             @Override
             public void onProgressChanged(int id, long current, long total) {
                 int done = (int) (((double) current / total) * 100.0);
-                Log.d("MYTAG", "DONWLOAD - - ID: $id, percent done = $done");
+                Log.d("MYTAG", "DOWNLOAD - - ID: $id, percent done = $done");
             }
 
             @Override
