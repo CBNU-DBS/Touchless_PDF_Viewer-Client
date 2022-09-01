@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
 }
+def Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
     compileSdk 32
@@ -15,6 +17,9 @@ android {
         vectorDrawables.useSupportLibrary = true
         setProperty("archivesBaseName", "vision-quickstart")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //aws key
+        buildConfigField "String", "AWS_ACCESS_KEY", properties.getProperty("aws.accessKey")
+        buildConfigField "String", "AWS_ACCESS_SECRET_KEY", properties.getProperty("aws.accessSecretKey")
     }
 
     buildTypes {
