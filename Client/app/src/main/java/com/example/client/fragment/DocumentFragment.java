@@ -109,9 +109,11 @@ public class DocumentFragment extends Fragment {
                 startActivity(intent);
             }
         });
-         File file = new File("/storage/emulated/0/Download/sample.pdf");
+        File file = new File("/storage/emulated/0/Download/sample.pdf");
         // 흠
         Button addPdf = getView().findViewById(R.id.btn_uploadPdf);
+        //String key = UUID.randomUUID().toString();
+        String key = "tmpKey";
         addPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
