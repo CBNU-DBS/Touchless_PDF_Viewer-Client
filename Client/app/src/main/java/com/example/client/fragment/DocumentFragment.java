@@ -6,6 +6,7 @@ import static androidx.core.content.ContextCompat.checkSelfPermission;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -71,9 +72,26 @@ public class DocumentFragment extends Fragment {
         super.onCreate(savedInstanceState);
         ArrayList<String> list = new ArrayList<>();
 //        getFolderFileList();
-        for (int i = 0; i < files.length; i++) {
-            list.add(files[i].getName().toString());
+
+        SharedPreferences Pref_search = getActivity().getSharedPreferences("pref_search",Context.MODE_PRIVATE);
+        String voice_search0 = Pref_search.getString("pref_search","");
+        SharedPreferences.Editor editor_search = Pref_search.edit();
+
+
+        if(voice_search0 != ""){
+            for(int j = 0; j < files.length; j++){
+                if(files[j].getName().contains(voice_search0)){
+                    list.add(files[j].getName().toString());
+                }
+            }
+            editor_search.clear();
+            editor_search.commit();
+        } else {
+            for (int i = 0; i < files.length; i++) {
+                list.add(files[i].getName().toString());
+            }
         }
+
         RecyclerView recyclerView = getView().findViewById(R.id.PdfRecycler);
         Log.e("recyclerView",recyclerView+"");
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
@@ -94,16 +112,22 @@ public class DocumentFragment extends Fragment {
          File file = new File("/storage/emulated/0/Download/sample.pdf");
         // 흠
         Button addPdf = getView().findViewById(R.id.btn_uploadPdf);
+        //String key = UUID.randomUUID().toString();
+        String key = "tmpKey";
         addPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("STATE", "LOG in SERVER");
-                String key = UUID.randomUUID().toString();
-//                uploadWithTransferUtilty(key,file);
+                uploadWithTransferUtilty(key,file);
+            }
+        });
+        // 흠
+        Button downloadPdf = getView().findViewById(R.id.btn_downloadPdf);
+        downloadPdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 downloadWithTransferUtilty(key,file.getName());
             }
         });
-
         recyclerView.setAdapter(adapter);
 
         // 음성인식 시작 버튼과 결과 출력 텍스트뷰
@@ -316,18 +340,27 @@ public class DocumentFragment extends Fragment {
     //입력된 음성 메세지 확인 후 동작 처리
     private void FuncVoiceOrderCheck(String VoiceMsg){
         if(VoiceMsg.length() < 1) {
+
             return;
         }
+
+        //음성인식 결과를 저장하기 위한 sharedPreferences 선언
+        SharedPreferences Pref_search = getActivity().getSharedPreferences("pref_search",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor_search = Pref_search.edit();
+
+        //음성인식 결과(value)를 [voiceMsg] key에 저장
+        editor_search.putString("voiceMsg",VoiceMsg);
+        editor_search.commit();
 
         VoiceMsg = VoiceMsg.replace(" ",""); //음성인식 결과의 공백제거
         Log.d("음성인식 결과",VoiceMsg);
         for(int i=0; i< files.length; i++){
             if(files[i].getName().contains(VoiceMsg)){
-                Intent intent = new Intent(getActivity(),PDF_View_Activity.class);
-                intent.putExtra("pdfname", files[i].getName());
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(),PDF_View_Activity.class);
+//                intent.putExtra("pdfname", files[i].getName());
+//                startActivity(intent);
 
-                onDestroy();
+//                onDestroy();
             } //음성인식으로 받은 단어가 포함되어 있는 문서를 찾아서 내용을 확인한다.
             else{
                 Toast.makeText(getActivity(),"검색된 문서가 없습니다.",Toast.LENGTH_SHORT).show();
