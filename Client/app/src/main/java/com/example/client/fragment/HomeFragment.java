@@ -26,11 +26,11 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        try{
+//        try{
             View view = inflater.inflate(R.layout.activity_mypage, container, false);
-        }catch(InflateException e) {
-            return view;
-        }
+//        }catch(InflateException e) {
+//            return view;
+//        }
 
         TextView us_name = view.findViewById(R.id.user_name);
         TextView us_mail = view.findViewById(R.id.user_mail);
@@ -89,16 +89,16 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
-    static View view;
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if(view!=null){
-            ViewGroup parent = (ViewGroup)view.getParent();
-            if(parent!=null){
-                parent.removeView(view);
-            }
-        }
-    }
+//    static View view;
+//
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        if(view!=null){
+//            ViewGroup parent = (ViewGroup)view.getParent();
+//            if(parent!=null){
+//                parent.removeView(view);
+//            }
+//        }
+//    }
 }
