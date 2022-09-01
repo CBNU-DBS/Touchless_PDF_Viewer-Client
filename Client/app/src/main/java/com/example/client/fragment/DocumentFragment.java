@@ -1,16 +1,21 @@
 package com.example.client.fragment;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
+import static android.os.SystemClock.sleep;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -24,6 +29,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,12 +50,16 @@ import com.example.client.R;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 import com.example.client.aws.*;
 import java.util.UUID;
+import com.blankj.utilcode.util.UriUtils;
 
 public class DocumentFragment extends Fragment {
+    private static final int READ_REQUEST_CODE = 101;
     public ViewGroup rootView;
     public File[] files;
     //음성인식 context 설정
@@ -110,7 +120,16 @@ public class DocumentFragment extends Fragment {
                 downloadWithTransferUtilty(key,file.getName());
             }
         });
-
+        Button SAFUploadPdf = getView().findViewById(R.id.btn_SAFUploadPdf);
+        SAFUploadPdf.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("application/pdf");
+                startActivityForResult(intent, READ_REQUEST_CODE);
+            }
+        });
         recyclerView.setAdapter(adapter);
 
         // 음성인식 시작 버튼과 결과 출력 텍스트뷰
@@ -353,5 +372,28 @@ public class DocumentFragment extends Fragment {
             mRecognizer = null;
         }
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 
+            if (data != null) {
+                Uri uri = data.getData();
+                Log.e("uri", uri.toString());
+                File file = UriUtils.uri2File(uri);
+                String key = "123";
+                uploadWithTransferUtilty(key,file);
+                sleep(1000);
+                downloadWithTransferUtilty(key,"upload.pdf");
+            }
+        }
+    }
+//    public String getPathFromUri(Uri uri){
+//        Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null );
+//        cursor.moveToNext();
+//        String path;
+//        path = cursor.getString(cursor.getColumnIndex( "_data" ));
+//        cursor.close();
+//        return path;
+//    }
 }
