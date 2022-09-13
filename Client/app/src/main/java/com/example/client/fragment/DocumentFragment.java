@@ -144,7 +144,7 @@ public class DocumentFragment extends Fragment {
         addPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadWithTransferUtilty(key,file);
+                uploadWithTransferUtility(key,file);
             }
         });
         // 흠
@@ -152,7 +152,7 @@ public class DocumentFragment extends Fragment {
         downloadPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                downloadWithTransferUtilty(key,file.getName());
+                downloadWithTransferUtility(key,file.getName());
             }
         });
         Button SAFUploadPdf = getView().findViewById(R.id.btn_SAFUploadPdf);
@@ -443,9 +443,9 @@ public class DocumentFragment extends Fragment {
                 Log.e("uri", uri.toString());
                 File file = UriUtils.uri2File(uri);
                 String key = "123";
-                uploadWithTransferUtilty(key,file);
+                uploadWithTransferUtility(key,file);
                 sleep(1000);
-                downloadWithTransferUtilty(key,"upload.pdf");
+                downloadWithTransferUtility(key,"upload.pdf");
             }
         }
     }
