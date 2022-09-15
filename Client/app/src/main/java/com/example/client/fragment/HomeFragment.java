@@ -46,8 +46,8 @@ public class HomeFragment extends Fragment {
 
 
         // 마이페이지 개인정보 설정 버튼 이벤트 리스너
-        Button btn_account_set = (Button) view.findViewById(R.id.btn_account_set);
-        btn_account_set.setOnClickListener(new View.OnClickListener() {
+        Button btn_change_PW = (Button) view.findViewById(R.id.btn_change_pw);
+        btn_change_PW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), Personal_info_setting_Activity.class);

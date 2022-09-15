@@ -15,4 +15,7 @@ public interface UserApi {
 
     @POST("/users/login")
     Call<ResponseDTO<UserDTO>> loginUser(@Body UserDTO user);
+
+    @POST("/users/changepw")
+    Call<ResponseDTO<UserDTO>> changePW(@Body UserDTO user);
 }
