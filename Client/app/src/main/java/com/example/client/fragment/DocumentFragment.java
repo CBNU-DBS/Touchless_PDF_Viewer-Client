@@ -84,7 +84,7 @@ public class DocumentFragment extends Fragment {
     TextView STT_Result;
 
     DocumentApi documentApi;
-    String userId;
+    Long userId;
 
     private File LocalDir;
     @Override
@@ -96,7 +96,7 @@ public class DocumentFragment extends Fragment {
         documentApi = RetrofitClient.getClient().create(DocumentApi.class);
         SharedPreferences sharedPref_login = this.getActivity().getSharedPreferences("auto_login",MODE_PRIVATE);
         SharedPreferences.Editor editor_login = sharedPref_login.edit();
-        userId = sharedPref_login.getString("auto_id0","");
+        userId = sharedPref_login.getLong("auto_id0",0L);
 
 //        getFolderFileList();
 
@@ -123,7 +123,6 @@ public class DocumentFragment extends Fragment {
         Log.e("recyclerView",recyclerView+"");
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
-
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
         PdfAdapter adapter = new PdfAdapter(list);
         adapter.setOnItemClickListener(new PdfAdapter.OnItemClickListener() {
@@ -232,7 +231,7 @@ public class DocumentFragment extends Fragment {
             public void onStateChanged(int id, TransferState state) {
                 if (state == TransferState.COMPLETED) {
                     // Handle a completed upload
-                    DocumentDTO documentDTO = new DocumentDTO(Long.valueOf(userId), key, "title");
+                    DocumentDTO documentDTO = new DocumentDTO(userId, key, "title");
                     documentApi.saveDocument(documentDTO).enqueue(new Callback<BaseResponse>() {
                         @Override
                         public void onResponse(Call<BaseResponse> call,
