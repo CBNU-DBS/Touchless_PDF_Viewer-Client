@@ -25,8 +25,6 @@ import com.example.client.dto.ResponseDTO;
 import com.example.client.dto.UserDTO;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
@@ -143,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                 ResponseDTO<UserDTO> result = response.body();
                 if(response.isSuccessful()){
                     Toast.makeText(getApplicationContext(), result.getResultMsg(), Toast.LENGTH_SHORT).show();
-                    Log.e("", "로그인 성공");
+                    Log.i("", "로그인 성공");
                     finish();
 
                     Intent logined_intent = new Intent(getApplicationContext(), HomeActivity.class);

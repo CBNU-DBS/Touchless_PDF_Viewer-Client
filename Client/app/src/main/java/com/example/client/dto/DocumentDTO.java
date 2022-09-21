@@ -1,12 +1,13 @@
 package com.example.client.dto;
 
-public class fileDTO {
+public class DocumentDTO {
     private long userId;
-    private String s3URL;
+    private String key;
     private String title;
-    public fileDTO(long userId, String s3URL,String title) {
+
+    public DocumentDTO(long userId, String key, String title) {
         this.userId = userId;
-        this.s3URL = s3URL;
+        this.key = key;
         this.title = title;
     }
 
@@ -18,12 +19,12 @@ public class fileDTO {
         this.userId = userId;
     }
 
-    public String getS3URL() {
-        return s3URL;
+    public String getKey() {
+        return key;
     }
 
-    public void setS3URL(String s3URL) {
-        this.s3URL = s3URL;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getTitle() {
@@ -31,6 +32,6 @@ public class fileDTO {
     }
 
     public void setTitle(String title) {
-        this.title = s3URL;
+        this.title = title;
     }
 }
