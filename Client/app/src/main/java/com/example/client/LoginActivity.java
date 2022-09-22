@@ -53,9 +53,11 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sharedPref_login = getSharedPreferences("auto_login",MODE_PRIVATE);
         String auto_email1 = sharedPref_login.getString("auto_email0","");
         String auto_pw1 = sharedPref_login.getString("auto_pw0","");
+        Log.e("sharedPref가 초기화됬을까? : ",auto_pw1);
 
         //로그인을 성공한 이후에는 자동로그인 실행
         if(auto_email1 != "" && auto_pw1 != ""){
+            Log.e("여기들어왔으면 sharedpref가 초기화 안된건디 : ",auto_pw1);
             Toast.makeText(getApplicationContext(), "자동로그인", Toast.LENGTH_SHORT).show();
             UserDTO user = new UserDTO("", auto_email1, auto_pw1, "");
             login(user);
@@ -144,8 +146,6 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("", "로그인 성공");
                     finish();
 
-                    Intent logined_intent = new Intent(getApplicationContext(), HomeActivity.class);
-
                     //로그인 성공 후, 자동 로그인 설정
                     SharedPreferences sharedPref_login = getSharedPreferences("auto_login",MODE_PRIVATE);
                     SharedPreferences.Editor editor_login = sharedPref_login.edit();
@@ -158,9 +158,9 @@ public class LoginActivity extends AppCompatActivity {
                     editor_login.putString("auto_phone0",result.getList().get(0).getPhone());
                     editor_login.commit();
 
-                    //로그인 성공하여 마이페이지로 이동
-                    startActivity(logined_intent);
-                } else {
+                    Intent logined_intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    startActivity(logined_intent); //로그인 성공하여 마이페이지로 이동
+                } else { //로그인 실패의 원인을 가져와 출력합니다.
                     Log.e("", "로그인 실패");
                     try {
                         String body = response.errorBody().string();
@@ -178,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseDTO<UserDTO>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "로그인 오류", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "로그인 서버 통신 실패", Toast.LENGTH_SHORT).show();
                 Log.e("Login Error", t.getMessage());
                 t.printStackTrace();
             }
