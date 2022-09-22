@@ -7,6 +7,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.client.api.MotionFunctionApi;
@@ -30,6 +31,7 @@ public class MotionSettingActivity extends PreferenceFragment {
     ListPreference motionPreference4;
     ListPreference motionPreference5;
     ListPreference motionPreference6;
+    ListPreference motionPreference7;
     Preference save_btn;
 
     String motion1;
@@ -38,6 +40,7 @@ public class MotionSettingActivity extends PreferenceFragment {
     String motion4;
     String motion5;
     String motion6;
+    String motion7;
 
     MotionFunctionApi motionFunctionApi;
 
@@ -54,6 +57,7 @@ public class MotionSettingActivity extends PreferenceFragment {
         motionPreference4 = (ListPreference)findPreference("mspms4");
         motionPreference5 = (ListPreference)findPreference("mspms5");
         motionPreference6 = (ListPreference)findPreference("mspms6");
+        motionPreference7 = (ListPreference)findPreference("mspms7");
         save_btn = (Preference)findPreference("save");
 
 
@@ -84,6 +88,10 @@ public class MotionSettingActivity extends PreferenceFragment {
             editon.putString("mspms6", "왼쪽 눈 감기");
             editon.apply();
         }
+        if(!prefs.contains("mspms7")){
+            editon.putString("mspms6", "오른쪽 눈 감기");
+            editon.apply();
+        }
 
         if(!prefs.getString("mspms1", "").equals("")){
             motionPreference1.setSummary(prefs.getString("mspms1", "머리 위로"));
@@ -103,6 +111,9 @@ public class MotionSettingActivity extends PreferenceFragment {
         if(!prefs.getString("mspms6", "").equals("")){
             motionPreference6.setSummary(prefs.getString("mspms6", "왼쪽 눈 감기"));
         }
+        if(!prefs.getString("mspms7", "").equals("")){
+            motionPreference6.setSummary(prefs.getString("mspms6", "오른쪽 눈 감기"));
+        }
 
         motion1 = prefs.getString("mspms1", "머리 위로");
         motion2 = prefs.getString("mspms2", "머리 아래로");
@@ -110,6 +121,7 @@ public class MotionSettingActivity extends PreferenceFragment {
         motion4 = prefs.getString("mspms4", "머리 오른쪽으로");
         motion5 = prefs.getString("mspms5", "양쪽 눈 감기");
         motion6 = prefs.getString("mspms6", "왼쪽 눈 감기");
+        motion6 = prefs.getString("mspms7", "오른쪽 눈 감기");
 
 
         prefs.registerOnSharedPreferenceChangeListener(prefListener);
@@ -120,11 +132,11 @@ public class MotionSettingActivity extends PreferenceFragment {
                     List<MotionFunctionDTO> motionFunctionDTOList = new ArrayList<>();
                     motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms1","머리 위로"), "위로 스크롤"));
                     motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms2","머리 아래로"), "아래로 스크롤"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms3","머리 왼쪽으로"), "화면 확대"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms4","머리 오른쪽으로"), "화면 축소"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms3","머리 왼쪽으로"), "왼쪽으로 스크롤"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms4","머리 오른쪽으로"), "오른쪽으로 스크롤"));
                     motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms5","양쪽 눈 감기"), "뒤로 가기"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms6","왼쪽 눈 감기"), "음성 검색"));
-//                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms7","오른쪽 눈 감기"), "삭제 예정"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms6","왼쪽 눈 감기"), "화면 확대"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms7","오른쪽 눈 감기"), "화면 축소"));
                     saveMotionSetting(motionFunctionDTOList);
                     return true;
                 }
@@ -150,7 +162,8 @@ public class MotionSettingActivity extends PreferenceFragment {
                         ||prefs.getString("mspms1","").equals(prefs.getString("mspms3",""))
                         ||prefs.getString("mspms1","").equals(prefs.getString("mspms4",""))
                         ||prefs.getString("mspms1","").equals(prefs.getString("mspms5",""))
-                        ||prefs.getString("mspms1","").equals(prefs.getString("mspms6",""))){
+                        ||prefs.getString("mspms1","").equals(prefs.getString("mspms6",""))
+                        ||prefs.getString("mspms1","").equals(prefs.getString("mspms7",""))){
                     changeduplication("mspms1",checkMotionduplication("mspms1"));
                     alertToast.show();
                 }
@@ -169,7 +182,8 @@ public class MotionSettingActivity extends PreferenceFragment {
                         ||prefs.getString("mspms2","").equals(prefs.getString("mspms3",""))
                         ||prefs.getString("mspms2","").equals(prefs.getString("mspms4",""))
                         ||prefs.getString("mspms2","").equals(prefs.getString("mspms5",""))
-                        ||prefs.getString("mspms2","").equals(prefs.getString("mspms6",""))){
+                        ||prefs.getString("mspms2","").equals(prefs.getString("mspms6",""))
+                        ||prefs.getString("mspms2","").equals(prefs.getString("mspms7",""))){
                     changeduplication("mspms2",checkMotionduplication("mspms2"));
                     alertToast.show();
                 }
@@ -188,7 +202,8 @@ public class MotionSettingActivity extends PreferenceFragment {
                         ||prefs.getString("mspms3","").equals(prefs.getString("mspms2",""))
                         ||prefs.getString("mspms3","").equals(prefs.getString("mspms4",""))
                         ||prefs.getString("mspms3","").equals(prefs.getString("mspms5",""))
-                        ||prefs.getString("mspms3","").equals(prefs.getString("mspms6",""))){
+                        ||prefs.getString("mspms3","").equals(prefs.getString("mspms6",""))
+                        ||prefs.getString("mspms3","").equals(prefs.getString("mspms7",""))){
                     changeduplication("mspms3",checkMotionduplication("mspms3"));
                     alertToast.show();
                 }
@@ -207,7 +222,8 @@ public class MotionSettingActivity extends PreferenceFragment {
                         ||prefs.getString("mspms4","").equals(prefs.getString("mspms2",""))
                         ||prefs.getString("mspms4","").equals(prefs.getString("mspms3",""))
                         ||prefs.getString("mspms4","").equals(prefs.getString("mspms5",""))
-                        ||prefs.getString("mspms4","").equals(prefs.getString("mspms6",""))){
+                        ||prefs.getString("mspms4","").equals(prefs.getString("mspms6",""))
+                        ||prefs.getString("mspms4","").equals(prefs.getString("mspms7",""))){
                     changeduplication("mspms4",checkMotionduplication("mspms4"));
                     alertToast.show();
                 }
@@ -226,7 +242,8 @@ public class MotionSettingActivity extends PreferenceFragment {
                         ||prefs.getString("mspms5","").equals(prefs.getString("mspms2",""))
                         ||prefs.getString("mspms5","").equals(prefs.getString("mspms3",""))
                         ||prefs.getString("mspms5","").equals(prefs.getString("mspms4",""))
-                        ||prefs.getString("mspms5","").equals(prefs.getString("mspms6",""))){
+                        ||prefs.getString("mspms5","").equals(prefs.getString("mspms6",""))
+                        ||prefs.getString("mspms5","").equals(prefs.getString("mspms7",""))){
                     changeduplication("mspms5",checkMotionduplication("mspms5"));
                     alertToast.show();
                 }
@@ -245,7 +262,8 @@ public class MotionSettingActivity extends PreferenceFragment {
                         ||prefs.getString("mspms6","").equals(prefs.getString("mspms2",""))
                         ||prefs.getString("mspms6","").equals(prefs.getString("mspms3",""))
                         ||prefs.getString("mspms6","").equals(prefs.getString("mspms4",""))
-                        ||prefs.getString("mspms6","").equals(prefs.getString("mspms5",""))){
+                        ||prefs.getString("mspms6","").equals(prefs.getString("mspms5",""))
+                        ||prefs.getString("mspms6","").equals(prefs.getString("mspms7",""))){
                     changeduplication("mspms6",checkMotionduplication("mspms6"));
                     alertToast.show();
                 }
@@ -254,25 +272,26 @@ public class MotionSettingActivity extends PreferenceFragment {
                     motion6 = prefs.getString("mspms6","");
                 }
             }
-//            if(key.equals("mspms7")){
-//                if(prefs.getString("mspms7","머리 위로").equals("없음")){
-//                    motionPreference7.setSummary(prefs.getString("mspms7","머리 위로"));
-//                    motion7 = prefs.getString("mspms7","머리 위로");
-//                }
-//                else if(prefs.getString("mspms7","머리 위로").equals(prefs.getString("mspms1","머리 아래로"))
-//                        ||prefs.getString("mspms7","머리 위로").equals(prefs.getString("mspms2","머리 왼쪽으로"))
-//                        ||prefs.getString("mspms7","머리 위로").equals(prefs.getString("mspms3","머리 왼쪽으로"))
-//                        ||prefs.getString("mspms7","머리 위로").equals(prefs.getString("mspms4","머리 왼쪽으로"))
-//                        ||prefs.getString("mspms7","머리 위로").equals(prefs.getString("mspms5","머리 왼쪽으로"))
-//                        ||prefs.getString("mspms7","머리 위로").equals(prefs.getString("mspms6","머리 왼쪽으로"))){
-//                    changeduplication("mspms7",checkMotionduplication("mspms7"));
-//                    alertToast.show();
-//                }
-//                else{
-//                    motionPreference7.setSummary(prefs.getString("mspms7","머리 위로"));
-//                    motion7 = prefs.getString("mspms7","머리 위로");
-//                }
-//            }
+            if(key.equals("mspms7")){
+                if(prefs.getString("mspms7","").equals("없음")){
+                    motionPreference7.setSummary(prefs.getString("mspms7",""));
+                    motionPreference7.setValue(prefs.getString("mspms7",""));
+                    motion7 = prefs.getString("mspms7","");
+                }
+                else if(prefs.getString("mspms7","").equals(prefs.getString("mspms1",""))
+                        ||prefs.getString("mspms7","").equals(prefs.getString("mspms2",""))
+                        ||prefs.getString("mspms7","").equals(prefs.getString("mspms3",""))
+                        ||prefs.getString("mspms7","").equals(prefs.getString("mspms4",""))
+                        ||prefs.getString("mspms7","").equals(prefs.getString("mspms5",""))
+                        ||prefs.getString("mspms7","").equals(prefs.getString("mspms6",""))){
+                    changeduplication("mspms7",checkMotionduplication("mspms7"));
+                    alertToast.show();
+                }
+                else{
+                    motionPreference7.setSummary(prefs.getString("mspms7",""));
+                    motion7 = prefs.getString("mspms7","");
+                }
+            }
         }
     };
 
@@ -317,9 +336,9 @@ public class MotionSettingActivity extends PreferenceFragment {
         if(!code.equals("mspms6")){
             if(checkduplication("mspms6", code)) return "mspms6";
         }
-//        if(!code.equals("mspms7")){
-//            if(checkduplication("mspms7", code)) return "mspms7";
-//        }
+        if(!code.equals("mspms7")){
+            if(checkduplication("mspms7", code)) return "mspms7";
+        }
         else return "nothing";
         return "nothing";
     }
@@ -360,10 +379,10 @@ public class MotionSettingActivity extends PreferenceFragment {
             motion6 = prefs.getString(code1, "");
             motionPreference6.setSummary(prefs.getString(code1,""));
         }
-//        else if(code1.equals("mspms7")) {
-//            motion7 = prefs.getString(code1, "");
-//            motionPreference7.setSummary(prefs.getString(code1,""));
-//        }
+        else if(code1.equals("mspms7")) {
+            motion7 = prefs.getString(code1, "");
+            motionPreference7.setSummary(prefs.getString(code1,""));
+        }
         //code2 이전 설정 변경
         if(code2.equals("mspms1")) {
             motion1 = prefs.getString(code2, "");
@@ -389,10 +408,10 @@ public class MotionSettingActivity extends PreferenceFragment {
             motion6 = prefs.getString(code2, "");
             motionPreference6.setSummary(prefs.getString(code2,""));
         }
-//        else if(code2.equals("mspms7")) {
-//            motion7 = prefs.getString(code2, "");
-//            motionPreference7.setSummary(prefs.getString(code2,""));
-//        }
+        else if(code2.equals("mspms7")) {
+            motion7 = prefs.getString(code2, "");
+            motionPreference7.setSummary(prefs.getString(code2,""));
+        }
     }
 
     private Boolean checknothing(){
@@ -402,7 +421,7 @@ public class MotionSettingActivity extends PreferenceFragment {
         if("없음".equals(prefs.getString("mspms4",""))) return true;
         if("없음".equals(prefs.getString("mspms5",""))) return true;
         if("없음".equals(prefs.getString("mspms6",""))) return true;
-//        if("없음".equals(prefs.getString("mspms7",""))) return true;
+        if("없음".equals(prefs.getString("mspms7",""))) return true;
         return false;
     }
 
