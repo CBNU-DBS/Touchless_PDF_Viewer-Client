@@ -222,10 +222,10 @@ public class DocumentFragment extends Fragment {
     public void uploadWithTransferUtility(String key,File file) {
         AWSCredentials awsCredentials = new BasicAWSCredentials(BuildConfig.AWS_ACCESS_KEY, BuildConfig.AWS_ACCESS_SECRET_KEY);    // IAM 생성하며 받은 것 입력
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
-
+        String filenameAndKey = key+"_"+file.getName();
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
         TransferNetworkLossHandler.getInstance(getActivity().getApplicationContext());
-        TransferObserver uploadObserver = transferUtility.upload("touchlesspdf", key, file);    // (bucket api, file이름, file객체)
+        TransferObserver uploadObserver = transferUtility.upload("touchlesspdf", filenameAndKey, file);    // (bucket api, file이름, file객체)
         uploadObserver.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
@@ -444,7 +444,7 @@ public class DocumentFragment extends Fragment {
                 String key = "123";
                 uploadWithTransferUtility(key,file);
                 sleep(1000);
-                downloadWithTransferUtility(key,"upload.pdf");
+                downloadWithTransferUtility(key,file.getName());
             }
         }
     }
