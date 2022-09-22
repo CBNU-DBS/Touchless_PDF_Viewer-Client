@@ -7,6 +7,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.client.api.MotionFunctionApi;
@@ -31,7 +32,6 @@ public class MotionSettingActivity extends PreferenceFragment {
     ListPreference motionPreference5;
     ListPreference motionPreference6;
     ListPreference motionPreference7;
-//    ListPreference motionPreference8;
     Preference save_btn;
 
     String motion1;
@@ -60,7 +60,6 @@ public class MotionSettingActivity extends PreferenceFragment {
         motionPreference7 = (ListPreference)findPreference("mspms7");
         save_btn = (Preference)findPreference("save");
 
-//        motionPreference8 = (ListPreference)findPreference("mspms8");
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editon = prefs.edit();
@@ -90,7 +89,7 @@ public class MotionSettingActivity extends PreferenceFragment {
             editon.apply();
         }
         if(!prefs.contains("mspms7")){
-            editon.putString("mspms7", "오른쪽 눈 감기");
+            editon.putString("mspms6", "오른쪽 눈 감기");
             editon.apply();
         }
 
@@ -113,11 +112,8 @@ public class MotionSettingActivity extends PreferenceFragment {
             motionPreference6.setSummary(prefs.getString("mspms6", "왼쪽 눈 감기"));
         }
         if(!prefs.getString("mspms7", "").equals("")){
-            motionPreference7.setSummary(prefs.getString("mspms7", "오른쪽 눈 감기"));
+            motionPreference6.setSummary(prefs.getString("mspms6", "오른쪽 눈 감기"));
         }
-//        if(!prefs.getString("mspms8", "").equals("")){
-//            motionPreference8.setSummary(prefs.getString("mspms8", "예정"));
-//        }
 
         motion1 = prefs.getString("mspms1", "머리 위로");
         motion2 = prefs.getString("mspms2", "머리 아래로");
@@ -125,7 +121,7 @@ public class MotionSettingActivity extends PreferenceFragment {
         motion4 = prefs.getString("mspms4", "머리 오른쪽으로");
         motion5 = prefs.getString("mspms5", "양쪽 눈 감기");
         motion6 = prefs.getString("mspms6", "왼쪽 눈 감기");
-        motion7 = prefs.getString("mspms7", "오른쪽 눈 감기");
+        motion6 = prefs.getString("mspms7", "오른쪽 눈 감기");
 
 
         prefs.registerOnSharedPreferenceChangeListener(prefListener);
@@ -136,8 +132,8 @@ public class MotionSettingActivity extends PreferenceFragment {
                     List<MotionFunctionDTO> motionFunctionDTOList = new ArrayList<>();
                     motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms1","머리 위로"), "위로 스크롤"));
                     motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms2","머리 아래로"), "아래로 스크롤"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms3","머리 왼쪽으로"), "이전 페이지"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms4","머리 오른쪽으로"), "다음 페이지"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms3","머리 왼쪽으로"), "왼쪽으로 스크롤"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms4","머리 오른쪽으로"), "오른쪽으로 스크롤"));
                     motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms5","양쪽 눈 감기"), "뒤로 가기"));
                     motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms6","왼쪽 눈 감기"), "화면 확대"));
                     motionFunctionDTOList.add(new MotionFunctionDTO(1, prefs.getString("mspms7","오른쪽 눈 감기"), "화면 축소"));
@@ -157,141 +153,145 @@ public class MotionSettingActivity extends PreferenceFragment {
             Toast nothingToast = Toast.makeText(getActivity(),"없는 설정이 있습니다", Toast.LENGTH_SHORT);
 
             if(key.equals("mspms1")){
-                if(prefs.getString("mspms1","머리 위로").equals("없음")){
-                    motionPreference1.setSummary(prefs.getString("mspms1","머리 위로"));
-                    motion1 = prefs.getString("mspms1","머리 위로");
+                if(prefs.getString("mspms1","").equals("없음")){
+                    motionPreference1.setSummary(prefs.getString("mspms1",""));
+                    motionPreference1.setValue(prefs.getString("mspms1",""));
+                    motion1 = prefs.getString("mspms1","");
                 }
-                else if(prefs.getString("mspms1","머리 위로").equals(prefs.getString("mspms2","머리 아래로"))
-                        ||prefs.getString("mspms1","머리 위로").equals(prefs.getString("mspms3","머리 왼쪽으로"))
-                        ||prefs.getString("mspms1","머리 위로").equals(prefs.getString("mspms4","머리 오른쪽으로"))
-                        ||prefs.getString("mspms1","머리 위로").equals(prefs.getString("mspms5","양쪽 눈 감기"))
-                        ||prefs.getString("mspms1","머리 위로").equals(prefs.getString("mspms6","왼쪽 눈 감기"))
-                        ||prefs.getString("mspms1","머리 위로").equals(prefs.getString("mspms7","오른쪽 눈 감기"))){
+                else if(prefs.getString("mspms1","").equals(prefs.getString("mspms2",""))
+                        ||prefs.getString("mspms1","").equals(prefs.getString("mspms3",""))
+                        ||prefs.getString("mspms1","").equals(prefs.getString("mspms4",""))
+                        ||prefs.getString("mspms1","").equals(prefs.getString("mspms5",""))
+                        ||prefs.getString("mspms1","").equals(prefs.getString("mspms6",""))
+                        ||prefs.getString("mspms1","").equals(prefs.getString("mspms7",""))){
                     changeduplication("mspms1",checkMotionduplication("mspms1"));
                     alertToast.show();
                 }
                 else{
-                    motionPreference1.setSummary(prefs.getString("mspms1","머리 위로"));
-                    motion1 = prefs.getString("mspms1","머리 위로");
+                    motionPreference1.setSummary(prefs.getString("mspms1",""));
+                    motion1 = prefs.getString("mspms1","");
                 }
             }
             if(key.equals("mspms2")){
-                if(prefs.getString("mspms2","머리 위로").equals("없음")){
-                    motionPreference2.setSummary(prefs.getString("mspms2","머리 위로"));
-                    motion2 = prefs.getString("mspms2","머리 위로");
+                if(prefs.getString("mspms2","").equals("없음")){
+                    motionPreference2.setSummary(prefs.getString("mspms2",""));
+                    motionPreference2.setValue(prefs.getString("mspms2",""));
+                    motion2 = prefs.getString("mspms2","");
                 }
-                else if(prefs.getString("mspms2","머리 위로").equals(prefs.getString("mspms1","머리 위로"))
-                        ||prefs.getString("mspms2","머리 위로").equals(prefs.getString("mspms3","머리 왼쪽으로"))
-                        ||prefs.getString("mspms2","머리 위로").equals(prefs.getString("mspms4","머리 왼쪽으로"))
-                        ||prefs.getString("mspms2","머리 위로").equals(prefs.getString("mspms5","머리 왼쪽으로"))
-                        ||prefs.getString("mspms2","머리 위로").equals(prefs.getString("mspms6","머리 왼쪽으로"))
-                        ||prefs.getString("mspms2","머리 위로").equals(prefs.getString("mspms7","머리 왼쪽으로"))){
+                else if(prefs.getString("mspms2","").equals(prefs.getString("mspms1",""))
+                        ||prefs.getString("mspms2","").equals(prefs.getString("mspms3",""))
+                        ||prefs.getString("mspms2","").equals(prefs.getString("mspms4",""))
+                        ||prefs.getString("mspms2","").equals(prefs.getString("mspms5",""))
+                        ||prefs.getString("mspms2","").equals(prefs.getString("mspms6",""))
+                        ||prefs.getString("mspms2","").equals(prefs.getString("mspms7",""))){
                     changeduplication("mspms2",checkMotionduplication("mspms2"));
                     alertToast.show();
                 }
                 else{
-                    motionPreference2.setSummary(prefs.getString("mspms2","머리 위로"));
-                    motion2 = prefs.getString("mspms2","머리 위로");
+                    motionPreference2.setSummary(prefs.getString("mspms2",""));
+                    motion2 = prefs.getString("mspms2","");
                 }
             }
             if(key.equals("mspms3")){
-                if(prefs.getString("mspms3","머리 위로").equals("없음")){
-                    motionPreference3.setSummary(prefs.getString("mspms3","머리 위로"));
-                    motion3 = prefs.getString("mspms3","머리 위로");
+                if(prefs.getString("mspms3","").equals("없음")){
+                    motionPreference3.setSummary(prefs.getString("mspms3",""));
+                    motionPreference3.setValue(prefs.getString("mspms3",""));
+                    motion3 = prefs.getString("mspms3","");
                 }
-                else if(prefs.getString("mspms3","머리 위로").equals(prefs.getString("mspms1","머리 아래로"))
-                        ||prefs.getString("mspms3","머리 위로").equals(prefs.getString("mspms2","머리 왼쪽으로"))
-                        ||prefs.getString("mspms3","머리 위로").equals(prefs.getString("mspms4","머리 왼쪽으로"))
-                        ||prefs.getString("mspms3","머리 위로").equals(prefs.getString("mspms5","머리 왼쪽으로"))
-                        ||prefs.getString("mspms3","머리 위로").equals(prefs.getString("mspms6","머리 왼쪽으로"))
-                        ||prefs.getString("mspms3","머리 위로").equals(prefs.getString("mspms7","머리 왼쪽으로"))){
+                else if(prefs.getString("mspms3","").equals(prefs.getString("mspms1",""))
+                        ||prefs.getString("mspms3","").equals(prefs.getString("mspms2",""))
+                        ||prefs.getString("mspms3","").equals(prefs.getString("mspms4",""))
+                        ||prefs.getString("mspms3","").equals(prefs.getString("mspms5",""))
+                        ||prefs.getString("mspms3","").equals(prefs.getString("mspms6",""))
+                        ||prefs.getString("mspms3","").equals(prefs.getString("mspms7",""))){
                     changeduplication("mspms3",checkMotionduplication("mspms3"));
                     alertToast.show();
                 }
                 else{
-                    motionPreference3.setSummary(prefs.getString("mspms3","머리 위로"));
-                    motion3 = prefs.getString("mspms3","머리 위로");
+                    motionPreference3.setSummary(prefs.getString("mspms3",""));
+                    motion3 = prefs.getString("mspms3","");
                 }
             }
             if(key.equals("mspms4")){
-                if(prefs.getString("mspms4","머리 위로").equals("없음")){
-                    motionPreference4.setSummary(prefs.getString("mspms4","머리 위로"));
-                    motion4 = prefs.getString("mspms4","머리 위로");
+                if(prefs.getString("mspms4","").equals("없음")){
+                    motionPreference4.setSummary(prefs.getString("mspms4",""));
+                    motionPreference4.setValue(prefs.getString("mspms4",""));
+                    motion4 = prefs.getString("mspms4","");
                 }
-                else if(prefs.getString("mspms4","머리 위로").equals(prefs.getString("mspms1","머리 아래로"))
-                        ||prefs.getString("mspms4","머리 위로").equals(prefs.getString("mspms2","머리 왼쪽으로"))
-                        ||prefs.getString("mspms4","머리 위로").equals(prefs.getString("mspms3","머리 왼쪽으로"))
-                        ||prefs.getString("mspms4","머리 위로").equals(prefs.getString("mspms5","머리 왼쪽으로"))
-                        ||prefs.getString("mspms4","머리 위로").equals(prefs.getString("mspms6","머리 왼쪽으로"))
-                        ||prefs.getString("mspms4","머리 위로").equals(prefs.getString("mspms7","머리 왼쪽으로"))){
+                else if(prefs.getString("mspms4","").equals(prefs.getString("mspms1",""))
+                        ||prefs.getString("mspms4","").equals(prefs.getString("mspms2",""))
+                        ||prefs.getString("mspms4","").equals(prefs.getString("mspms3",""))
+                        ||prefs.getString("mspms4","").equals(prefs.getString("mspms5",""))
+                        ||prefs.getString("mspms4","").equals(prefs.getString("mspms6",""))
+                        ||prefs.getString("mspms4","").equals(prefs.getString("mspms7",""))){
                     changeduplication("mspms4",checkMotionduplication("mspms4"));
                     alertToast.show();
                 }
                 else{
-                    motionPreference4.setSummary(prefs.getString("mspms4","머리 위로"));
-                    motion4 = prefs.getString("mspms4","머리 위로");
+                    motionPreference4.setSummary(prefs.getString("mspms4",""));
+                    motion4 = prefs.getString("mspms4","");
                 }
             }
             if(key.equals("mspms5")){
-                if(prefs.getString("mspms5","머리 위로").equals("없음")){
-                    motionPreference5.setSummary(prefs.getString("mspms5","머리 위로"));
-                    motion5 = prefs.getString("mspms5","머리 위로");
+                if(prefs.getString("mspms5","").equals("없음")){
+                    motionPreference5.setSummary(prefs.getString("mspms5",""));
+                    motionPreference5.setValue(prefs.getString("mspms5",""));
+                    motion5 = prefs.getString("mspms5","");
                 }
-                else if(prefs.getString("mspms5","머리 위로").equals(prefs.getString("mspms1","머리 아래로"))
-                        ||prefs.getString("mspms5","머리 위로").equals(prefs.getString("mspms2","머리 왼쪽으로"))
-                        ||prefs.getString("mspms5","머리 위로").equals(prefs.getString("mspms3","머리 왼쪽으로"))
-                        ||prefs.getString("mspms5","머리 위로").equals(prefs.getString("mspms4","머리 왼쪽으로"))
-                        ||prefs.getString("mspms5","머리 위로").equals(prefs.getString("mspms6","머리 왼쪽으로"))
-                        ||prefs.getString("mspms5","머리 위로").equals(prefs.getString("mspms7","머리 왼쪽으로"))){
+                else if(prefs.getString("mspms5","").equals(prefs.getString("mspms1",""))
+                        ||prefs.getString("mspms5","").equals(prefs.getString("mspms2",""))
+                        ||prefs.getString("mspms5","").equals(prefs.getString("mspms3",""))
+                        ||prefs.getString("mspms5","").equals(prefs.getString("mspms4",""))
+                        ||prefs.getString("mspms5","").equals(prefs.getString("mspms6",""))
+                        ||prefs.getString("mspms5","").equals(prefs.getString("mspms7",""))){
                     changeduplication("mspms5",checkMotionduplication("mspms5"));
                     alertToast.show();
                 }
                 else{
-                    motionPreference5.setSummary(prefs.getString("mspms5","머리 위로"));
-                    motion5 = prefs.getString("mspms5","머리 위로");
+                    motionPreference5.setSummary(prefs.getString("mspms5",""));
+                    motion5 = prefs.getString("mspms5","");
                 }
             }
             if(key.equals("mspms6")){
-                if(prefs.getString("mspms6","머리 위로").equals("없음")){
-                    motionPreference6.setSummary(prefs.getString("mspms6","머리 위로"));
-                    motion6 = prefs.getString("mspms6","머리 위로");
+                if(prefs.getString("mspms6","").equals("없음")){
+                    motionPreference6.setSummary(prefs.getString("mspms6",""));
+                    motionPreference6.setValue(prefs.getString("mspms6",""));
+                    motion6 = prefs.getString("mspms6","");
                 }
-                else if(prefs.getString("mspms6","머리 위로").equals(prefs.getString("mspms1","머리 아래로"))
-                        ||prefs.getString("mspms6","머리 위로").equals(prefs.getString("mspms2","머리 왼쪽으로"))
-                        ||prefs.getString("mspms6","머리 위로").equals(prefs.getString("mspms3","머리 왼쪽으로"))
-                        ||prefs.getString("mspms6","머리 위로").equals(prefs.getString("mspms4","머리 왼쪽으로"))
-                        ||prefs.getString("mspms6","머리 위로").equals(prefs.getString("mspms5","머리 왼쪽으로"))
-                        ||prefs.getString("mspms6","머리 위로").equals(prefs.getString("mspms7","머리 왼쪽으로"))){
+                else if(prefs.getString("mspms6","").equals(prefs.getString("mspms1",""))
+                        ||prefs.getString("mspms6","").equals(prefs.getString("mspms2",""))
+                        ||prefs.getString("mspms6","").equals(prefs.getString("mspms3",""))
+                        ||prefs.getString("mspms6","").equals(prefs.getString("mspms4",""))
+                        ||prefs.getString("mspms6","").equals(prefs.getString("mspms5",""))
+                        ||prefs.getString("mspms6","").equals(prefs.getString("mspms7",""))){
                     changeduplication("mspms6",checkMotionduplication("mspms6"));
                     alertToast.show();
                 }
                 else{
-                    motionPreference6.setSummary(prefs.getString("mspms6","머리 위로"));
-                    motion6 = prefs.getString("mspms6","머리 위로");
+                    motionPreference6.setSummary(prefs.getString("mspms6",""));
+                    motion6 = prefs.getString("mspms6","");
                 }
             }
             if(key.equals("mspms7")){
-                if(prefs.getString("mspms7","머리 위로").equals("없음")){
-                    motionPreference7.setSummary(prefs.getString("mspms7","머리 위로"));
-                    motion7 = prefs.getString("mspms7","머리 위로");
+                if(prefs.getString("mspms7","").equals("없음")){
+                    motionPreference7.setSummary(prefs.getString("mspms7",""));
+                    motionPreference7.setValue(prefs.getString("mspms7",""));
+                    motion7 = prefs.getString("mspms7","");
                 }
-                else if(prefs.getString("mspms7","머리 위로").equals(prefs.getString("mspms1","머리 아래로"))
-                        ||prefs.getString("mspms7","머리 위로").equals(prefs.getString("mspms2","머리 왼쪽으로"))
-                        ||prefs.getString("mspms7","머리 위로").equals(prefs.getString("mspms3","머리 왼쪽으로"))
-                        ||prefs.getString("mspms7","머리 위로").equals(prefs.getString("mspms4","머리 왼쪽으로"))
-                        ||prefs.getString("mspms7","머리 위로").equals(prefs.getString("mspms5","머리 왼쪽으로"))
-                        ||prefs.getString("mspms7","머리 위로").equals(prefs.getString("mspms6","머리 왼쪽으로"))){
+                else if(prefs.getString("mspms7","").equals(prefs.getString("mspms1",""))
+                        ||prefs.getString("mspms7","").equals(prefs.getString("mspms2",""))
+                        ||prefs.getString("mspms7","").equals(prefs.getString("mspms3",""))
+                        ||prefs.getString("mspms7","").equals(prefs.getString("mspms4",""))
+                        ||prefs.getString("mspms7","").equals(prefs.getString("mspms5",""))
+                        ||prefs.getString("mspms7","").equals(prefs.getString("mspms6",""))){
                     changeduplication("mspms7",checkMotionduplication("mspms7"));
                     alertToast.show();
                 }
                 else{
-                    motionPreference7.setSummary(prefs.getString("mspms7","머리 위로"));
-                    motion7 = prefs.getString("mspms7","머리 위로");
+                    motionPreference7.setSummary(prefs.getString("mspms7",""));
+                    motion7 = prefs.getString("mspms7","");
                 }
             }
-//            if(key.equals("mspms8")){
-//                motionPreference8.setSummary(prefs.getString("mspms8","몰?루"));
-//            }
         }
     };
 
@@ -356,61 +356,61 @@ public class MotionSettingActivity extends PreferenceFragment {
         editor.apply();
         //code1 이전 설정 변경
         if(code1.equals("mspms1")) {
-            motion1 = prefs.getString(code1, "머리 위로");
-            motionPreference1.setSummary(prefs.getString(code1,"머리 위로"));
+            motion1 = prefs.getString(code1, "");
+            motionPreference1.setSummary(prefs.getString(code1,""));
         }
         else if(code1.equals("mspms2")) {
-            motion2 = prefs.getString(code1, "머리 위로");
-            motionPreference2.setSummary(prefs.getString(code1,"머리 위로"));
+            motion2 = prefs.getString(code1, "");
+            motionPreference2.setSummary(prefs.getString(code1,""));
         }
         else if(code1.equals("mspms3")) {
-            motion3 = prefs.getString(code1, "머리 위로");
-            motionPreference3.setSummary(prefs.getString(code1,"머리 위로"));
+            motion3 = prefs.getString(code1, "");
+            motionPreference3.setSummary(prefs.getString(code1,""));
         }
         else if(code1.equals("mspms4")) {
-            motion4 = prefs.getString(code1, "머리 위로");
-            motionPreference4.setSummary(prefs.getString(code1,"머리 위로"));
+            motion4 = prefs.getString(code1, "");
+            motionPreference4.setSummary(prefs.getString(code1,""));
         }
         else if(code1.equals("mspms5")) {
-            motion5 = prefs.getString(code1, "머리 위로");
-            motionPreference5.setSummary(prefs.getString(code1,"머리 위로"));
+            motion5 = prefs.getString(code1, "");
+            motionPreference5.setSummary(prefs.getString(code1,""));
         }
         else if(code1.equals("mspms6")) {
-            motion6 = prefs.getString(code1, "머리 위로");
-            motionPreference6.setSummary(prefs.getString(code1,"머리 위로"));
+            motion6 = prefs.getString(code1, "");
+            motionPreference6.setSummary(prefs.getString(code1,""));
         }
         else if(code1.equals("mspms7")) {
-            motion7 = prefs.getString(code1, "머리 위로");
-            motionPreference7.setSummary(prefs.getString(code1,"머리 위로"));
+            motion7 = prefs.getString(code1, "");
+            motionPreference7.setSummary(prefs.getString(code1,""));
         }
         //code2 이전 설정 변경
         if(code2.equals("mspms1")) {
-            motion1 = prefs.getString(code2, "머리 위로");
-            motionPreference1.setSummary(prefs.getString(code2,"머리 위로"));
+            motion1 = prefs.getString(code2, "");
+            motionPreference1.setSummary(prefs.getString(code2,""));
         }
         else if(code2.equals("mspms2")) {
-            motion2 = prefs.getString(code2, "머리 위로");
-            motionPreference2.setSummary(prefs.getString(code2,"머리 위로"));
+            motion2 = prefs.getString(code2, "");
+            motionPreference2.setSummary(prefs.getString(code2,""));
         }
         else if(code2.equals("mspms3")) {
-            motion3 = prefs.getString(code2, "머리 위로");
-            motionPreference3.setSummary(prefs.getString(code2,"머리 위로"));
+            motion3 = prefs.getString(code2, "");
+            motionPreference3.setSummary(prefs.getString(code2,""));
         }
         else if(code2.equals("mspms4")) {
-            motion4 = prefs.getString(code2, "머리 위로");
-            motionPreference4.setSummary(prefs.getString(code2,"머리 위로"));
+            motion4 = prefs.getString(code2, "");
+            motionPreference4.setSummary(prefs.getString(code2,""));
         }
         else if(code2.equals("mspms5")) {
-            motion5 = prefs.getString(code2, "머리 위로");
-            motionPreference5.setSummary(prefs.getString(code2,"머리 위로"));
+            motion5 = prefs.getString(code2, "");
+            motionPreference5.setSummary(prefs.getString(code2,""));
         }
         else if(code2.equals("mspms6")) {
-            motion6 = prefs.getString(code2, "머리 위로");
-            motionPreference6.setSummary(prefs.getString(code2,"머리 위로"));
+            motion6 = prefs.getString(code2, "");
+            motionPreference6.setSummary(prefs.getString(code2,""));
         }
         else if(code2.equals("mspms7")) {
-            motion7 = prefs.getString(code2, "머리 위로");
-            motionPreference7.setSummary(prefs.getString(code2,"머리 위로"));
+            motion7 = prefs.getString(code2, "");
+            motionPreference7.setSummary(prefs.getString(code2,""));
         }
     }
 
