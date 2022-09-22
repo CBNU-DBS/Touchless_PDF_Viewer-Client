@@ -40,10 +40,4 @@ public class UserDTO {
         this.password = password;
         this.phone = phone;
     }
-
-    public UserDTO(Long id,String email, String password){
-        this.id = id;
-        this.email = email;
-        this.password = password;
-    }
 }
