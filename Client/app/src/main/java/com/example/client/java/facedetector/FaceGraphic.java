@@ -380,19 +380,16 @@ public class FaceGraphic extends Graphic {
             PDF_View_Activity.scrollDown();
         }
         else if(prefs.getString("mspms3","").equals(str)){
-            PDF_View_Activity.prevPage();
+            PDF_View_Activity.zoomIn();
         }
         else if(prefs.getString("mspms4","").equals(str)){
-            PDF_View_Activity.nextPage();
+            PDF_View_Activity.zoomOut();
         }
         else if(prefs.getString("mspms5","").equals(str)){
             PDF_View_Activity.pdffinish();
         }
         else if(prefs.getString("mspms6","").equals(str)){
-            PDF_View_Activity.zoomIn();
-        }
-        else if(prefs.getString("mspms7","").equals(str)){
-            PDF_View_Activity.zoomOut();
+            //음성검색기능 구현 예정
         }
     }
 

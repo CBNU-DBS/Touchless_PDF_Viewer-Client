@@ -18,13 +18,13 @@
             android:entryValues="@array/motion_select"
             android:key="mspms3"
             android:summary="머리 왼쪽으로"
-            android:title="이전 페이지"/>
+            android:title="화면 확대"/>
         <ListPreference
             android:entries="@array/motion_select"
             android:entryValues="@array/motion_select"
             android:key="mspms4"
             android:summary="머리 오른쪽으로"
-            android:title="다음 페이지"/>
+            android:title="화면 축소"/>
         <ListPreference
             android:entries="@array/motion_select"
             android:entryValues="@array/motion_select"
@@ -36,19 +36,7 @@
             android:entryValues="@array/motion_select"
             android:key="mspms6"
             android:summary="왼쪽 눈 감기"
-            android:title="화면 확대"/>
-        <ListPreference
-            android:entries="@array/motion_select"
-            android:entryValues="@array/motion_select"
-            android:key="mspms7"
-            android:summary="오른쪽 눈 감기"
-            android:title="화면 축소"/>
-<!--        <ListPreference-->
-<!--            android:entries="@array/motion_select"-->
-<!--            android:entryValues="@array/motion_select"-->
-<!--            android:key="mspms8"-->
-<!--            android:summary="머리 위로"-->
-<!--            android:title="검색"/>-->
+            android:title="음성 검색"/>
         <Preference
             android:key ="save"
             android:summary="모션 세팅 저장하기"
