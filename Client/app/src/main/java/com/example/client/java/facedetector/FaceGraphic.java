@@ -380,10 +380,10 @@ public class FaceGraphic extends Graphic {
             PDF_View_Activity.scrollDown();
         }
         else if(prefs.getString("mspms3","").equals(str)){
-            PDF_View_Activity.prevPage();
+            PDF_View_Activity.scrollleft();
         }
         else if(prefs.getString("mspms4","").equals(str)){
-            PDF_View_Activity.nextPage();
+            PDF_View_Activity.scrollright();
         }
         else if(prefs.getString("mspms5","").equals(str)){
             PDF_View_Activity.pdffinish();

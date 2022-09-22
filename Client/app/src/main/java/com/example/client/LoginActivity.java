@@ -1,10 +1,18 @@
 package com.example.client;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,8 +25,6 @@ import com.example.client.dto.ResponseDTO;
 import com.example.client.dto.UserDTO;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
@@ -26,6 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+    private PermissionSupport permission;
     EditText et_login_email;
     EditText et_login_password;
 
@@ -38,6 +45,9 @@ public class LoginActivity extends AppCompatActivity {
         userApi = RetrofitClient.getClient().create(UserApi.class);
         et_login_email = findViewById(R.id.text_input_id);
         et_login_password = findViewById(R.id.text_input_password);
+
+        //권한 확인
+        permissionCheck();
 
         //첫 로그인 이후에 ID와 PW의 저장 유무 확인을 통한 자동로그인
         SharedPreferences sharedPref_login = getSharedPreferences("auto_login",MODE_PRIVATE);
@@ -133,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                 ResponseDTO<UserDTO> result = response.body();
                 if(response.isSuccessful()){
                     Toast.makeText(getApplicationContext(), result.getResultMsg(), Toast.LENGTH_SHORT).show();
-                    Log.e("", "로그인 성공");
+                    Log.i("", "로그인 성공");
                     finish();
 
                     //로그인 성공 후, 자동 로그인 설정
@@ -174,4 +184,47 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void permissionCheck() {
+        permission = new PermissionSupport(this, this);
+        if (!permission.checkPermission()){
+            permission.requestPermission();
+        }
+        if(!Environment.isExternalStorageManager()){
+            showDialogGuideForPermissionSettingGuide();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (!permission.permissionResult(requestCode, permissions, grantResults)) {
+            showDialogGuideForPermissionSettingGuide();
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+
+
+    private void showDialogGuideForPermissionSettingGuide(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setTitle("주의");
+        builder.setMessage("필수적 접근 권한에 동의가 필요합니다.");
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent appDetail = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+                startActivity(appDetail);
+                permissionCheck();
+            }
+        });
+        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                permissionCheck();
+            }
+        });
+        builder.create().show();
+    }
+
 }

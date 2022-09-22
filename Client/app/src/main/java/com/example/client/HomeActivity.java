@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity {
         homeFragment = new HomeFragment();
         settingFragment = new SettingFragment();
         documentFragment = new DocumentFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, documentFragment).commit();
 
         NavigationBarView navigationBarView = findViewById(R.id.bottom_navigation_view);
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

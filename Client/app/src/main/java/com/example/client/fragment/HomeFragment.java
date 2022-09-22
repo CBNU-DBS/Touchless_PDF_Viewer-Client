@@ -27,11 +27,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        try{
-            View view = inflater.inflate(R.layout.activity_mypage, container, false);
-//        }catch(InflateException e) {
-//            return view;
-//        }
+
+        View view = inflater.inflate(R.layout.activity_mypage, container, false);
 
         TextView us_name = view.findViewById(R.id.user_name);
         TextView us_mail = view.findViewById(R.id.user_mail);

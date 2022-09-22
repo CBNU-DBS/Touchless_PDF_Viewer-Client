@@ -1,17 +1,23 @@
 package com.example.client.fragment;
 
+import static android.content.Context.MODE_PRIVATE;
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
+import static android.os.SystemClock.sleep;
 import static androidx.core.content.ContextCompat.checkSelfPermission;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -25,6 +31,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,17 +47,29 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.client.Adapter.PdfAdapter;
+import com.example.client.BuildConfig;
 import com.example.client.PDF_View_Activity;
 import com.example.client.R;
+import com.example.client.RetrofitClient;
+import com.example.client.api.DocumentApi;
+import com.example.client.dto.BaseResponse;
+import com.example.client.dto.DocumentDTO;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
-import com.example.client.aws.*;
 import java.util.UUID;
+import com.blankj.utilcode.util.UriUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DocumentFragment extends Fragment {
+    private static final int READ_REQUEST_CODE = 101;
     public ViewGroup rootView;
     public File[] files;
     //음성인식 context 설정
@@ -64,6 +83,9 @@ public class DocumentFragment extends Fragment {
     Button Btn_record_start;
     TextView STT_Result;
 
+    DocumentApi documentApi;
+    Long userId;
+
     private File LocalDir;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -71,6 +93,11 @@ public class DocumentFragment extends Fragment {
         // 리사이클러뷰에 표시할 데이터 리스트 생성.
         super.onCreate(savedInstanceState);
         ArrayList<String> list = new ArrayList<>();
+        documentApi = RetrofitClient.getClient().create(DocumentApi.class);
+        SharedPreferences sharedPref_login = this.getActivity().getSharedPreferences("auto_login",MODE_PRIVATE);
+        SharedPreferences.Editor editor_login = sharedPref_login.edit();
+        userId = sharedPref_login.getLong("auto_id0",0L);
+
 //        getFolderFileList();
 
         SharedPreferences Pref_search = getActivity().getSharedPreferences("pref_search",Context.MODE_PRIVATE);
@@ -97,7 +124,6 @@ public class DocumentFragment extends Fragment {
         Log.e("recyclerView",recyclerView+"");
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
-
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
         PdfAdapter adapter = new PdfAdapter(list);
         adapter.setOnItemClickListener(new PdfAdapter.OnItemClickListener() {
@@ -110,7 +136,7 @@ public class DocumentFragment extends Fragment {
                 startActivity(intent);
             }
         });
-         File file = new File("/storage/emulated/0/Download/sample.pdf");
+        File file = new File("/storage/emulated/0/Download/sample.pdf");
         // 흠
         Button addPdf = getView().findViewById(R.id.btn_uploadPdf);
         //String key = UUID.randomUUID().toString();
@@ -118,7 +144,7 @@ public class DocumentFragment extends Fragment {
         addPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadWithTransferUtilty(key,file);
+                uploadWithTransferUtility(key,file);
             }
         });
         // 흠
@@ -126,7 +152,17 @@ public class DocumentFragment extends Fragment {
         downloadPdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                downloadWithTransferUtilty(key,file.getName());
+                downloadWithTransferUtility(key,file.getName());
+            }
+        });
+        Button SAFUploadPdf = getView().findViewById(R.id.btn_SAFUploadPdf);
+        SAFUploadPdf.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("application/pdf");
+                startActivityForResult(intent, READ_REQUEST_CODE);
             }
         });
         recyclerView.setAdapter(adapter);
@@ -184,9 +220,8 @@ public class DocumentFragment extends Fragment {
             Log.d("Files", "Filepath:" + files[i].getPath());
         }
     }
-    public void uploadWithTransferUtilty(String key,File file) {
-        awsAccess aws = new awsAccess();
-        AWSCredentials awsCredentials = new BasicAWSCredentials(aws.getAccessKey(), aws.getAccessScretKey());    // IAM 생성하며 받은 것 입력
+    public void uploadWithTransferUtility(String key,File file) {
+        AWSCredentials awsCredentials = new BasicAWSCredentials(BuildConfig.AWS_ACCESS_KEY, BuildConfig.AWS_ACCESS_SECRET_KEY);    // IAM 생성하며 받은 것 입력
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
 
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
@@ -197,6 +232,25 @@ public class DocumentFragment extends Fragment {
             public void onStateChanged(int id, TransferState state) {
                 if (state == TransferState.COMPLETED) {
                     // Handle a completed upload
+                    DocumentDTO documentDTO = new DocumentDTO(userId, key, "title");
+                    documentApi.saveDocument(documentDTO).enqueue(new Callback<BaseResponse>() {
+                        @Override
+                        public void onResponse(Call<BaseResponse> call,
+                                Response<BaseResponse> response) {
+                            if(response.isSuccessful()){
+                                if(response.body().getResultCode() == 0){
+                                    Toast.makeText(getContext(), response.body().getResultMsg(), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getContext(), response.body().getResultMsg(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<BaseResponse> call, Throwable t) {
+                            Toast.makeText(getContext(), "문서 저장 실패", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 
@@ -212,10 +266,9 @@ public class DocumentFragment extends Fragment {
             }
         });
     }
-    public void downloadWithTransferUtilty(String key, String filename) {
+    public void downloadWithTransferUtility(String key, String filename) {
         Log.d("key : ",key+"");
-        awsAccess aws = new awsAccess();
-        AWSCredentials awsCredentials = new BasicAWSCredentials(aws.getAccessKey(), aws.getAccessScretKey());    // IAM 생성하며 받은 것 입력
+        AWSCredentials awsCredentials = new BasicAWSCredentials(BuildConfig.AWS_ACCESS_KEY, BuildConfig.AWS_ACCESS_SECRET_KEY);    // IAM 생성하며 받은 것 입력
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
 
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
@@ -368,5 +421,28 @@ public class DocumentFragment extends Fragment {
             mRecognizer = null;
         }
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 
+            if (data != null) {
+                Uri uri = data.getData();
+                Log.e("uri", uri.toString());
+                File file = UriUtils.uri2File(uri);
+                String key = "123";
+                uploadWithTransferUtility(key,file);
+                sleep(1000);
+                downloadWithTransferUtility(key,"upload.pdf");
+            }
+        }
+    }
+//    public String getPathFromUri(Uri uri){
+//        Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null );
+//        cursor.moveToNext();
+//        String path;
+//        path = cursor.getString(cursor.getColumnIndex( "_data" ));
+//        cursor.close();
+//        return path;
+//    }
 }
