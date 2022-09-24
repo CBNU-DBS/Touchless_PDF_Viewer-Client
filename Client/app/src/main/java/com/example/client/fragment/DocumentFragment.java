@@ -104,13 +104,14 @@ public class DocumentFragment extends Fragment {
         String voice_search0 = Pref_search.getString("pref_search","");
         SharedPreferences.Editor editor_search = Pref_search.edit();
 
-
+        //음성인식 결과가 존재할 경우, 음성인식 결과가 포함된 이름의 pdf만 리스트에 저장 후, 출력
         if(voice_search0 != ""){
             for(int j = 0; j < files.length; j++){
                 if(files[j].getName().contains(voice_search0)){
                     list.add(files[j].getName().toString());
                 }
             }
+            //음성인식 결과에 따른 문서 출력 후, 음성인식결과 삭제(다시 문서목록 출력 시, 모든 문서가 출력됨)
             editor_search.clear();
             editor_search.commit();
         } else {
@@ -222,10 +223,10 @@ public class DocumentFragment extends Fragment {
     public void uploadWithTransferUtility(String key,File file) {
         AWSCredentials awsCredentials = new BasicAWSCredentials(BuildConfig.AWS_ACCESS_KEY, BuildConfig.AWS_ACCESS_SECRET_KEY);    // IAM 생성하며 받은 것 입력
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
-
+        String filenameAndKey = key+"_"+file.getName();
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
         TransferNetworkLossHandler.getInstance(getActivity().getApplicationContext());
-        TransferObserver uploadObserver = transferUtility.upload("touchlesspdf", key, file);    // (bucket api, file이름, file객체)
+        TransferObserver uploadObserver = transferUtility.upload("touchlesspdf", filenameAndKey, file);    // (bucket api, file이름, file객체)
         uploadObserver.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
@@ -393,7 +394,6 @@ public class DocumentFragment extends Fragment {
     //입력된 음성 메세지 확인 후 동작 처리
     private void FuncVoiceOrderCheck(String VoiceMsg){
         if(VoiceMsg.length() < 1) {
-
             return;
         }
 
@@ -401,24 +401,13 @@ public class DocumentFragment extends Fragment {
         SharedPreferences Pref_search = getActivity().getSharedPreferences("pref_search",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor_search = Pref_search.edit();
 
+        //음성인식 결과의 공백제거
+        VoiceMsg = VoiceMsg.replace(" ","");
+
         //음성인식 결과(value)를 [voiceMsg] key에 저장
         editor_search.putString("voiceMsg",VoiceMsg);
         editor_search.commit();
 
-        VoiceMsg = VoiceMsg.replace(" ",""); //음성인식 결과의 공백제거
-        Log.d("음성인식 결과",VoiceMsg);
-        for(int i=0; i< files.length; i++){
-            if(files[i].getName().contains(VoiceMsg)){
-//                Intent intent = new Intent(getActivity(),PDF_View_Activity.class);
-//                intent.putExtra("pdfname", files[i].getName());
-//                startActivity(intent);
-
-//                onDestroy();
-            } //음성인식으로 받은 단어가 포함되어 있는 문서를 찾아서 내용을 확인한다.
-            else{
-                Toast.makeText(getActivity(),"검색된 문서가 없습니다.",Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     //기능 실행 후, 음성인식이 종료되지 않아 계속 실행되는 경우를 막기위한 종료 함수
@@ -444,7 +433,7 @@ public class DocumentFragment extends Fragment {
                 String key = "123";
                 uploadWithTransferUtility(key,file);
                 sleep(1000);
-                downloadWithTransferUtility(key,"upload.pdf");
+                downloadWithTransferUtility(key,file.getName());
             }
         }
     }

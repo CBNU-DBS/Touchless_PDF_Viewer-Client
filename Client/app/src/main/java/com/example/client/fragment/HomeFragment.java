@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.client.LoginActivity;
@@ -41,10 +42,9 @@ public class HomeFragment extends Fragment {
         us_mail.setText(sharedPref_login.getString("auto_email0",""));
         us_phone.setText(sharedPref_login.getString("auto_phone0",""));
 
-
-        // 마이페이지 개인정보 설정 버튼 이벤트 리스너
-        Button btn_account_set = (Button) view.findViewById(R.id.btn_account_set);
-        btn_account_set.setOnClickListener(new View.OnClickListener() {
+        // 마이페이지 비밀번호 변경 버튼 이벤트 리스너
+        Button btn_change_PW = (Button) view.findViewById(R.id.btn_change_pw);
+        btn_change_PW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), Personal_info_setting_Activity.class);

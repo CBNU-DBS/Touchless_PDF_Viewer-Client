@@ -267,6 +267,20 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
         pdfView.moveTo(curOffsetX, curOffsetY + 500.0f);
         pdfView.loadPages();
     }
+    // 왼쪽으로 스크롤 메소드
+    public static void scrollleft() {
+        float curOffsetX = pdfView.getCurrentXOffset();
+        float curOffsetY = pdfView.getCurrentYOffset();
+        pdfView.moveTo(curOffsetX + 200.0f, curOffsetY);
+        pdfView.loadPages();
+    }
+    // 오른쪽로 스크롤 메소드
+    public static void scrollright() {
+        float curOffsetX = pdfView.getCurrentXOffset();
+        float curOffsetY = pdfView.getCurrentYOffset();
+        pdfView.moveTo(curOffsetX - 200.0f, curOffsetY);
+        pdfView.loadPages();
+    }
     // 축소 메소드
     public static void zoomOut() {
         Toast.makeText(ActivityLocal.getAppContext(), "축소!", Toast.LENGTH_SHORT).show();

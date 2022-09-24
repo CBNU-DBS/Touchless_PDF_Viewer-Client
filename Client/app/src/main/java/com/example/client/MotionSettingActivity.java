@@ -8,6 +8,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.util.Log;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.client.api.MotionFunctionApi;
@@ -35,7 +36,6 @@ public class MotionSettingActivity extends PreferenceFragment {
     ListPreference motionPreference5;
     ListPreference motionPreference6;
     ListPreference motionPreference7;
-//    ListPreference motionPreference8;
     Preference save_btn;
     HashMap<String, String> motionString;
     String motion1;
@@ -76,6 +76,7 @@ public class MotionSettingActivity extends PreferenceFragment {
         setDefaultMotionSetting();
         getMotion();
         motionFunctionPrefs.registerOnSharedPreferenceChangeListener(prefListener);
+
         if(save_btn != null){
             save_btn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -102,6 +103,7 @@ public class MotionSettingActivity extends PreferenceFragment {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             SharedPreferences.Editor editor = motionFunctionPrefs.edit();
             Toast alertToast = Toast.makeText(getActivity(),"중복된 설정이 있습니다", Toast.LENGTH_SHORT);
+            Toast nothingToast = Toast.makeText(getActivity(),"없는 설정이 있습니다", Toast.LENGTH_SHORT);
 
             if(key.equals("Scroll_up")){
                 if(motionFunctionPrefs.getString("Scroll_up","머리 위로").equals("없음")){
@@ -644,9 +646,6 @@ public class MotionSettingActivity extends PreferenceFragment {
                     motion7 = motionFunctionPrefs.getString("Zoom_out","머리 위로");
                 }
             }
-//            if(key.equals("mspms8")){
-//                motionPreference8.setSummary(prefs.getString("mspms8","몰?루"));
-//            }
         }
     };
 
@@ -738,6 +737,114 @@ public class MotionSettingActivity extends PreferenceFragment {
                     }
                 });
         return result[0];
+    }
+
+    private String checkMotionduplication(String code){
+        if(!code.equals("mspms1")){
+            if(checkduplication("mspms1", code)) return "mspms1";
+        }
+        if(!code.equals("mspms2")){
+            if(checkduplication("mspms2", code)) return "mspms2";
+        }
+        if(!code.equals("mspms3")){
+            if(checkduplication("mspms3", code)) return "mspms3";
+        }
+        if(!code.equals("mspms4")){
+            if(checkduplication("mspms4", code)) return "mspms4";
+        }
+        if(!code.equals("mspms5")){
+            if(checkduplication("mspms5", code)) return "mspms5";
+        }
+        if(!code.equals("mspms6")){
+            if(checkduplication("mspms6", code)) return "mspms6";
+        }
+        if(!code.equals("mspms7")){
+            if(checkduplication("mspms7", code)) return "mspms7";
+        }
+        else return "nothing";
+        return "nothing";
+    }
+
+    private Boolean checkduplication(String code1, String code2){
+        if(prefs.getString(code1,"1").equals(prefs.getString(code2,"2"))){
+            return true;
+        }
+        else return false;
+    }
+
+    private void changeduplication(String code1, String code2){ //code1: 사용자가 바꾼 모션 설정, code2: 바꾼 설정과 중복되는 모션
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(code2, "없음");
+        editor.apply();
+        //code1 이전 설정 변경
+        if(code1.equals("mspms1")) {
+            motion1 = prefs.getString(code1, "");
+            motionPreference1.setSummary(prefs.getString(code1,""));
+        }
+        else if(code1.equals("mspms2")) {
+            motion2 = prefs.getString(code1, "");
+            motionPreference2.setSummary(prefs.getString(code1,""));
+        }
+        else if(code1.equals("mspms3")) {
+            motion3 = prefs.getString(code1, "");
+            motionPreference3.setSummary(prefs.getString(code1,""));
+        }
+        else if(code1.equals("mspms4")) {
+            motion4 = prefs.getString(code1, "");
+            motionPreference4.setSummary(prefs.getString(code1,""));
+        }
+        else if(code1.equals("mspms5")) {
+            motion5 = prefs.getString(code1, "");
+            motionPreference5.setSummary(prefs.getString(code1,""));
+        }
+        else if(code1.equals("mspms6")) {
+            motion6 = prefs.getString(code1, "");
+            motionPreference6.setSummary(prefs.getString(code1,""));
+        }
+        else if(code1.equals("mspms7")) {
+            motion7 = prefs.getString(code1, "");
+            motionPreference7.setSummary(prefs.getString(code1,""));
+        }
+        //code2 이전 설정 변경
+        if(code2.equals("mspms1")) {
+            motion1 = prefs.getString(code2, "");
+            motionPreference1.setSummary(prefs.getString(code2,""));
+        }
+        else if(code2.equals("mspms2")) {
+            motion2 = prefs.getString(code2, "");
+            motionPreference2.setSummary(prefs.getString(code2,""));
+        }
+        else if(code2.equals("mspms3")) {
+            motion3 = prefs.getString(code2, "");
+            motionPreference3.setSummary(prefs.getString(code2,""));
+        }
+        else if(code2.equals("mspms4")) {
+            motion4 = prefs.getString(code2, "");
+            motionPreference4.setSummary(prefs.getString(code2,""));
+        }
+        else if(code2.equals("mspms5")) {
+            motion5 = prefs.getString(code2, "");
+            motionPreference5.setSummary(prefs.getString(code2,""));
+        }
+        else if(code2.equals("mspms6")) {
+            motion6 = prefs.getString(code2, "");
+            motionPreference6.setSummary(prefs.getString(code2,""));
+        }
+        else if(code2.equals("mspms7")) {
+            motion7 = prefs.getString(code2, "");
+            motionPreference7.setSummary(prefs.getString(code2,""));
+        }
+    }
+
+    private Boolean checknothing(){
+        if("없음".equals(prefs.getString("mspms1",""))) return true;
+        if("없음".equals(prefs.getString("mspms2",""))) return true;
+        if("없음".equals(prefs.getString("mspms3",""))) return true;
+        if("없음".equals(prefs.getString("mspms4",""))) return true;
+        if("없음".equals(prefs.getString("mspms5",""))) return true;
+        if("없음".equals(prefs.getString("mspms6",""))) return true;
+        if("없음".equals(prefs.getString("mspms7",""))) return true;
+        return false;
     }
 
 }

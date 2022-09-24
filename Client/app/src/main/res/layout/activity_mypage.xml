@@ -59,31 +59,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_name" />
 
-    <ImageView
-        android:id="@+id/google_drive_logo"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/user_google_drive_info"
-        app:layout_constraintHorizontal_bias="0.685"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_img"
-        app:srcCompat="@drawable/google_drive" />
 
-    <TextView
-        android:id="@+id/user_google_drive_info"
-        android:layout_width="270dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="18dp"
-        android:gravity=""
-        android:text="DBS@gmail.com"
-        android:textColor="#000000"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.652"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_phone" />
 
     <ImageView
         android:id="@+id/phone_img"
@@ -122,16 +98,16 @@
         app:srcCompat="@drawable/mail" />
 
     <Button
-        android:id="@+id/btn_account_set"
+        android:id="@+id/btn_change_pw"
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="60dp"
         android:text="비밀번호 변경"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_google_drive_info" />
+        app:layout_constraintTop_toBottomOf="@+id/user_phone" />
 
     <Button
         android:id="@+id/btn_google_drive"
@@ -143,7 +119,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_account_set" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_change_pw" />
 
     <Button
         android:id="@+id/btn_logout"

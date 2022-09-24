@@ -1,5 +1,6 @@
 package com.example.client.api;
 
+import com.example.client.dto.ChangeDTO;
 import com.example.client.dto.ResponseDTO;
 import com.example.client.dto.UserDTO;
 
@@ -15,4 +16,7 @@ public interface UserApi {
 
     @POST("/users/login")
     Call<ResponseDTO<UserDTO>> loginUser(@Body UserDTO user);
+
+    @POST("/users/changepw")
+    Call<ResponseDTO<ChangeDTO>> changePW(@Body ChangeDTO change);
 }
