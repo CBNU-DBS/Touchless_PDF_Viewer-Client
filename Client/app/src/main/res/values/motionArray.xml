@@ -2,13 +2,13 @@
 <resources>
     <!--모션 세팅 Spinner 모션 배열 -->
     <string-array name="motion_array">
-        <item>없음</item>
-        <item>머리 위로</item>
-        <item>머리 아래로</item>
-        <item>머리 왼쪽으로</item>
-        <item>머리 오른쪽으로</item>
-        <item>왼쪽 눈 감기</item>
-        <item>오른쪽 눈 감기</item>
-        <item>양쪽 눈 감기</item>
+        <item>Nothing</item>
+        <item>Head_up</item>
+        <item>Head_down</item>
+        <item>Head_left</item>
+        <item>Head_right</item>
+        <item>Eyes_close</item>
+        <item>Eye_close_left</item>
+        <item>Eye_close_right</item>
     </string-array>
 </resources>
