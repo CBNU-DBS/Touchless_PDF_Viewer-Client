@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -146,26 +147,7 @@ public class DocumentFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        File file = new File("/storage/emulated/0/Download/sample.pdf");
-        // 흠
-        Button addPdf = getView().findViewById(R.id.btn_uploadPdf);
-        //String key = UUID.randomUUID().toString();
-        String key = "tmpKey";
-        addPdf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadWithTransferUtility(key,file);
-            }
-        });
-        // 흠
-        Button downloadPdf = getView().findViewById(R.id.btn_downloadPdf);
-        downloadPdf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                downloadWithTransferUtility(key,file.getName());
-            }
-        });
-        Button SAFUploadPdf = getView().findViewById(R.id.btn_SAFUploadPdf);
+        ImageButton SAFUploadPdf = getView().findViewById(R.id.btn_SAFUploadPdf);
         SAFUploadPdf.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -203,7 +185,7 @@ public class DocumentFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // 네이게이션바의 [문서] 버튼 클릭 시
-       rootView = (ViewGroup) inflater.inflate(R.layout.activity_select_pdf,container,false);
+        rootView = (ViewGroup) inflater.inflate(R.layout.activity_select_pdf,container,false);
         // Inflate the layout for this fragment
         LocalDir = container.getContext().getFilesDir();
         Log.d("LocalDir", "onCreateView: "+LocalDir.toString());
@@ -282,7 +264,7 @@ public class DocumentFragment extends Fragment {
                     documentApi.saveDocument(documentDTO).enqueue(new Callback<BaseResponse>() {
                         @Override
                         public void onResponse(Call<BaseResponse> call,
-                                Response<BaseResponse> response) {
+                                               Response<BaseResponse> response) {
                             if(response.isSuccessful()){
                                 if(response.body().getResultCode() == 0){
                                     Toast.makeText(getContext(), response.body().getResultMsg(), Toast.LENGTH_SHORT).show();
@@ -477,7 +459,7 @@ public class DocumentFragment extends Fragment {
                 Uri uri = data.getData();
                 Log.e("uri", uri.toString());
                 File file = UriUtils.uri2File(uri);
-                String key = "123";
+                String key = UUID.randomUUID().toString();
                 uploadWithTransferUtility(key,file);
                 sleep(1000);
                 downloadWithTransferUtility(key,file.getName());
