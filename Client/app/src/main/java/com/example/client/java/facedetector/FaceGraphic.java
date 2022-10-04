@@ -172,31 +172,31 @@ public class FaceGraphic extends Graphic {
 
             if(faceup == 10) {
                 faceupToast.show();
-                action("머리 위로");
+                action("Head_up");
             }
             else if(facedown == 10) {
                 facedownToast.show();
-                action("머리 아래로");
+                action("Head_down");
             }
             else if(faceleft == 10) {
                 faceleftToast.show();
-                action("머리 왼쪽으로");
+                action("Head_left");
             }
             else if(faceright == 10) {
                 facerightToast.show();
-                action("머리 오른쪽으로");
+                action("Head_right");
             }
             else if(botheyecheck >= 8) {
                 bothToast.show();
-                action("양쪽 눈 감기");
+                action("Eyes_close");
             }
             else if(leftcheck == 10) {
                 leftToast.show();
-                action("왼쪽 눈 감기");
+                action("Eye_close_left");
             }
             else if(rightcheck == 10) {
                 rightToast.show();
-                action("오른쪽 눈 감기");
+                action("Eye_close_right");
             }
 
         }
@@ -373,25 +373,25 @@ public class FaceGraphic extends Graphic {
 //    }
 
     public void action(String str) {
-        if(prefs.getString("mspms1","").equals(str)){
+        if(prefs.getString("Scroll_up","").equals(str)){
             PDF_View_Activity.scrollUp();
         }
-        else if(prefs.getString("mspms2","").equals(str)){
+        else if(prefs.getString("Scroll_down","").equals(str)){
             PDF_View_Activity.scrollDown();
         }
-        else if(prefs.getString("mspms3","").equals(str)){
+        else if(prefs.getString("Scroll_left","").equals(str)){
             PDF_View_Activity.scrollleft();
         }
-        else if(prefs.getString("mspms4","").equals(str)){
+        else if(prefs.getString("Scroll_right","").equals(str)){
             PDF_View_Activity.scrollright();
         }
-        else if(prefs.getString("mspms5","").equals(str)){
+        else if(prefs.getString("Back","").equals(str)){
             PDF_View_Activity.pdffinish();
         }
-        else if(prefs.getString("mspms6","").equals(str)){
+        else if(prefs.getString("Zoom_in","").equals(str)){
             PDF_View_Activity.zoomIn();
         }
-        else if(prefs.getString("mspms7","").equals(str)){
+        else if(prefs.getString("Zoom_out","").equals(str)){
             PDF_View_Activity.zoomOut();
         }
     }

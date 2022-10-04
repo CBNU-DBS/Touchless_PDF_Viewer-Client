@@ -20,11 +20,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.client.api.MotionFunctionApi;
 import com.example.client.api.UserApi;
+import com.example.client.dto.MotionFunctionDTO;
 import com.example.client.dto.ResponseDTO;
 import com.example.client.dto.UserDTO;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
@@ -37,12 +41,15 @@ public class LoginActivity extends AppCompatActivity {
     EditText et_login_password;
 
     UserApi userApi;
-
+    MotionFunctionApi motionFunctionApi;
+    List<MotionFunctionDTO> motionFunctionList;
+    long userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         userApi = RetrofitClient.getClient().create(UserApi.class);
+        motionFunctionApi = RetrofitClient.getClient().create(MotionFunctionApi.class);
         et_login_email = findViewById(R.id.text_input_id);
         et_login_password = findViewById(R.id.text_input_password);
 
@@ -136,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(UserDTO user){
+
         userApi.loginUser(user).enqueue(new Callback<ResponseDTO<UserDTO>>() {
             @Override
             public void onResponse(Call<ResponseDTO<UserDTO>> call,
@@ -146,21 +154,28 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("", "로그인 성공");
                     finish();
 
+                    Intent logined_intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    userId = result.getList().get(0).getId();
+
                     //로그인 성공 후, 자동 로그인 설정
                     SharedPreferences sharedPref_login = getSharedPreferences("auto_login",MODE_PRIVATE);
+                    SharedPreferences sharedPref_motionFunction = getSharedPreferences("motionFunction", MODE_PRIVATE);
                     SharedPreferences.Editor editor_login = sharedPref_login.edit();
-
+                    SharedPreferences.Editor editor_motionFunction = sharedPref_motionFunction.edit();
                     //자동로그인을 위한 아이디(이메일) 저장
                     editor_login.putString("auto_email0",result.getList().get(0).getEmail());
                     //앱을 사용동안 사용될 유저 개인정보 저장
                     editor_login.putString("auto_name0",result.getList().get(0).getName());
-                    editor_login.putLong("auto_id0",result.getList().get(0).getId());
+                    editor_login.putLong("auto_id0",userId);
                     editor_login.putString("auto_phone0",result.getList().get(0).getPhone());
                     editor_login.commit();
-
-                    Intent logined_intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    // 모션 기능 설정 가져오기
+                    motionFunctionList = getMotionSetting(userId);
+                    for(MotionFunctionDTO motionFunction : motionFunctionList){
+                        editor_motionFunction.putString(motionFunction.getFunction(), motionFunction.getMotion());
+                    }
                     startActivity(logined_intent); //로그인 성공하여 마이페이지로 이동
-                } else { //로그인 실패의 원인을 가져와 출력합니다.
+                } else {
                     Log.e("", "로그인 실패");
                     try {
                         String body = response.errorBody().string();
@@ -184,6 +199,29 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+    private List<MotionFunctionDTO> getMotionSetting(long userId){
+        final List<MotionFunctionDTO>[] result = new List[]{new ArrayList<>()};
+        motionFunctionApi.getMotionSetting(userId).enqueue(
+                new Callback<ResponseDTO<MotionFunctionDTO>>() {
+                    @Override
+                    public void onResponse(Call<ResponseDTO<MotionFunctionDTO>> call,
+                            Response<ResponseDTO<MotionFunctionDTO>> response) {
+                        if(response.isSuccessful()){
+                            result[0] = response.body().getList();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "불러오기 실패1", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseDTO<MotionFunctionDTO>> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "불러오기 실패2", Toast.LENGTH_SHORT).show();
+                        Log.e("Motion Setting Error", t.getMessage());
+                        t.printStackTrace();
+                    }
+                });
+        return result[0];
+    }
 
     private void permissionCheck() {
         permission = new PermissionSupport(this, this);
@@ -202,9 +240,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
-
-
 
     private void showDialogGuideForPermissionSettingGuide(){
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
