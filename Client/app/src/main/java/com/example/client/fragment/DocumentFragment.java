@@ -33,6 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,8 +58,16 @@ import com.example.client.dto.DocumentDTO;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
@@ -71,7 +80,7 @@ import retrofit2.Response;
 public class DocumentFragment extends Fragment {
     private static final int READ_REQUEST_CODE = 101;
     public ViewGroup rootView;
-    public File[] files;
+    public File[] files;                //Touchless_PDF-Client 앱의 로컬 폴더 내 파일들
     //음성인식 context 설정
     Context cThis;
 
@@ -87,6 +96,7 @@ public class DocumentFragment extends Fragment {
     Long userId;
 
     private File LocalDir;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -101,7 +111,7 @@ public class DocumentFragment extends Fragment {
 //        getFolderFileList();
 
         SharedPreferences Pref_search = getActivity().getSharedPreferences("pref_search",Context.MODE_PRIVATE);
-        String voice_search0 = Pref_search.getString("pref_search","");
+        String voice_search0 = Pref_search.getString("voiceMsg","");
         SharedPreferences.Editor editor_search = Pref_search.edit();
 
         //음성인식 결과가 존재할 경우, 음성인식 결과가 포함된 이름의 pdf만 리스트에 저장 후, 출력
@@ -192,7 +202,7 @@ public class DocumentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // 버튼 클릭 시
+        // 네이게이션바의 [문서] 버튼 클릭 시
        rootView = (ViewGroup) inflater.inflate(R.layout.activity_select_pdf,container,false);
         // Inflate the layout for this fragment
         LocalDir = container.getContext().getFilesDir();
@@ -213,6 +223,42 @@ public class DocumentFragment extends Fragment {
 //        }
         Log.d("Files","dirPath : "+LocalDir.getPath());
         files = LocalDir.listFiles();
+
+        //스마트폰 기기의 Downlaod 파일 변수선언(구글드라이브로부터 pdf르 다운받은 후의 Download폴더)
+        File CurrentDir = new File("/storage/emulated/0/Download/");
+        File[] current_files = CurrentDir.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File pathname, String name) {
+                return name.endsWith("pdf");
+            }
+        });
+
+        getParentFragmentManager().setFragmentResultListener("requestkey", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                //구글드라이브에서 pdf를 다운로드 받기 전의 Download폴더의 pdf파일리스트를 HomeFragment에서 Bundle로 받아옵니다.
+                String[] past_file_list = result.getStringArray("past_file_list");
+                int k = 0;
+                // past_file_list와 구글드라이브로부터 다운로드 받은 후의 Download폴더의 pdf리스트를 비교합니다.
+                for(int j = 0; j < current_files.length; j++){
+                    for(; k < past_file_list.length; k++){
+                        if(past_file_list[k] == current_files[j].getPath()){
+                            past_file_list[k] = "";
+                            break;
+                        }
+                        //만약 새로 생긴 pdf파일인 경우 upload와 download를 실행합니다.
+                        if(k == past_file_list.length - 1 && past_file_list[k] != ""){
+                            Log.d("새로추가된 pdf",past_file_list[j]);
+                            File new_file = new File(past_file_list[j]);
+                            uploadWithTransferUtility("key",new_file);
+                            sleep(1000);
+                            downloadWithTransferUtility("key", new_file.getName());
+                        }
+                    }
+                }
+            }
+        });
+
         Log.d("files Length",files.length+"");
         for (int i = 0; i < files.length; i++)
         {
@@ -421,6 +467,7 @@ public class DocumentFragment extends Fragment {
             mRecognizer = null;
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -434,6 +481,7 @@ public class DocumentFragment extends Fragment {
                 uploadWithTransferUtility(key,file);
                 sleep(1000);
                 downloadWithTransferUtility(key,file.getName());
+
             }
         }
     }

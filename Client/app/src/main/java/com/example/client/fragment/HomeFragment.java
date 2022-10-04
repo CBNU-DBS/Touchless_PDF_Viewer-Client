@@ -21,6 +21,9 @@ import com.example.client.LoginActivity;
 import com.example.client.Personal_info_setting_Activity;
 import com.example.client.R;
 
+import java.io.File;
+import java.io.FilenameFilter;
+
 
 public class HomeFragment extends Fragment {
 
@@ -57,6 +60,25 @@ public class HomeFragment extends Fragment {
         btn_google_drive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //구글드라이브 진입 전, 현재 Download폴더의 pdf파일 이름 배열을 저장 후 Document Fragment로 전달
+                File PastDir = new File("/storage/emulated/0/Download/");
+                File[] past_files = PastDir.listFiles(new FilenameFilter() {
+                    @Override
+                    public boolean accept(File pathname, String name) {
+                        return name.endsWith("pdf");
+                    }
+                });
+                //과거 Download폴더의 pdf파일 리스트
+                String[] past_file_list = new String[past_files.length];
+
+                for(int i = 0; i < past_files.length; i++){
+                    past_file_list[i] = past_files[i].getPath();
+                }
+
+                Bundle result = new Bundle();
+                result.putStringArray("past_file_list",past_file_list);
+                getParentFragmentManager().setFragmentResult("requestKey",result);
+
                 Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage("com.google.android.apps.docs");
                 startActivity(intent);
             }
