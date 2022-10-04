@@ -33,6 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -107,7 +108,7 @@ public class DocumentFragment extends Fragment {
         SharedPreferences.Editor editor_login = sharedPref_login.edit();
         userId = sharedPref_login.getLong("auto_id0",0L);
 
-        getFolderFileList();
+//        getFolderFileList();
 
         SharedPreferences Pref_search = getActivity().getSharedPreferences("pref_search",Context.MODE_PRIVATE);
         String voice_search0 = Pref_search.getString("voiceMsg","");
@@ -223,27 +224,40 @@ public class DocumentFragment extends Fragment {
         Log.d("Files","dirPath : "+LocalDir.getPath());
         files = LocalDir.listFiles();
 
-        //스마트폰 기기의 Downlaod 파일 변수선언(구글드라이브로부터 다운받은 pdf파일들이 들어있다)
-        File GDDir = new File("/storage/emulated/0/Download/");
-        File[] googledrive_files = GDDir.listFiles(new FilenameFilter() {
+        //스마트폰 기기의 Downlaod 파일 변수선언(구글드라이브로부터 pdf르 다운받은 후의 Download폴더)
+        File CurrentDir = new File("/storage/emulated/0/Download/");
+        File[] current_files = CurrentDir.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File pathname, String name) {
                 return name.endsWith("pdf");
             }
         });
 
-        // 스마트폰 기기의 Downlaod 폴더에 들어있는 파일이 앱 로컬폴더에 존재하지 않으면 Download 폴더의 파일을 이동시킨다.
-        for(int j=0;j<googledrive_files.length;j++){
-            Path f1 = Paths.get("data/user/0/com.example.client/files" + "/" + googledrive_files[j].getName());
-            if(!Files.exists(f1)){
-                try{
-                    Files.move(Paths.get(googledrive_files[j].getPath()),f1);
-                    googledrive_files[j].delete();
-                }catch(IOException e){
-                    e.printStackTrace();
+        getParentFragmentManager().setFragmentResultListener("requestkey", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                //구글드라이브에서 pdf를 다운로드 받기 전의 Download폴더의 pdf파일리스트를 HomeFragment에서 Bundle로 받아옵니다.
+                String[] past_file_list = result.getStringArray("past_file_list");
+                int k = 0;
+                // past_file_list와 구글드라이브로부터 다운로드 받은 후의 Download폴더의 pdf리스트를 비교합니다.
+                for(int j = 0; j < current_files.length; j++){
+                    for(; k < past_file_list.length; k++){
+                        if(past_file_list[k] == current_files[j].getPath()){
+                            past_file_list[k] = "";
+                            break;
+                        }
+                        //만약 새로 생긴 pdf파일인 경우 upload와 download를 실행합니다.
+                        if(k == past_file_list.length - 1 && past_file_list[k] != ""){
+                            Log.d("새로추가된 pdf",past_file_list[j]);
+                            File new_file = new File(past_file_list[j]);
+                            uploadWithTransferUtility("key",new_file);
+                            sleep(1000);
+                            downloadWithTransferUtility("key", new_file.getName());
+                        }
+                    }
                 }
             }
-        }
+        });
 
         Log.d("files Length",files.length+"");
         for (int i = 0; i < files.length; i++)
@@ -467,6 +481,7 @@ public class DocumentFragment extends Fragment {
                 uploadWithTransferUtility(key,file);
                 sleep(1000);
                 downloadWithTransferUtility(key,file.getName());
+
             }
         }
     }
