@@ -17,7 +17,6 @@
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_motion_setting.xml" value="0.21041666666666667" />
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_mypage.xml" value="0.22239583333333332" />
-        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_setting.xml" value="0.17603850050658562" />
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_settings.xml" value="0.21979166666666666" />
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_still_image.xml" value="0.21979166666666666" />
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/activity_vision_camerax_live_preview.xml" value="0.21979166666666666" />
@@ -30,9 +29,13 @@
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/layout/toggle_style.xml" value="0.21979166666666666" />
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/menu/camera_button_menu.xml" value="0.21979166666666666" />
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/menu/options.xml" value="0.21979166666666666" />
-        <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/xml/motion_settings_preference.xml" value="0.33" />
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/xml/preference_live_preview_quickstart.xml" value="0.21979166666666666" />
         <entry key="..\:/Users/user/Documents/GitHub/Touchless_PDF_Viewer-Client/Client/app/src/main/res/xml/preference_still_image.xml" value="0.33" />
+        <entry key="app/src/main/res/drawable-hdpi/description-48px.xml" value="0.276" />
+        <entry key="app/src/main/res/drawable-hdpi/home-48px.xml" value="0.276" />
+        <entry key="app/src/main/res/drawable-hdpi/ic_note_add.xml" value="0.276" />
+        <entry key="app/src/main/res/drawable-hdpi/ic_post_add.xml" value="0.276" />
+        <entry key="app/src/main/res/drawable-hdpi/post_add-48px.xml" value="0.3235" />
         <entry key="app/src/main/res/drawable/button_patter.xml" value="0.2535" />
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.197" />
         <entry key="app/src/main/res/drawable/edittext_border.xml" value="0.197" />
@@ -50,7 +53,7 @@
         <entry key="app/src/main/res/layout/activity_motion_setting.xml" value="0.193896484375" />
         <entry key="app/src/main/res/layout/activity_mypage.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_personal_info_setting.xml" value="0.1890625" />
-        <entry key="app/src/main/res/layout/activity_select_pdf.xml" value="0.1890625" />
+        <entry key="app/src/main/res/layout/activity_select_pdf.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.24682971014492755" />
@@ -71,8 +74,7 @@
         <entry key="app/src/main/res/layout/spinner_outer_style.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/spinner_style.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/toggle_style.xml" value="0.1890625" />
-        <entry key="app/src/main/res/menu/camera_button_menu.xml" value="0.28958333333333336" />
-        <entry key="app/src/main/res/menu/menu_bottom.xml" value="0.28958333333333336" />
+        <entry key="app/src/main/res/menu/menu_bottom.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/menu/options.xml" value="0.37395833333333334" />
         <entry key="app/src/main/res/xml/motion_setting_save_button.xml" value="0.1890625" />
         <entry key="app/src/main/res/xml/motion_settings_preference.xml" value="0.2774307250976562" />
