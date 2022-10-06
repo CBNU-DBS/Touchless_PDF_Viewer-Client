@@ -302,7 +302,7 @@ public class DocumentFragment extends Fragment {
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
         TransferNetworkLossHandler.getInstance(getActivity().getApplicationContext());
 
-        TransferObserver downloadObserver = transferUtility.download("touchlesspdf",key, new File(LocalDir.getPath()+"/"+filename));
+        TransferObserver downloadObserver = transferUtility.download("touchlesspdf",key+'_'+filename, new File(LocalDir.getPath()+"/"+filename));
         downloadObserver.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
