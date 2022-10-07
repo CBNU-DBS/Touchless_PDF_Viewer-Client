@@ -22,7 +22,8 @@ public class PermissionSupport {
     //요청할 권한 배열 저장
     private String[] permissions = {
             Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_EXTERNAL_STORAGE
     };
     private List permissionList;
 
