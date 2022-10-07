@@ -174,13 +174,13 @@ public class MotionSettingActivity extends PreferenceFragment {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     List<MotionFunctionDTO> motionFunctionDTOList = new ArrayList<>();
-                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Scroll_up","Head_up"), "위로 스크롤"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Scroll_down","Head_down"), "아래로 스크롤"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Scroll_left","Head_left"), "왼쪽으로 스크롤"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Scroll_right","Head_right"), "오른쪽으로 스크롤"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Back","Eyes_close"), "뒤로 가기"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Zoom_in","Eye_close_left"), "화면 확대"));
-                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Zoom_out","Eye_close_right"), "화면 축소"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Scroll_up","Head_up"), "Scroll_up"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Scroll_down","Head_down"), "Scroll_down"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Scroll_left","Head_left"), "Scroll_left"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Scroll_right","Head_right"), "Scroll_right"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Back","Eyes_close"), "Back"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Zoom_in","Eye_close_left"), "Zoom_in"));
+                    motionFunctionDTOList.add(new MotionFunctionDTO(userId, motionFunctionPrefs.getString("Zoom_out","Eye_close_right"), "Zoom_out"));
                     saveMotionSetting(motionFunctionDTOList);
                     return true;
                 }
