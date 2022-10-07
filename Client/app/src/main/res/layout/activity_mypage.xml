@@ -110,18 +110,6 @@
         app:layout_constraintTop_toBottomOf="@+id/user_phone" />
 
     <Button
-        android:id="@+id/btn_google_drive"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="6dp"
-        android:text="구글 드라이브"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_change_pw" />
-
-    <Button
         android:id="@+id/btn_logout"
         android:layout_width="350dp"
         android:layout_height="50dp"
@@ -131,6 +119,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_google_drive" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_change_pw" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

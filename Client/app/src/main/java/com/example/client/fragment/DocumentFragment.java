@@ -82,6 +82,9 @@ public class DocumentFragment extends Fragment {
     private static final int READ_REQUEST_CODE = 101;
     public ViewGroup rootView;
     public File[] files;                //Touchless_PDF-Client 앱의 로컬 폴더 내 파일들
+
+    private File[] past_files;
+    private String[] past_files_list;
     //음성인식 context 설정
     Context cThis;
 
@@ -159,6 +162,33 @@ public class DocumentFragment extends Fragment {
         });
         recyclerView.setAdapter(adapter);
 
+        // 구글 드라이브 실행 이벤트 리스너
+        ImageButton btn_google_drive = getView().findViewById(R.id.btn_googledrive);
+        btn_google_drive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //구글드라이브 진입 전, 현재 Download폴더의 pdf파일 이름 배열을 저장 후 Document Fragment로 전달
+                File PastDir = new File("/storage/emulated/0/Download/");
+                past_files = PastDir.listFiles(new FilenameFilter() {
+                    @Override
+                    public boolean accept(File pathname, String name) {
+                        return name.endsWith("pdf");
+                    }
+                });
+
+                //과거 Download폴더의 pdf파일 리스트
+                past_files_list = new String[past_files.length];
+
+                for(int i = 0; i < past_files.length; i++){
+                    past_files_list[i] = past_files[i].getPath();
+                    Log.d("과거 pdf리스트",past_files_list[i]);
+                }
+
+                Intent intent = getActivity().getPackageManager().getLaunchIntentForPackage("com.google.android.apps.docs");
+                startActivity(intent);
+            }
+        });
+
         // 음성인식 시작 버튼과 결과 출력 텍스트뷰
         Btn_record_start = getView().findViewById(R.id.btn_record_start);
         STT_Result = getView().findViewById(R.id.text_record_result);
@@ -178,6 +208,7 @@ public class DocumentFragment extends Fragment {
                 mRecognizer.startListening(SttIntent);
             }
         });
+
     }
 
     @Override
@@ -189,6 +220,9 @@ public class DocumentFragment extends Fragment {
         // Inflate the layout for this fragment
         LocalDir = container.getContext().getFilesDir();
         Log.d("LocalDir", "onCreateView: "+LocalDir.toString());
+        if(past_files_list != null) {
+            GoogledriveUpdate();
+        }
         getFolderFileList();
         return inflater.inflate(R.layout.activity_select_pdf, container, false);
     }
@@ -206,7 +240,15 @@ public class DocumentFragment extends Fragment {
         Log.d("Files","dirPath : "+LocalDir.getPath());
         files = LocalDir.listFiles();
 
-        //스마트폰 기기의 Downlaod 파일 변수선언(구글드라이브로부터 pdf르 다운받은 후의 Download폴더)
+        Log.d("files Length",files.length+"");
+        for (int i = 0; i < files.length; i++)
+        {
+            Log.d("Files", "FileName:" + files[i].getName());
+            Log.d("Files", "Filepath:" + files[i].getPath());
+        }
+    }
+    public void GoogledriveUpdate(){
+        //스마트폰 기기의 Downlaod 파일 변수선언(구글드라이브로부터 pdf를 다운받은 후의 Download폴더)
         File CurrentDir = new File("/storage/emulated/0/Download/");
         File[] current_files = CurrentDir.listFiles(new FilenameFilter() {
             @Override
@@ -215,38 +257,35 @@ public class DocumentFragment extends Fragment {
             }
         });
 
-        getParentFragmentManager().setFragmentResultListener("requestkey", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                //구글드라이브에서 pdf를 다운로드 받기 전의 Download폴더의 pdf파일리스트를 HomeFragment에서 Bundle로 받아옵니다.
-                String[] past_file_list = result.getStringArray("past_file_list");
-                int k = 0;
-                // past_file_list와 구글드라이브로부터 다운로드 받은 후의 Download폴더의 pdf리스트를 비교합니다.
-                for(int j = 0; j < current_files.length; j++){
-                    for(; k < past_file_list.length; k++){
-                        if(past_file_list[k] == current_files[j].getPath()){
-                            past_file_list[k] = "";
-                            break;
-                        }
-                        //만약 새로 생긴 pdf파일인 경우 upload와 download를 실행합니다.
-                        if(k == past_file_list.length - 1 && past_file_list[k] != ""){
-                            Log.d("새로추가된 pdf",past_file_list[j]);
-                            File new_file = new File(past_file_list[j]);
-                            uploadWithTransferUtility("key",new_file);
-                            sleep(1000);
-                            downloadWithTransferUtility("key", new_file.getName());
-                        }
+        //과거와 현재의 Download폴더 pdf리스트 비교를 위한 현재 pdf리스트 저장용 String[] 선언
+        String[] current_files_list = new String[current_files.length];
+        for(int h = 0; h < current_files_list.length; h++){
+            current_files_list[h] = current_files[h].getPath();
+        }
+
+
+            // past_file_list와 구글드라이브로부터 다운로드 받은 후의 Download폴더의 pdf리스트를 비교합니다.
+            for (int j = 0; j < current_files_list.length; j++) {
+                Log.d("현재 pdf파일 리스트", current_files_list[j]);
+                for (int k = 0; k < past_files_list.length; k++) {
+                    Log.d("비교되는 과거 pdf파일 리스트",past_files_list[k]);
+                    if (past_files_list[k].equals(current_files_list[j])) {
+                        current_files_list[j] = "";
+                        break;
                     }
                 }
+                //만약 새로 생긴 pdf파일인 경우 upload와 download를 실행합니다.
+                if (current_files_list[j] != "") {
+                    Log.d("새로추가된 pdf", current_files_list[j]);
+                        File new_file = new File(current_files_list[j]);
+                        uploadWithTransferUtility("key", new_file);
+                        sleep(1000);
+                        downloadWithTransferUtility("key", new_file.getName());
+                }
             }
-        });
+            past_files_list = null;
+            Log.d("반복문","끝");
 
-        Log.d("files Length",files.length+"");
-        for (int i = 0; i < files.length; i++)
-        {
-            Log.d("Files", "FileName:" + files[i].getName());
-            Log.d("Files", "Filepath:" + files[i].getPath());
-        }
     }
     public void uploadWithTransferUtility(String key,File file) {
         AWSCredentials awsCredentials = new BasicAWSCredentials(BuildConfig.AWS_ACCESS_KEY, BuildConfig.AWS_ACCESS_SECRET_KEY);    // IAM 생성하며 받은 것 입력
@@ -467,6 +506,9 @@ public class DocumentFragment extends Fragment {
             }
         }
     }
+
+
+
 //    public String getPathFromUri(Uri uri){
 //        Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null );
 //        cursor.moveToNext();
