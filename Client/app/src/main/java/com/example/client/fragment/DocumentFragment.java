@@ -278,9 +278,10 @@ public class DocumentFragment extends Fragment {
                 if (current_files_list[j] != "") {
                     Log.d("새로추가된 pdf", current_files_list[j]);
                         File new_file = new File(current_files_list[j]);
-                        uploadWithTransferUtility("key", new_file);
+                        String key = UUID.randomUUID().toString();
+                        uploadWithTransferUtility(key, new_file);
                         sleep(1000);
-                        downloadWithTransferUtility("key", new_file.getName());
+                        downloadWithTransferUtility(key, new_file.getName());
                 }
             }
             past_files_list = null;
