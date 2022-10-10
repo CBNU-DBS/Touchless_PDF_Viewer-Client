@@ -39,6 +39,8 @@
         <entry key="app/src/main/res/drawable/button_patter.xml" value="0.2535" />
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.197" />
         <entry key="app/src/main/res/drawable/edittext_border.xml" value="0.197" />
+        <entry key="app/src/main/res/drawable/ic_login.xml" value="0.157" />
+        <entry key="app/src/main/res/drawable/logo_mlkit.xml" value="0.157" />
         <entry key="app/src/main/res/drawable/rounded_corner.xml" value="0.115" />
         <entry key="app/src/main/res/drawable/rounded_corner_button.xml" value="0.115" />
         <entry key="app/src/main/res/drawable/spinner_motionsetting.xml" value="0.115" />
@@ -51,9 +53,9 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_motion_setting.xml" value="0.193896484375" />
-        <entry key="app/src/main/res/layout/activity_mypage.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_mypage.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_personal_info_setting.xml" value="0.1890625" />
-        <entry key="app/src/main/res/layout/activity_select_pdf.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_select_pdf.xml" value="0.212054443359375" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.24682971014492755" />
