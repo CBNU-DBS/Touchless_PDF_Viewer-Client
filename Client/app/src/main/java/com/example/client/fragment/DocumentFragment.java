@@ -300,7 +300,7 @@ public class DocumentFragment extends Fragment {
             public void onStateChanged(int id, TransferState state) {
                 if (state == TransferState.COMPLETED) {
                     // Handle a completed upload
-                    DocumentDTO documentDTO = new DocumentDTO(userId, key, "title");
+                    DocumentDTO documentDTO = new DocumentDTO(userId, key, file.getName());
                     documentApi.saveDocument(documentDTO).enqueue(new Callback<BaseResponse>() {
                         @Override
                         public void onResponse(Call<BaseResponse> call,
