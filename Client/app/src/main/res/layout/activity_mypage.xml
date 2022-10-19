@@ -40,6 +40,7 @@
         android:textColor="#9E0ADD"
         android:textSize="22sp"
         android:textStyle="bold"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"

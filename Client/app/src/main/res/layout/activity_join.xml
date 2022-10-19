@@ -45,6 +45,7 @@
         android:inputType="textPersonName"
         android:padding="10dp"
         android:paddingStart="15dp"
+        android:maxLength="10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -167,8 +168,7 @@
         android:paddingStart="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_join_email"
-        tools:text="010-0000-0000" />
+        app:layout_constraintTop_toBottomOf="@+id/et_join_email" />
 
     <Button
         android:id="@+id/btn_join_register"
