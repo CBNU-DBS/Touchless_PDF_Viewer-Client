@@ -143,7 +143,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(UserDTO user){
-
         userApi.loginUser(user).enqueue(new Callback<ResponseDTO<UserDTO>>() {
             @Override
             public void onResponse(Call<ResponseDTO<UserDTO>> call,
@@ -170,10 +169,12 @@ public class LoginActivity extends AppCompatActivity {
                     editor_login.putString("auto_phone0",result.getList().get(0).getPhone());
                     editor_login.commit();
                     // 모션 기능 설정 가져오기
-                    motionFunctionList = getMotionSetting(userId);
+                    editor_motionFunction.clear();
+                    motionFunctionList = result.getList().get(0).getMotionFunctionList();
                     for(MotionFunctionDTO motionFunction : motionFunctionList){
                         editor_motionFunction.putString(motionFunction.getFunction(), motionFunction.getMotion());
                     }
+                    editor_motionFunction.commit();
                     startActivity(logined_intent); //로그인 성공하여 마이페이지로 이동
                 } else {
                     Log.e("", "로그인 실패");
@@ -200,27 +201,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     private List<MotionFunctionDTO> getMotionSetting(long userId){
-        final List<MotionFunctionDTO>[] result = new List[]{new ArrayList<>()};
-        motionFunctionApi.getMotionSetting(userId).enqueue(
-                new Callback<ResponseDTO<MotionFunctionDTO>>() {
-                    @Override
-                    public void onResponse(Call<ResponseDTO<MotionFunctionDTO>> call,
-                            Response<ResponseDTO<MotionFunctionDTO>> response) {
-                        if(response.isSuccessful()){
-                            result[0] = response.body().getList();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "불러오기 실패1", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseDTO<MotionFunctionDTO>> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "불러오기 실패2", Toast.LENGTH_SHORT).show();
-                        Log.e("Motion Setting Error", t.getMessage());
-                        t.printStackTrace();
-                    }
-                });
-        return result[0];
+        Response<ResponseDTO<MotionFunctionDTO>> response;
+        List<MotionFunctionDTO> result = new ArrayList<>();
+        try {
+            response = motionFunctionApi.getMotionSetting(userId).execute();
+            if (response.isSuccessful()){
+                result = response.body().getList();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     private void permissionCheck() {

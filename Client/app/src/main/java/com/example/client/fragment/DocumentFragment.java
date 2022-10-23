@@ -70,9 +70,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 import com.blankj.utilcode.util.UriUtils;
+import com.example.client.dto.MotionFunctionDTO;
+import com.example.client.dto.ResponseDTO;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -507,8 +510,27 @@ public class DocumentFragment extends Fragment {
             }
         }
     }
+    public List<DocumentDTO> getDocumentList(Long userId){
+        final List<DocumentDTO>[] result = new List[]{new ArrayList<>()};
+        Response<ResponseDTO<DocumentDTO>> response;
+        documentApi.getDocumentList(userId).enqueue(new Callback<ResponseDTO<DocumentDTO>>() {
+            @Override
+            public void onResponse(Call<ResponseDTO<DocumentDTO>> call,
+                    Response<ResponseDTO<DocumentDTO>> response) {
+                if(response.isSuccessful()){
+                    result[0] = response.body().getList();
+                } else {
+                    Toast.makeText(getContext(), "문서 동기화 실패", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-
+            @Override
+            public void onFailure(Call<ResponseDTO<DocumentDTO>> call, Throwable t) {
+                Toast.makeText(getContext(), "통신 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return result[0];
+    }
 
 //    public String getPathFromUri(Uri uri){
 //        Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null );
