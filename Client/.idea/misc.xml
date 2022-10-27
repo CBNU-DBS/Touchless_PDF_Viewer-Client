@@ -50,7 +50,7 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_join.xml" value="0.20189270019531255" />
         <entry key="app/src/main/res/layout/activity_join2.xml" value="0.24682971014492755" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1890625" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.19949951171875002" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_motion_setting.xml" value="0.193896484375" />
         <entry key="app/src/main/res/layout/activity_mypage.xml" value="0.165" />
@@ -61,6 +61,7 @@
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.24682971014492755" />
         <entry key="app/src/main/res/layout/activity_spech_to_text.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/activity_still_image.xml" value="0.1890625" />
+        <entry key="app/src/main/res/layout/activity_sub.xml" value="0.19904632568359376" />
         <entry key="app/src/main/res/layout/activity_vision_camerax_live_preview.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/activity_vision_cameraxsource_demo.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/activity_vision_entry_choice.xml" value="0.1890625" />

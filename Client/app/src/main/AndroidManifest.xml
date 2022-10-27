@@ -2,24 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.client"
-    android:installLocation="auto">
+    android:installLocation="auto" >
 
     <uses-sdk tools:overrideLibrary="androidx.camera.camera2, androidx.camera.core, androidx.camera.view, androidx.camera.lifecycle" />
 
     <uses-feature android:name="android.hardware.camera" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28"/>
-<!--    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage"/>-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" /> <!-- <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage"/> -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- Line15 : 차재현, 음성인식 위한 권한허가 코드 입력-->
-
-
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Line15 : 차재현, 음성인식 위한 권한허가 코드 입력 -->
     <queries>
         <package android:name="com.google.android.apps.docs" />
         <!-- Line 19 : 외부 앱 구글드라이브 실행을 위한 허가 코드 -->
@@ -28,17 +25,25 @@
         </intent>
     </queries>
 
-
     <application
         android:name=".ActivityLocal"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true"
-        android:theme="@style/Theme.Client">
+        android:theme="@style/Theme.Client"
+        android:usesCleartextTraffic="true" >
+        <activity
+            android:name=".SubActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".preference.SpeechToTextActivity"
             android:exported="false" />
@@ -58,53 +63,50 @@
 
         <activity
             android:name=".LoginActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+            android:exported="true" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity
             android:name=".HomeActivity"
-            android:exported="true">
-        </activity>
-
-        <activity android:name=".JoinActivity"></activity>
-
-        <activity android:name=".MypageActivity"></activity>
-
+            android:exported="true" />
+        <activity android:name=".JoinActivity" />
+        <activity android:name=".MypageActivity" />
         <activity
             android:name=".PDF_View_Activity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".java.ChooserActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".java.LivePreviewActivity"
             android:exported="true"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".java.CameraXLivePreviewActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".java.CameraXSourceDemoActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".java.StillImageActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".preference.SettingsActivity"
-            android:exported="false" >
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".SelectPdfActivity"
-            android:exported="false" >
-        </activity>
-        <service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true"/>
+            android:exported="false" />
+
+        <service
+            android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
+            android:enabled="true" />
     </application>
+
 </manifest>
