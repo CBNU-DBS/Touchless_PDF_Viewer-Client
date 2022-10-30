@@ -218,10 +218,10 @@ public class DocumentFragment extends Fragment {
         // 네이게이션바의 [문서] 버튼 클릭 시
         rootView = (ViewGroup) inflater.inflate(R.layout.activity_select_pdf,container,false);
         // Inflate the layout for this fragment
-        LocalDir = container.getContext().getFilesDir();
+//        LocalDir = container.getContext().getFilesDir();
+        LocalDir = new File("/data/data/com.example.client/files");
         Log.d("LocalDir", "onCreateView: "+LocalDir.toString());
         if(past_files_list != null) {
-            Log.d("","구글드라이브 업로드 성공!");
             GoogledriveUpdate();
         }
         getFolderFileList();
@@ -257,12 +257,22 @@ public class DocumentFragment extends Fragment {
                 return name.endsWith("pdf");
             }
         });
-        Log.d("기존 다운로드 폴더 크기", String.valueOf(current_files.length));
+        Log.d("현재 다운로드 폴더 크기", String.valueOf(current_files.length));
         //과거와 현재의 Download폴더 pdf리스트 비교를 위한 현재 pdf리스트 저장용 String[] 선언
         String[] current_files_list = new String[current_files.length];
         for(int h = 0; h < current_files_list.length; h++){
             current_files_list[h] = current_files[h].getPath();
         }
+        if(files.length == 0){
+            for(int l=0; l<current_files_list.length; l++) {
+                Log.d("빈 상태에서 새로추가된 pdf", current_files_list[l]);
+                File new_file = new File(current_files_list[l]);
+                String key = UUID.randomUUID().toString();
+                uploadWithTransferUtility(key, new_file);
+                sleep(1000);
+                downloadWithTransferUtility(key, new_file.getName());
+            }
+        }else{
             // past_file_list와 구글드라이브로부터 다운로드 받은 후의 Download폴더의 pdf리스트를 비교합니다.
             for (int j = 0; j < current_files_list.length; j++) {
                 Log.d("현재 pdf파일 리스트", current_files_list[j]);
@@ -276,16 +286,16 @@ public class DocumentFragment extends Fragment {
                 //만약 새로 생긴 pdf파일인 경우 upload와 download를 실행합니다.
                 if (current_files_list[j] != "") {
                     Log.d("새로추가된 pdf", current_files_list[j]);
-                        File new_file = new File(current_files_list[j]);
-                        String key = UUID.randomUUID().toString();
-                        uploadWithTransferUtility(key, new_file);
-                        sleep(1000);
-                        downloadWithTransferUtility(key, new_file.getName());
+                    File new_file = new File(current_files_list[j]);
+                    String key = UUID.randomUUID().toString();
+                    uploadWithTransferUtility(key, new_file);
+                    sleep(1000);
+                    downloadWithTransferUtility(key, new_file.getName());
                 }
-            }
-            past_files_list = null;
-            Log.d("반복문","끝");
-
+        }
+        }
+        past_files_list = null;
+        Log.d("반복문","끝");
     }
     public void uploadWithTransferUtility(String key,File file) {
         AWSCredentials awsCredentials = new BasicAWSCredentials(BuildConfig.AWS_ACCESS_KEY, BuildConfig.AWS_ACCESS_SECRET_KEY);    // IAM 생성하며 받은 것 입력

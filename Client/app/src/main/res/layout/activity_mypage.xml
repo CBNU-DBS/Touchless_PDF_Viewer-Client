@@ -9,7 +9,7 @@
         android:id="@+id/mypageTitle"
         android:layout_width="227dp"
         android:layout_height="55dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="164dp"
         android:gravity="center"
         android:text="마이페이지"
         android:textColor="#000000"
@@ -19,32 +19,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/profile_imageview"
-        android:layout_width="294dp"
-        android:layout_height="137dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/personal_profile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mypageTitle"
-        tools:srcCompat="@tools:sample/avatars" />
-
     <TextView
         android:id="@+id/user_name"
         android:layout_width="354dp"
         android:layout_height="40dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:gravity="center"
+        android:maxLines="1"
         android:textColor="#9E0ADD"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_imageview" />
+        app:layout_constraintTop_toBottomOf="@+id/mypageTitle" />
 
     <TextView
         android:id="@+id/user_mail"
@@ -67,11 +55,11 @@
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_marginTop="22dp"
+        android:src="@drawable/ic_phone"
         app:layout_constraintEnd_toStartOf="@+id/user_phone"
         app:layout_constraintHorizontal_bias="0.685"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mail_img"
-        app:srcCompat="@drawable/phone" />
+        app:layout_constraintTop_toBottomOf="@+id/mail_img" />
 
     <TextView
         android:id="@+id/user_phone"
@@ -92,11 +80,11 @@
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_marginTop="12dp"
+        android:src="@drawable/ic_email"
         app:layout_constraintEnd_toStartOf="@+id/user_mail"
         app:layout_constraintHorizontal_bias="0.685"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_name"
-        app:srcCompat="@drawable/mail" />
+        app:layout_constraintTop_toBottomOf="@+id/user_name" />
 
     <Button
         android:id="@+id/btn_change_pw"

@@ -245,26 +245,8 @@ public class LoginActivity extends AppCompatActivity {
     private void showDialogGuideForPermissionSettingGuide(){
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
         builder.setTitle("주의");
-        builder.setMessage("필수적 접근 권한에 동의가 필요합니다.");
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i)  {
-                permissionCheck();
-            }
-        });
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                showDialogGuideForNegetiveButton();
-            }
-        });
-        builder.create().show();
-    }
-
-    private void showDialogGuideForNegetiveButton(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-        builder.setTitle("주의");
-        builder.setMessage("권한 거절로 인해 일부기능이 제한됩니다");
+        builder.setMessage("정상적인 앱 사용을 위해 모든 파일 접근 권한이 요구됩니다.");
+//
         builder.setPositiveButton("권한설정하러가기", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i)  {
@@ -272,13 +254,31 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(appDetail);
             }
         });
-        builder.setNegativeButton("취소하기", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("종료", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                finish();
             }
         });
         builder.create().show();
     }
-
+//    private void showDialogGuideForNegetiveButton(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+//        builder.setTitle("주의");
+//        builder.setMessage("권한 거절로 인해 일부기능이 제한됩니다");
+//        builder.setPositiveButton("권한설정하러가기", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i)  {
+//                Intent appDetail = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+//                startActivity(appDetail);
+//            }
+//        });
+//        builder.setNegativeButton("취소하기", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//            }
+//        });
+//        builder.create().show();
+//    }
 }

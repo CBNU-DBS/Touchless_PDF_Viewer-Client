@@ -23,7 +23,7 @@ public class PermissionSupport {
     private String[] permissions = {
             Manifest.permission.CAMERA,
             Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.READ_EXTERNAL_STORAGE
+            Manifest.permission.MANAGE_EXTERNAL_STORAGE
     };
     private List permissionList;
 
