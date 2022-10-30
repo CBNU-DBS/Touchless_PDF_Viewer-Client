@@ -35,8 +35,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Client"
         android:usesCleartextTraffic="true" >
+
+        <!-- 앱 시작화면을 위해서 SplashActivity에서 LoginActivity로 intent -->
         <activity
-            android:name=".SubActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

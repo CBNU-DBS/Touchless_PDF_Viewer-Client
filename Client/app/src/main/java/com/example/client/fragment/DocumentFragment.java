@@ -93,7 +93,7 @@ public class DocumentFragment extends Fragment {
     SpeechRecognizer mRecognizer;
 
     // 음성인식 시작버튼, 결과출력 텍스트뷰
-    Button Btn_record_start;
+    ImageButton Btn_record_start;
     TextView STT_Result;
 
     DocumentApi documentApi;
@@ -191,7 +191,7 @@ public class DocumentFragment extends Fragment {
 
         // 음성인식 시작 버튼과 결과 출력 텍스트뷰
         Btn_record_start = getView().findViewById(R.id.btn_record_start);
-        STT_Result = getView().findViewById(R.id.text_record_result);
+//        STT_Result = getView().findViewById(R.id.text_record_result);
         cThis = getActivity();  //context 설정
 
         //음성인식용 Intent 생성
@@ -221,6 +221,7 @@ public class DocumentFragment extends Fragment {
         LocalDir = container.getContext().getFilesDir();
         Log.d("LocalDir", "onCreateView: "+LocalDir.toString());
         if(past_files_list != null) {
+            Log.d("","구글드라이브 업로드 성공!");
             GoogledriveUpdate();
         }
         getFolderFileList();
@@ -256,14 +257,12 @@ public class DocumentFragment extends Fragment {
                 return name.endsWith("pdf");
             }
         });
-
+        Log.d("기존 다운로드 폴더 크기", String.valueOf(current_files.length));
         //과거와 현재의 Download폴더 pdf리스트 비교를 위한 현재 pdf리스트 저장용 String[] 선언
         String[] current_files_list = new String[current_files.length];
         for(int h = 0; h < current_files_list.length; h++){
             current_files_list[h] = current_files[h].getPath();
         }
-
-
             // past_file_list와 구글드라이브로부터 다운로드 받은 후의 Download폴더의 pdf리스트를 비교합니다.
             for (int j = 0; j < current_files_list.length; j++) {
                 Log.d("현재 pdf파일 리스트", current_files_list[j]);
@@ -443,7 +442,8 @@ public class DocumentFragment extends Fragment {
             ArrayList<String> mResult = results.getStringArrayList(key);
             String[] rs = new String[mResult.size()];
             mResult.toArray(rs);
-            STT_Result.setText(rs[0] + "\r\n" + STT_Result.getText());
+            Toast.makeText(getActivity(), rs.toString(), Toast.LENGTH_SHORT).show();
+//            STT_Result.setText(rs[0] + "\r\n" + STT_Result.getText());
             Log.d("STT_Result",STT_Result.getText().toString());
             FuncVoiceOrderCheck(rs[0]); //입력된 음성에 따라 기능을 작동하도록 하는 함수
         }

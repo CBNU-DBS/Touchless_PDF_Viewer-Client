@@ -14,49 +14,41 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
-    <Button
-        android:id="@+id/btn_record_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="음성인식 시작"
-        app:layout_constraintBottom_toBottomOf="@+id/PdfRecycler"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/text_record_result"
-        android:layout_width="206dp"
-        android:layout_height="34dp"
-        android:layout_marginBottom="24dp"
-        android:gravity="center"
-        android:background="#DCDCDC"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.844"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
     <ImageButton
         android:id="@+id/btn_SAFUploadPdf"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginBottom="92dp"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_post_add"
-        app:layout_constraintBottom_toTopOf="@+id/text_record_result"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@null" />
 
     <ImageButton
         android:id="@+id/btn_googledrive"
         android:layout_width="64dp"
         android:layout_height="62dp"
-        android:layout_marginBottom="156dp"
+        android:layout_marginBottom="192dp"
         android:src="@drawable/ggdrivelogo"
         app:layout_constraintBottom_toBottomOf="@+id/PdfRecycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@null" />
+
+    <ImageButton
+        android:id="@+id/btn_record_start"
+        android:layout_width="55dp"
+        android:layout_height="63dp"
+        android:layout_marginBottom="28dp"
+        android:src="@drawable/mic_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.931"
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@null" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
