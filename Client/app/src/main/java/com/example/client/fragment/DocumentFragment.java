@@ -98,6 +98,8 @@ public class DocumentFragment extends Fragment {
     // 음성인식 시작버튼, 결과출력 텍스트뷰
     Button Btn_record_start;
     TextView STT_Result;
+    // 동기화 버튼
+    ImageButton Btn_synchronize;
 
     DocumentApi documentApi;
     Long userId;
@@ -212,6 +214,14 @@ public class DocumentFragment extends Fragment {
             }
         });
 
+        Btn_synchronize = getView().findViewById(R.id.btn_syncronize);
+        Btn_synchronize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDocumentList(userId);
+            }
+        });
+
     }
 
     @Override
@@ -298,6 +308,7 @@ public class DocumentFragment extends Fragment {
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
         TransferNetworkLossHandler.getInstance(getActivity().getApplicationContext());
         TransferObserver uploadObserver = transferUtility.upload("touchlesspdf", filenameAndKey, file);    // (bucket api, file이름, file객체)
+        Toast.makeText(getContext(), "문서 업로드", Toast.LENGTH_SHORT).show();
         uploadObserver.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
@@ -328,7 +339,7 @@ public class DocumentFragment extends Fragment {
             @Override
             public void onProgressChanged(int id, long current, long total) {
                 int done = (int) (((double) current / total) * 100.0);
-                Log.d("MYTAG", "UPLOAD - - ID: $id, percent done = $done");
+                Log.d("MYTAG", "UPLOAD - - ID: "+id+", percent done = "+done);
             }
 
             @Override
@@ -344,7 +355,10 @@ public class DocumentFragment extends Fragment {
 
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
         TransferNetworkLossHandler.getInstance(getActivity().getApplicationContext());
-
+        if(new File(LocalDir.getPath()+"/"+filename).exists()){
+            Log.d("downloadWithTransferUtility","중복 파일 존제"+filename);
+            return;
+        }
         TransferObserver downloadObserver = transferUtility.download("touchlesspdf",key+'_'+filename, new File(LocalDir.getPath()+"/"+filename));
         downloadObserver.setTransferListener(new TransferListener() {
             @Override
@@ -510,7 +524,7 @@ public class DocumentFragment extends Fragment {
             }
         }
     }
-    public List<DocumentDTO> getDocumentList(Long userId){
+    public void getDocumentList(Long userId){
         final List<DocumentDTO>[] result = new List[]{new ArrayList<>()};
         Response<ResponseDTO<DocumentDTO>> response;
         documentApi.getDocumentList(userId).enqueue(new Callback<ResponseDTO<DocumentDTO>>() {
@@ -518,7 +532,13 @@ public class DocumentFragment extends Fragment {
             public void onResponse(Call<ResponseDTO<DocumentDTO>> call,
                     Response<ResponseDTO<DocumentDTO>> response) {
                 if(response.isSuccessful()){
-                    result[0] = response.body().getList();
+                    Toast.makeText(getContext(), "문서 검색 성공_클라이언트", Toast.LENGTH_SHORT).show();
+                    List<DocumentDTO> docs = response.body().getList();
+                    for(DocumentDTO doc : docs){
+                        String makeStr = doc.getKey()+'_'+doc.getTitle();
+                        Log.d("getDocumentList",makeStr);
+                        downloadWithTransferUtility(doc.getKey(),doc.getTitle());
+                    }
                 } else {
                     Toast.makeText(getContext(), "문서 동기화 실패", Toast.LENGTH_SHORT).show();
                 }
@@ -529,15 +549,6 @@ public class DocumentFragment extends Fragment {
                 Toast.makeText(getContext(), "통신 실패", Toast.LENGTH_SHORT).show();
             }
         });
-        return result[0];
+//        Log.d("getDocumentList",""+result[0].get(0).getTitle());
     }
-
-//    public String getPathFromUri(Uri uri){
-//        Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null );
-//        cursor.moveToNext();
-//        String path;
-//        path = cursor.getString(cursor.getColumnIndex( "_data" ));
-//        cursor.close();
-//        return path;
-//    }
 }
