@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,8 @@ public class PermissionSupport {
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.MANAGE_EXTERNAL_STORAGE
     };
+
+
     private List permissionList;
 
     //권한 요청시 발생하는 창에 대한 결과값을 받기 위해 지정해주는 int 형
@@ -48,6 +51,11 @@ public class PermissionSupport {
                 permissionList.add(pm);
             }
         }
+        Log.d("whatis", "Results 1 : " +permissionList);
+        if(permissionList.contains(Manifest.permission.MANAGE_EXTERNAL_STORAGE)){
+            permissionList.remove(Manifest.permission.MANAGE_EXTERNAL_STORAGE);
+        }
+        Log.d("whatis", "Results 2 : " +permissionList);
         if(!permissionList.isEmpty()){
             return false;
         }
