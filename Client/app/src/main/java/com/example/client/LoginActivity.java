@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ import com.example.client.dto.UserDTO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
@@ -220,9 +222,9 @@ public class LoginActivity extends AppCompatActivity {
         if (!permission.checkPermission()){
             permission.requestPermission();
         }
-//        if(!Environment.isExternalStorageManager()){
-//            showDialogGuideForPermissionSettingGuide();
-//        }
+        if(!Environment.isExternalStorageManager()){
+            showDialogGuideForPermissionSettingGuide();
+        }
     }
 
     @Override
@@ -252,6 +254,18 @@ public class LoginActivity extends AppCompatActivity {
         });
         builder.create().show();
     }
+
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                permissionCheck();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
 //    private void showDialogGuideForNegetiveButton(){
 //        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
 //        builder.setTitle("주의");
