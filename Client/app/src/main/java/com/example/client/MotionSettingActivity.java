@@ -349,7 +349,7 @@ public class MotionSettingActivity extends PreferenceFragment {
                         if(response.isSuccessful()){
                             Toast.makeText(getActivity(), response.body().getResultMsg(), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(getActivity(), "저장 실패2", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "왜 실패죠", Toast.LENGTH_SHORT).show();
                         }
                     }
 
