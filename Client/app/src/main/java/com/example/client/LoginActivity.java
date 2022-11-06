@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
@@ -251,7 +252,6 @@ public class LoginActivity extends AppCompatActivity {
         });
         builder.create().show();
     }
-
 //    private void showDialogGuideForNegetiveButton(){
 //        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
 //        builder.setTitle("주의");
@@ -271,5 +271,4 @@ public class LoginActivity extends AppCompatActivity {
 //        });
 //        builder.create().show();
 //    }
-
 }
