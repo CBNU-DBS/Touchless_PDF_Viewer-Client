@@ -1,9 +1,14 @@
 package com.example.client.dto;
 
+import java.time.LocalDateTime;
+
 public class DocumentDTO {
-    private long userId;
-    private String key;
+    private Long id;
+    private Long userId;
     private String title;
+    private String key;
+    private String createdDate;
+    private String lastModifiedDate;
 
     public DocumentDTO(long userId, String key, String title) {
         this.userId = userId;
@@ -11,12 +16,28 @@ public class DocumentDTO {
         this.title = title;
     }
 
-    public long getUserId() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getKey() {
@@ -27,11 +48,19 @@ public class DocumentDTO {
         this.key = key;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCreatedDate() {
+        return createdDate;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(String lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 }

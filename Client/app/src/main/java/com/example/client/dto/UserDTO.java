@@ -1,5 +1,7 @@
 package com.example.client.dto;
 
+import java.util.List;
+
 public class UserDTO {
     private Long id;
 
@@ -10,6 +12,17 @@ public class UserDTO {
     private String password;
 
     private String phone;
+
+    private List<MotionFunctionDTO> motionFunctionDTOList;
+
+    public List<MotionFunctionDTO> getMotionFunctionList() {
+        return motionFunctionDTOList;
+    }
+
+    public void setMotionFunctionList(
+            List<MotionFunctionDTO> motionFunctionList) {
+        this.motionFunctionDTOList = motionFunctionList;
+    }
 
     public Long getId() {
         return id;
