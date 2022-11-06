@@ -5,15 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="557dp"
+            android:layout_weight="4"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_login" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/mypageTitle"
         android:layout_width="227dp"
         android:layout_height="55dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="52dp"
         android:gravity="center"
         android:text="마이페이지"
-        android:textColor="#000000"
-        android:textSize="34sp"
+        android:textColor="#ffffff"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,10 +41,10 @@
         android:id="@+id/user_name"
         android:layout_width="354dp"
         android:layout_height="40dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="42dp"
         android:gravity="center"
         android:maxLines="1"
-        android:textColor="#9E0ADD"
+        android:textColor="#ffffff"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,10 +56,10 @@
         android:id="@+id/user_mail"
         android:layout_width="270dp"
         android:layout_height="38dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="18dp"
         android:gravity=""
-        android:textColor="#000000"
-        android:textSize="15sp"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.652"
@@ -52,8 +70,8 @@
 
     <ImageView
         android:id="@+id/phone_img"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_marginTop="22dp"
         android:src="@drawable/ic_phone"
         app:layout_constraintEnd_toStartOf="@+id/user_phone"
@@ -65,10 +83,10 @@
         android:id="@+id/user_phone"
         android:layout_width="270dp"
         android:layout_height="38dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:gravity=""
-        android:textColor="#000000"
-        android:textSize="15sp"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.652"
@@ -77,8 +95,8 @@
 
     <ImageView
         android:id="@+id/mail_img"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_marginTop="12dp"
         android:src="@drawable/ic_email"
         app:layout_constraintEnd_toStartOf="@+id/user_mail"
@@ -90,7 +108,7 @@
         android:id="@+id/btn_change_pw"
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
         android:text="비밀번호 변경"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
