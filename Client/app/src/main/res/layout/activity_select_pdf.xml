@@ -11,8 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
         android:id="@+id/btn_SAFUploadPdf"
@@ -20,46 +24,62 @@
         android:layout_height="100dp"
         android:layout_marginBottom="92dp"
         android:background="@android:color/transparent"
+        android:contentDescription="@null"
         android:src="@drawable/ic_post_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@null" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/btn_googledrive"
         android:layout_width="64dp"
         android:layout_height="62dp"
-        android:layout_marginBottom="192dp"
-        android:src="@drawable/ggdrivelogo"
+        android:layout_marginBottom="188dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@null"
+        android:src="@drawable/ggdrive1"
         app:layout_constraintBottom_toBottomOf="@+id/PdfRecycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@null" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/btn_record_start"
         android:layout_width="55dp"
         android:layout_height="63dp"
-        android:layout_marginBottom="28dp"
-        android:src="@drawable/mic_image"
+        android:layout_marginBottom="40dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@null"
+        android:paddingLeft="10dp"
+        android:src="@drawable/ic_mic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.931"
-        app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@null" />
+        app:layout_constraintHorizontal_bias="0.929"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/btn_syncronize"
         android:layout_width="64dp"
         android:layout_height="62dp"
-        android:layout_marginBottom="232dp"
-        android:src="@drawable/ic_refresh"
+        android:layout_marginBottom="264dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_refresh_1"
         app:layout_constraintBottom_toBottomOf="@+id/PdfRecycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.953"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="83dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.978"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/list_item_background" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

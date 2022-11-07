@@ -156,6 +156,7 @@ public class DocumentFragment extends Fragment {
             }
         });
         ImageButton SAFUploadPdf = getView().findViewById(R.id.btn_SAFUploadPdf);
+        SAFUploadPdf.bringToFront();
         SAFUploadPdf.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -169,6 +170,7 @@ public class DocumentFragment extends Fragment {
 
         // 구글 드라이브 실행 이벤트 리스너
         ImageButton btn_google_drive = getView().findViewById(R.id.btn_googledrive);
+        btn_google_drive.bringToFront();
         btn_google_drive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,7 +198,7 @@ public class DocumentFragment extends Fragment {
 
         // 음성인식 시작 버튼과 결과 출력 텍스트뷰
         Btn_record_start = getView().findViewById(R.id.btn_record_start);
-//        STT_Result = getView().findViewById(R.id.text_record_result);
+        Btn_record_start.bringToFront();
         cThis = getActivity();  //context 설정
 
         //음성인식용 Intent 생성
@@ -215,6 +217,7 @@ public class DocumentFragment extends Fragment {
         });
 
         Btn_synchronize = getView().findViewById(R.id.btn_syncronize);
+        Btn_synchronize.bringToFront();
         Btn_synchronize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -282,8 +285,6 @@ public class DocumentFragment extends Fragment {
                 File new_file = new File(current_files_list[l]);
                 String key = UUID.randomUUID().toString();
                 uploadWithTransferUtility(key, new_file);
-                sleep(1000);
-                downloadWithTransferUtility(key, new_file.getName());
             }
         }else{
             // past_file_list와 구글드라이브로부터 다운로드 받은 후의 Download폴더의 pdf리스트를 비교합니다.
@@ -302,8 +303,6 @@ public class DocumentFragment extends Fragment {
                     File new_file = new File(current_files_list[j]);
                     String key = UUID.randomUUID().toString();
                     uploadWithTransferUtility(key, new_file);
-                    sleep(1000);
-                    downloadWithTransferUtility(key, new_file.getName());
                 }
         }
         }
@@ -330,9 +329,10 @@ public class DocumentFragment extends Fragment {
                                                Response<BaseResponse> response) {
                             if(response.isSuccessful()){
                                 if(response.body().getResultCode() == 0){
-                                    Toast.makeText(getContext(), response.body().getResultMsg(), Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(getContext(), response.body().getResultMsg(), Toast.LENGTH_SHORT).show();
+                                        downloadWithTransferUtility(key,file.getName());
                                 } else {
-                                    Toast.makeText(getContext(), response.body().getResultMsg(), Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(getContext(), response.body().getResultMsg(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -471,7 +471,7 @@ public class DocumentFragment extends Fragment {
             mResult.toArray(rs);
             Toast.makeText(getActivity(), rs.toString(), Toast.LENGTH_SHORT).show();
 //            STT_Result.setText(rs[0] + "\r\n" + STT_Result.getText());
-            Log.d("STT_Result",STT_Result.getText().toString());
+//            Log.d("STT_Result",STT_Result.getText().toString());
             FuncVoiceOrderCheck(rs[0]); //입력된 음성에 따라 기능을 작동하도록 하는 함수
         }
 
@@ -501,6 +501,7 @@ public class DocumentFragment extends Fragment {
 
         //음성인식 결과(value)를 [voiceMsg] key에 저장
         editor_search.putString("voiceMsg",VoiceMsg);
+        Log.d("음성인식 결과(VoiceMsg) : ",VoiceMsg);
         editor_search.commit();
 
     }
@@ -528,8 +529,6 @@ public class DocumentFragment extends Fragment {
                 File file = UriUtils.uri2File(uri);
                 String key = UUID.randomUUID().toString();
                 uploadWithTransferUtility(key,file);
-                sleep(1000);
-                downloadWithTransferUtility(key,file.getName());
 
             }
         }

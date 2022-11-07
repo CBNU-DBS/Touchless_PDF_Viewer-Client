@@ -40,7 +40,9 @@
         <entry key="app/src/main/res/drawable/button_patter.xml" value="0.2535" />
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.197" />
         <entry key="app/src/main/res/drawable/edittext_border.xml" value="0.197" />
+        <entry key="app/src/main/res/drawable/ic_baseline_mic_24.xml" value="0.2255" />
         <entry key="app/src/main/res/drawable/ic_login.xml" value="0.157" />
+        <entry key="app/src/main/res/drawable/ic_mic.xml" value="0.2255" />
         <entry key="app/src/main/res/drawable/list_item_background.xml" value="0.2375" />
         <entry key="app/src/main/res/drawable/logo_mlkit.xml" value="0.157" />
         <entry key="app/src/main/res/drawable/mypage_shape.xml" value="0.186" />
@@ -58,7 +60,7 @@
         <entry key="app/src/main/res/layout/activity_motion_setting.xml" value="0.193896484375" />
         <entry key="app/src/main/res/layout/activity_mypage.xml" value="0.18828451882845187" />
         <entry key="app/src/main/res/layout/activity_personal_info_setting.xml" value="0.1890625" />
-        <entry key="app/src/main/res/layout/activity_select_pdf.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_select_pdf.xml" value="0.2005581871937897" />
         <entry key="app/src/main/res/layout/activity_setting.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.24682971014492755" />
@@ -83,6 +85,7 @@
         <entry key="app/src/main/res/layout/toggle_style.xml" value="0.1890625" />
         <entry key="app/src/main/res/menu/menu_bottom.xml" value="0.2713541666666667" />
         <entry key="app/src/main/res/menu/options.xml" value="0.37395833333333334" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ggdrive2.xml" value="0.1" />
         <entry key="app/src/main/res/xml/motion_setting_save_button.xml" value="0.1890625" />
         <entry key="app/src/main/res/xml/motion_settings_preference.xml" value="0.2774307250976562" />
         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.1890625" />
