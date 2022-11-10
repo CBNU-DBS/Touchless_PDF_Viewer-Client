@@ -74,8 +74,6 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 public class PDF_View_Activity extends AppCompatActivity implements OnPageChangeListener, OnLoadCompleteListener, OnItemSelectedListener, CompoundButton.OnCheckedChangeListener,
         ActivityCompat.OnRequestPermissionsResultCallback, OnPageErrorListener {
 
-    //private static final String TAG = MainActivity.class.getSimpleName();
-
     private static final String OBJECT_DETECTION = "Object Detection";
     private static final String OBJECT_DETECTION_CUSTOM = "Custom Object Detection";
     private static final String CUSTOM_AUTOML_OBJECT_DETECTION = "Custom AutoML Object Detection (Flower)";
@@ -130,66 +128,6 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
         }
         openPdfFromAsset(sample);
         createCameraSource(selectedModel);
-
-        //설정버튼, 일단 주석처리
-//        ImageView settingsButton = findViewById(R.id.settings_button);
-//        settingsButton.setOnClickListener(
-//                v -> {
-//                    Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-//                    intent.putExtra(
-//                            SettingsActivity.EXTRA_LAUNCH_SOURCE, SettingsActivity.LaunchSource.LIVE_PREVIEW);
-//                    startActivity(intent);
-//                });
-//        Button prevBtn = (Button) findViewById(R.id.prevBtn);
-//        prevBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                prevPage();
-//            }
-//        });
-//        Button nextBtn = (Button) findViewById(R.id.nextBtn);
-//        nextBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                nextPage();
-//            }
-//        });
-//        Button zoomInBtn = (Button) findViewById(R.id.zoomInBtn);
-//        zoomInBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                zoomIn();
-//            }
-//        });
-//        Button zoomOutBtn = (Button) findViewById(R.id.zoomOutBtn);
-//        zoomOutBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                zoomOut();
-//            }
-//        });
-//
-//        Button scrollUpBtn = (Button) findViewById(R.id.scrollUpBtn);
-//        scrollUpBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                scrollUp();
-//            }
-//        });
-//        Button scrollDownBtn = (Button) findViewById(R.id.scrollDownBtn);
-//        scrollDownBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                scrollDown();
-//            }
-//        });
-//        Button testBtn = (Button) findViewById(R.id.scrollDownBtn);
-//        scrollDownBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //
-//            }
-//        });
     }
 
 
@@ -227,9 +165,6 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
         File PDFPath = new File(Localdir,pdfFileName);
         Log.d("check", String.valueOf(PDFPath));
 
-//        File Mypdffile = new File(PDFPath, "test1.pdf");
-//        Log.d("check", String.valueOf(Mypdffile));
-
         pdfView.fromFile(PDFPath)
                 .defaultPage(pageNumber)
                 .onPageChange(this)
@@ -240,17 +175,6 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
                 .onPageError(this)
                 .load();
         setTitle(pdfFileName);
-
-//        pdfView.fromAsset(assetName)
-//                .defaultPage(pageNumber)
-//                .onPageChange(this)
-//                .enableAnnotationRendering(true)
-//                .onLoad(this)
-//                .scrollHandle(new DefaultScrollHandle(this))
-//                .spacing(10) // in dp
-//                .onPageError(this)
-//                .load();
-//        setTitle(pdfFileName);
     }
 
     // 아래로 스크롤 메소드
@@ -371,8 +295,6 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
     //카메라 부분
     @Override
     public synchronized void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos)
         selectedModel = parent.getItemAtPosition(pos).toString();
         Log.d(TAG, "Selected model: " + selectedModel);
         preview.stop();
@@ -399,8 +321,11 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
         startCameraSource();
     }
 
+    /**
+     * 기존 cameraSource가 없으면 cameraSource를 만듭니다.
+     * @param model
+     */
     private void createCameraSource(String model) {
-        // If there's no existing cameraSource, create one.
         if (cameraSource == null) {
             cameraSource = new CameraSource(this, graphicOverlay);
         }
@@ -408,125 +333,6 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
 
             Log.i(TAG, "Using Face Detector Processor");
             cameraSource.setMachineLearningFrameProcessor(new FaceDetectorProcessor(this));
-
-      /*switch (model) {
-        case OBJECT_DETECTION:
-          Log.i(TAG, "Using Object Detector Processor");
-          ObjectDetectorOptions objectDetectorOptions =
-              PreferenceUtils.getObjectDetectorOptionsForLivePreview(this);
-          cameraSource.setMachineLearningFrameProcessor(
-              new ObjectDetectorProcessor(this, objectDetectorOptions));
-          break;
-        case OBJECT_DETECTION_CUSTOM:
-          Log.i(TAG, "Using Custom Object Detector Processor");
-          LocalModel localModel =
-              new LocalModel.Builder()
-                  .setAssetFilePath("custom_models/object_labeler.tflite")
-                  .build();
-          CustomObjectDetectorOptions customObjectDetectorOptions =
-              PreferenceUtils.getCustomObjectDetectorOptionsForLivePreview(this, localModel);
-          cameraSource.setMachineLearningFrameProcessor(
-              new ObjectDetectorProcessor(this, customObjectDetectorOptions));
-          break;
-        case CUSTOM_AUTOML_OBJECT_DETECTION:
-          Log.i(TAG, "Using Custom AutoML Object Detector Processor");
-          LocalModel customAutoMLODTLocalModel =
-              new LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build();
-          CustomObjectDetectorOptions customAutoMLODTOptions =
-              PreferenceUtils.getCustomObjectDetectorOptionsForLivePreview(
-                  this, customAutoMLODTLocalModel);
-          cameraSource.setMachineLearningFrameProcessor(
-              new ObjectDetectorProcessor(this, customAutoMLODTOptions));
-          break;
-        case TEXT_RECOGNITION_LATIN:
-          Log.i(TAG, "Using on-device Text recognition Processor for Latin.");
-          cameraSource.setMachineLearningFrameProcessor(
-              new TextRecognitionProcessor(this, new TextRecognizerOptions.Builder().build()));
-          break;
-        case TEXT_RECOGNITION_CHINESE:
-          Log.i(TAG, "Using on-device Text recognition Processor for Latin and Chinese.");
-          cameraSource.setMachineLearningFrameProcessor(
-              new TextRecognitionProcessor(
-                  this, new ChineseTextRecognizerOptions.Builder().build()));
-          break;
-        case TEXT_RECOGNITION_DEVANAGARI:
-          Log.i(TAG, "Using on-device Text recognition Processor for Latin and Devanagari.");
-          cameraSource.setMachineLearningFrameProcessor(
-              new TextRecognitionProcessor(
-                  this, new DevanagariTextRecognizerOptions.Builder().build()));
-          break;
-        case TEXT_RECOGNITION_JAPANESE:
-          Log.i(TAG, "Using on-device Text recognition Processor for Latin and Japanese.");
-          cameraSource.setMachineLearningFrameProcessor(
-              new TextRecognitionProcessor(
-                  this, new JapaneseTextRecognizerOptions.Builder().build()));
-          break;
-        case TEXT_RECOGNITION_KOREAN:
-          Log.i(TAG, "Using on-device Text recognition Processor for Latin and Korean.");
-          cameraSource.setMachineLearningFrameProcessor(
-              new TextRecognitionProcessor(
-                  this, new KoreanTextRecognizerOptions.Builder().build()));
-          break;
-        case FACE_DETECTION:
-          Log.i(TAG, "Using Face Detector Processor");
-          cameraSource.setMachineLearningFrameProcessor(new FaceDetectorProcessor(this));
-          break;
-        case BARCODE_SCANNING:
-          Log.i(TAG, "Using Barcode Detector Processor");
-          cameraSource.setMachineLearningFrameProcessor(new BarcodeScannerProcessor(this));
-          break;
-        case IMAGE_LABELING:
-          Log.i(TAG, "Using Image Label Detector Processor");
-          cameraSource.setMachineLearningFrameProcessor(
-              new LabelDetectorProcessor(this, ImageLabelerOptions.DEFAULT_OPTIONS));
-          break;
-        case IMAGE_LABELING_CUSTOM:
-          Log.i(TAG, "Using Custom Image Label Detector Processor");
-          LocalModel localClassifier =
-              new LocalModel.Builder()
-                  .setAssetFilePath("custom_models/bird_classifier.tflite")
-                  .build();
-          CustomImageLabelerOptions customImageLabelerOptions =
-              new CustomImageLabelerOptions.Builder(localClassifier).build();
-          cameraSource.setMachineLearningFrameProcessor(
-              new LabelDetectorProcessor(this, customImageLabelerOptions));
-          break;
-        case CUSTOM_AUTOML_LABELING:
-          Log.i(TAG, "Using Custom AutoML Image Label Detector Processor");
-          LocalModel customAutoMLLabelLocalModel =
-              new LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build();
-          CustomImageLabelerOptions customAutoMLLabelOptions =
-              new CustomImageLabelerOptions.Builder(customAutoMLLabelLocalModel)
-                  .setConfidenceThreshold(0)
-                  .build();
-          cameraSource.setMachineLearningFrameProcessor(
-              new LabelDetectorProcessor(this, customAutoMLLabelOptions));
-          break;
-        case POSE_DETECTION:
-          PoseDetectorOptionsBase poseDetectorOptions =
-              PreferenceUtils.getPoseDetectorOptionsForLivePreview(this);
-          Log.i(TAG, "Using Pose Detector with options " + poseDetectorOptions);
-          boolean shouldShowInFrameLikelihood =
-              PreferenceUtils.shouldShowPoseDetectionInFrameLikelihoodLivePreview(this);
-          boolean visualizeZ = PreferenceUtils.shouldPoseDetectionVisualizeZ(this);
-          boolean rescaleZ = PreferenceUtils.shouldPoseDetectionRescaleZForVisualization(this);
-          boolean runClassification = PreferenceUtils.shouldPoseDetectionRunClassification(this);
-          cameraSource.setMachineLearningFrameProcessor(
-              new PoseDetectorProcessor(
-                  this,
-                  poseDetectorOptions,
-                  shouldShowInFrameLikelihood,
-                  visualizeZ,
-                  rescaleZ,
-                  runClassification,
-                  *//* isStreamMode = *//* true));
-          break;
-        case SELFIE_SEGMENTATION:
-          cameraSource.setMachineLearningFrameProcessor(new SegmenterProcessor(this));
-          break;
-        default:
-          Log.e(TAG, "Unknown model: " + model);
-      }*/
         } catch (RuntimeException e) {
             Log.e(TAG, "Can not create image processor: " + model, e);
             Toast.makeText(
@@ -538,9 +344,8 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
     }
 
     /**
-     * Starts or restarts the camera source, if it exists. If the camera source doesn't exist yet
-     * (e.g., because onResume was called before the camera source was created), this will be called
-     * again when the camera source is created.
+     * 카메라 소스가 있는 경우 해당 소스를 시작하거나 다시 시작합니다
+     *  카메라 소스가 아직 존재하지 않는 경우(예: 카메라 소스가 생성되기 전에 다시 시작을 호출했기 때문에) 카메라 소스가 생성될 때 다시 호출됩니다.
      */
     private void startCameraSource() {
         if (cameraSource != null) {
@@ -568,7 +373,7 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
         startCameraSource();
     }
 
-    /** Stops the camera. */
+    /** 카메라를 정지 */
     @Override
     protected void onPause() {
         super.onPause();

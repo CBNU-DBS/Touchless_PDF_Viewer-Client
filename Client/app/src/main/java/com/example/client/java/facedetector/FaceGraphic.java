@@ -30,7 +30,7 @@ public class FaceGraphic extends Graphic {
     private static final int NUM_COLORS = 10;
     private static final int[][] COLORS =
             new int[][] {
-                    // {Text color, background color}
+                    // {글자색, 배경색}
                     {Color.BLACK, Color.WHITE},
                     {Color.WHITE, Color.MAGENTA},
                     {Color.BLACK, Color.LTGRAY},
@@ -48,8 +48,10 @@ public class FaceGraphic extends Graphic {
     private final Paint[] boxPaints;
     private final Paint[] labelPaints;
 
+    //SharedPreferences 선언, 설정과 연동하여 사용
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+    // 각 모션들의 확률
     private volatile Face face;
     int botheyecheck = 0;
     int leftcheck = 0;
@@ -71,6 +73,11 @@ public class FaceGraphic extends Graphic {
     Toast faceupToast = Toast.makeText(this.getApplicationContext(),"고개 들기 확인", Toast.LENGTH_SHORT);
     Toast facedownToast = Toast.makeText(this.getApplicationContext(),"고개 숙이기 확인", Toast.LENGTH_SHORT);
 
+    /**
+     *
+     * @param overlay
+     * @param face
+     */
     FaceGraphic(GraphicOverlay overlay, Face face) {
         super(overlay);
 
@@ -100,7 +107,9 @@ public class FaceGraphic extends Graphic {
         }
     }
 
-    /** Draws the face annotations for position on the supplied canvas. */
+    /** Canvas를 사용하여 인식한 얼굴에 대한 그래픽 생성, 가시성 문제로 그래픽 랜더링은 X
+     * 0.1초마다 얼굴 정보를 받아 사용자가 취한 모션을 확률로 저장하고, 모션을 인식받으면 PDF 리더기의 기능 실행
+     * */
     @Override
     public void draw(Canvas canvas) {
         ( (ActivityLocal) getApplicationContext() ).settime1(System.currentTimeMillis());
@@ -138,6 +147,9 @@ public class FaceGraphic extends Graphic {
             faceleft = 0;
             faceright = 0;
 
+            /**
+             * 1초마다 확률이 0.7 이상인 행동 감지
+             */
             for(int k = 0; k<10; k++){
                 lefteye = ( (ActivityLocal) getApplicationContext() ).getleft();
                 righteye = ( (ActivityLocal) getApplicationContext() ).getright();
@@ -198,6 +210,10 @@ public class FaceGraphic extends Graphic {
         }
     }
 
+    /**
+     * PDF 리더기에서 모션에 할당된 기능이 실행
+     * @param str
+     */
     public void action(String str) {
         if(prefs.getString("Scroll_up","").equals(str)){
             PDF_View_Activity.scrollUp();
@@ -221,6 +237,4 @@ public class FaceGraphic extends Graphic {
             PDF_View_Activity.zoomOut();
         }
     }
-
-
 }

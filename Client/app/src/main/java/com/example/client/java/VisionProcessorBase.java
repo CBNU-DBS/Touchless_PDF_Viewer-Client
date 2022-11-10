@@ -40,11 +40,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Abstract base class for vision frame processors. Subclasses need to implement {@link
- * #onSuccess(Object, GraphicOverlay)} to define what they want to with the detection results and
- * {@link #detectInImage(InputImage)} to specify the detector object.
+ * 탐지 결과와 함께 사용할 항목을 위한 비전 프레임 프로세서의 추상 기본 클래스입니다
  *
- * @param <T> The type of the detected feature.
+ * @param <T> 탐지된 기능의 유형
  */
 public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
 
@@ -56,10 +54,10 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
     private final ScopedExecutor executor;
     private final TemperatureMonitor temperatureMonitor;
 
-    // Whether this processor is already shut down
+    // 이 프로세서가 이미 종료되었는지 여부
     private boolean isShutdown;
 
-    // Used to calculate latency, running in the same thread, no sync needed.
+    // 동일한 스레드에서 실행되며 동기화가 필요 없는 지연 시간을 계산하는 데 사용
     private int numRuns = 0;
     private long totalFrameMs = 0;
     private long maxFrameMs = 0;
@@ -68,17 +66,17 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
     private long maxDetectorMs = 0;
     private long minDetectorMs = Long.MAX_VALUE;
 
-    // Frame count that have been processed so far in an one second interval to calculate FPS.
+    // FPS를 계산하기 위해 1초 간격으로 지금까지 처리된 프레임 수
     private int frameProcessedInOneSecondInterval = 0;
     private int framesPerSecond = 0;
 
-    // To keep the latest images and its metadata.
+    // 최신 이미지와 메타데이터를 보관
     @GuardedBy("this")
     private ByteBuffer latestImage;
 
     @GuardedBy("this")
     private FrameMetadata latestImageMetaData;
-    // To keep the images and metadata in process.
+    // 이미지 및 메타데이터를 계속 처리
     @GuardedBy("this")
     private ByteBuffer processingImage;
 
@@ -96,12 +94,12 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
                         frameProcessedInOneSecondInterval = 0;
                     }
                 },
-                /* delay= */ 0,
-                /* period= */ 1000);
+                /* 딜레이= */ 0,
+                /* 주기= */ 1000);
         temperatureMonitor = new TemperatureMonitor(context);
     }
 
-    // -----------------Code for processing single still image----------------------------------------
+    // 단일 정지 영상 처리 코드
     @Override
     public void processBitmap(Bitmap bitmap, final GraphicOverlay graphicOverlay) {
         long frameStartMs = SystemClock.elapsedRealtime();
@@ -111,8 +109,8 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
             requestDetectInImage(
                     mlImage,
                     graphicOverlay,
-                    /* originalCameraImage= */ null,
-                    /* shouldShowFps= */ false,
+                    /* 원본 카메라 이미지 */ null,
+                    /* FPS를 보일 필요가 없음 */ false,
                     frameStartMs);
             mlImage.close();
 
@@ -122,12 +120,12 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
         requestDetectInImage(
                 InputImage.fromBitmap(bitmap, 0),
                 graphicOverlay,
-                /* originalCameraImage= */ null,
-                /* shouldShowFps= */ false,
+                /* 원본 카메라 이미지 */ null,
+                /* FPS를 보일 필요가 없음 */ false,
                 frameStartMs);
     }
 
-    // -----------------Code for processing live preview frame from Camera1 API-----------------------
+    // Camera1 API에서 라이브 미리보기 프레임을 처리하기 위한 코드
     @Override
     public synchronized void processByteBuffer(
             ByteBuffer data, final FrameMetadata frameMetadata, final GraphicOverlay graphicOverlay) {
@@ -152,8 +150,8 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
             ByteBuffer data, final FrameMetadata frameMetadata, final GraphicOverlay graphicOverlay) {
         long frameStartMs = SystemClock.elapsedRealtime();
 
-        // If live viewport is on (that is the underneath surface view takes care of the camera preview
-        // drawing), skip the unnecessary bitmap creation that used for the manual preview drawing.
+        // 라이브 뷰포트가 켜져 있으면(밑면 뷰가 카메라 미리보기 도면을 처리함)
+        // 수동 미리보기 도면에 사용된 불필요한 비트맵 작성을 스킵
         Bitmap bitmap =
                 PreferenceUtils.isCameraLiveViewportEnabled(graphicOverlay.getContext())
                         ? null
@@ -169,10 +167,10 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
                             .setRotation(frameMetadata.getRotation())
                             .build();
 
-            requestDetectInImage(mlImage, graphicOverlay, bitmap, /* shouldShowFps= */ true, frameStartMs)
+            requestDetectInImage(mlImage, graphicOverlay, bitmap, true, frameStartMs)
                     .addOnSuccessListener(executor, results -> processLatestImage(graphicOverlay));
 
-            // This is optional. Java Garbage collection can also close it eventually.
+            // Java Garbage collection은 최종적으로 닫을 수 있음
             mlImage.close();
             return;
         }
@@ -186,12 +184,12 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
                         InputImage.IMAGE_FORMAT_NV21),
                 graphicOverlay,
                 bitmap,
-                /* shouldShowFps= */ true,
+                 true,
                 frameStartMs)
                 .addOnSuccessListener(executor, results -> processLatestImage(graphicOverlay));
     }
 
-    // -----------------Code for processing live preview frame from CameraX API-----------------------
+    // CameraX API에서 라이브 미리보기 프레임을 처리하기 위한 코드
     @Override
     @RequiresApi(VERSION_CODES.LOLLIPOP)
     @ExperimentalGetImage
@@ -216,14 +214,12 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
             requestDetectInImage(
                     mlImage,
                     graphicOverlay,
-                    /* originalCameraImage= */ bitmap,
-                    /* shouldShowFps= */ true,
+                     bitmap,
+                    true,
                     frameStartMs)
-                    // When the image is from CameraX analysis use case, must call image.close() on received
-                    // images when finished using them. Otherwise, new images may not be received or the
-                    // camera may stall.
-                    // Currently MlImage doesn't support ImageProxy directly, so we still need to call
-                    // ImageProxy.close() here.
+                    // CameraX 분석 사용 사례에서 가져온 이미지인 경우, 이미지를 사용한 후 수신된 이미지에 대해 image.close()를 호출해야 함.
+                    // 그렇지 않으면 새 이미지가 수신되지 않거나 카메라가 정지될 수 있음.
+                    // 현재 MlImage는 ImageProxy를 직접 지원하지 않으므로 여기서 ImageProxy.close()를 호출해야 함.
                     .addOnCompleteListener(results -> image.close());
             return;
         }
@@ -231,16 +227,15 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
         requestDetectInImage(
                 InputImage.fromMediaImage(image.getImage(), image.getImageInfo().getRotationDegrees()),
                 graphicOverlay,
-                /* originalCameraImage= */ bitmap,
-                /* shouldShowFps= */ true,
+                 bitmap,
+                 true,
                 frameStartMs)
-                // When the image is from CameraX analysis use case, must call image.close() on received
-                // images when finished using them. Otherwise, new images may not be received or the camera
-                // may stall.
+                // CameraX 분석 사용 사례에서 가져온 이미지인 경우, 이미지를 사용한 후 수신된 이미지에 대해 image.close()를 호출해야 함
+                // 그렇지 않으면 새 이미지가 수신되지 않거나 카메라가 정지될 수 있음
                 .addOnCompleteListener(results -> image.close());
     }
 
-    // -----------------Common processing logic-------------------------------------------------------
+    // 공통 processing logic
     private Task<T> requestDetectInImage(
             final InputImage image,
             final GraphicOverlay graphicOverlay,
@@ -286,8 +281,8 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
                     maxDetectorMs = max(currentDetectorLatencyMs, maxDetectorMs);
                     minDetectorMs = min(currentDetectorLatencyMs, minDetectorMs);
 
-                    // Only log inference info once per second. When frameProcessedInOneSecondInterval is
-                    // equal to 1, it means this is the first frame processed during the current second.
+                    // 초당 한 번만 추론 정보를 기록합니다.
+                    // frameProcessedInOneSecondInterval이 1이면 현재 초 동안 처리된 첫 번째 프레임임을 의미합니다.
                     if (frameProcessedInOneSecondInterval == 1) {
                         Log.d(TAG, "Num of Runs: " + numRuns);
                         Log.d(

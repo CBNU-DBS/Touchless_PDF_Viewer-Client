@@ -5,8 +5,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Wraps an existing executor to provide a {@link #shutdown} method that allows subsequent
- * cancellation of submitted runnables.
+ * 제출된 실행 파일을 나중에 취소할 수 있는 메서드를 제공하도록 기존 실행자를 래핑합니다.
  */
 public class ScopedExecutor implements Executor {
 
@@ -19,13 +18,13 @@ public class ScopedExecutor implements Executor {
 
     @Override
     public void execute(@NonNull Runnable command) {
-        // Return early if this object has been shut down.
+        // 이 개체가 종료된 경우 return
         if (shutdown.get()) {
             return;
         }
         executor.execute(
                 () -> {
-                    // Check again in case it has been shut down in the mean time.
+                    // 그동안 종료된 경우 다시 확인
                     if (shutdown.get()) {
                         return;
                     }
@@ -34,10 +33,7 @@ public class ScopedExecutor implements Executor {
     }
 
     /**
-     * After this method is called, no runnables that have been submitted or are subsequently
-     * submitted will start to execute, turning this executor into a no-op.
-     *
-     * <p>Runnables that have already started to execute will continue.
+     * 이 메서드를 호출한 후 제출된 실행 파일이 실행되지 않고 이 실행 파일이 no-op으로 바뀝니다.
      */
     public void shutdown() {
         shutdown.set(true);

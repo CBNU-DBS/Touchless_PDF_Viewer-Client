@@ -40,13 +40,15 @@ import com.example.client.preference.SettingsActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Live preview demo app for ML Kit APIs using CameraX. */
+/**
+ * CameraX를 이용한 ML키트 API용 라이브 미리보기
+ */
 @KeepName
 @RequiresApi(VERSION_CODES.LOLLIPOP)
 public final class CameraXLivePreviewActivity extends AppCompatActivity
         implements OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
+    //MLkit에서 전채적으로 지원하는 기능들, 해당 앱에서는 FaceDetection 활용
     private static final String TAG = "CameraXLivePreview";
-
     private static final String OBJECT_DETECTION = "Object Detection";
     private static final String OBJECT_DETECTION_CUSTOM = "Custom Object Detection";
     private static final String CUSTOM_AUTOML_OBJECT_DETECTION =
@@ -63,7 +65,6 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
     private static final String TEXT_RECOGNITION_DEVANAGARI = "Text Recognition Devanagari (Beta)";
     private static final String TEXT_RECOGNITION_JAPANESE = "Text Recognition Japanese (Beta)";
     private static final String TEXT_RECOGNITION_KOREAN = "Text Recognition Korean (Beta)";
-
     private static final String STATE_SELECTED_MODEL = "selected_model";
 
     private PreviewView previewView;
@@ -79,6 +80,10 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
     private int lensFacing = CameraSelector.LENS_FACING_BACK;
     private CameraSelector cameraSelector;
 
+    /**
+     * 생성자, 사용자 기기 카메라 활성화 및 FaceDetection 기설정된 옵션 가져오기.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +105,7 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
         }
 
         Spinner spinner = findViewById(R.id.spinner);
+        //기설정된 FaceDetection옵션들. 앱상에서 수정 불가능
         List<String> options = new ArrayList<>();
         options.add(OBJECT_DETECTION);
         options.add(OBJECT_DETECTION_CUSTOM);
@@ -117,11 +123,11 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
         options.add(TEXT_RECOGNITION_JAPANESE);
         options.add(TEXT_RECOGNITION_KOREAN);
 
-        // Creating adapter for spinner
+        // spinner용 Adapter 생성
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.spinner_outer_style, options);
-        // Drop down layout style - list view with radio button
+        // 드롭다운 레이아웃 스타일 - 라디오 단추가 있는 목록 보기
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // attaching data adapter to spinner
+        // spinner에 데이터 Adapter 연결
         spinner.setAdapter(dataAdapter);
         spinner.setOnItemSelectedListener(this);
 
@@ -138,6 +144,7 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
                             bindAllCameraUseCases();
                         });
 
+        //Face Detection 설정 관련 코드, 설정 변경시 앱 정상 구동이 힘든 관계로 사용 X
         ImageView settingsButton = findViewById(R.id.settings_button);
         settingsButton.setOnClickListener(
                 v -> {
@@ -149,16 +156,27 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
                 });
     }
 
+    /**
+     * Activity 종료시에도 데이터를 저장하여 정상적인 구동이 가능하도록 onSaveInstanceState 활용
+     * @param bundle
+     */
     @Override
     protected void onSaveInstanceState(@NonNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putString(STATE_SELECTED_MODEL, selectedModel);
     }
 
+    /**
+     * 호출될 Callback에 대한 인터페이스 정의
+     * @param parent
+     * @param view
+     * @param pos
+     * @param id
+     */
     @Override
     public synchronized void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos)
+        // 항목이 선택된다면 선택된 항목을 검색하고 해당 항목으로 실행
+        // 해당 앱에서는 Face Detection으로 고정하여 사용
         selectedModel = parent.getItemAtPosition(pos).toString();
         Log.d(TAG, "Selected model: " + selectedModel);
         bindAnalysisUseCase();
@@ -166,9 +184,15 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        // Do nothing.
+        // 아무것도 하지 않음
     }
 
+    /**
+     * CheckChanged 컨트롤의 CheckBox 이밴트 발생시 실행
+     * 카메라 방향 확인, 해당 앱에서는 전면 카메라로 고정하여 사용
+     * @param buttonView
+     * @param isChecked
+     */
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (cameraProvider == null) {
@@ -198,12 +222,18 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
                 .show();
     }
 
+    /**
+     * Activity 일시중지시 실행할 행동 정의
+     */
     @Override
     public void onResume() {
         super.onResume();
         bindAllCameraUseCases();
     }
 
+    /**
+     * 실행중에 다른 Activity가 올 경우 실행할 행동 정의
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -212,6 +242,9 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Activity 소멸시 실행할 행동 정의
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -220,15 +253,20 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * CameraX API에서 요구하는 대로 모든 사용 사례를 바인딩 해제한 후 다시 바인딩
+     */
     private void bindAllCameraUseCases() {
         if (cameraProvider != null) {
-            // As required by CameraX API, unbinds all use cases before trying to re-bind any of them.
             cameraProvider.unbindAll();
             bindPreviewUseCase();
             bindAnalysisUseCase();
         }
     }
 
+    /**
+     * CameraX API에서 요구하는 대로 모든 사용 사례를 바인딩 해제한 후 다시 바인딩
+     */
     private void bindPreviewUseCase() {
         if (!PreferenceUtils.isCameraLiveViewportEnabled(this)) {
             return;
@@ -247,9 +285,12 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
         }
         previewUseCase = builder.build();
         previewUseCase.setSurfaceProvider(previewView.getSurfaceProvider());
-        cameraProvider.bindToLifecycle(/* lifecycleOwner= */ this, cameraSelector, previewUseCase);
+        cameraProvider.bindToLifecycle( this, cameraSelector, previewUseCase);
     }
 
+    /**
+     * CameraX API에서 요구하는 대로 모든 사용 사례를 바인딩 해제한 후 다시 바인딩
+     */
     private void bindAnalysisUseCase() {
         if (cameraProvider == null) {
             return;
@@ -289,8 +330,8 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
 
         needUpdateGraphicOverlayImageSourceInfo = true;
         analysisUseCase.setAnalyzer(
-                // imageProcessor.processImageProxy will use another thread to run the detection underneath,
-                // thus we can just runs the analyzer itself on main thread.
+                // imageProcessor.processImageProxy 가 다른 스레드를 사용하여 아래 코드에서 탐지를 실행.
+                // 메인 스레드에서 분석기를 실행할 수 있음
                 ContextCompat.getMainExecutor(this),
                 imageProxy -> {
                     if (needUpdateGraphicOverlayImageSourceInfo) {
@@ -314,6 +355,6 @@ public final class CameraXLivePreviewActivity extends AppCompatActivity
                     }
                 });
 
-        cameraProvider.bindToLifecycle(/* lifecycleOwner= */ this, cameraSelector, analysisUseCase);
+        cameraProvider.bindToLifecycle( this, cameraSelector, analysisUseCase);
     }
 }

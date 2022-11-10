@@ -12,7 +12,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Monitors device temperature.
+ * 장치 온도를 모니터링 (MLkit 안정성 문제)
  */
 public final class TemperatureMonitor implements SensorEventListener {
 
@@ -26,11 +26,9 @@ public final class TemperatureMonitor implements SensorEventListener {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         List<Sensor> allSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
         for (Sensor sensor : allSensors) {
-            // Assumes sensors with "temperature" substring in their names are temperature sensors.
-            // Those sensors may measure the temperature of different parts of the device. It makes more
-            // sense to track the change of themselves, e.g. compare the reading before and after running
-            // a detector for a certain amount of time, rather than relying on their absolute values at a
-            // certain time.
+            // 이름에 "온도" 하위 문자열이 있는 센서가 온도 센서라고 가정
+            // 센서들은 디바이스의 상이한 부분들의 온도를 측정
+            // 특정 시간에 절대값에 의존하기보다는 검출기를 실행하기 전후의 판독값을 일정 시간 비교하는 등 자신의 변화를 추적하는 것이 더 타당
             if (sensor.getName().toLowerCase().contains("temperature")) {
                 sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -45,7 +43,7 @@ public final class TemperatureMonitor implements SensorEventListener {
     public void logTemperature() {
         for (Map.Entry<String, Float> entry : sensorReadingsCelsius.entrySet()) {
             float tempC = entry.getValue();
-            // Skips likely invalid sensor readings
+            // 잘못된 센서 판독값을 건너뛸 수 있음
             if (tempC < 0) {
                 continue;
             }
