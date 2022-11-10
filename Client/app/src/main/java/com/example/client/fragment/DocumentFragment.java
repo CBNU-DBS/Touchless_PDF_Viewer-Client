@@ -81,6 +81,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 사용자의 문서를 관리하는 Class
+ */
 public class DocumentFragment extends Fragment {
     private static final int READ_REQUEST_CODE = 101;
     public ViewGroup rootView;
@@ -104,7 +107,7 @@ public class DocumentFragment extends Fragment {
     DocumentApi documentApi;
     Long userId;
 
-    private File LocalDir;
+    private File LocalDir; // 앱 로컬 폴더 주소
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -138,7 +141,10 @@ public class DocumentFragment extends Fragment {
                 list.add(files[i].getName().toString());
             }
         }
-
+        /**
+         * pdf를 볼 수 있는 recyclerView 생성
+         * 사용자는 업로드한 pdf파일들을 볼 수 있음
+         */
         RecyclerView recyclerView = getView().findViewById(R.id.PdfRecycler);
         Log.e("recyclerView",recyclerView+"");
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
@@ -155,6 +161,10 @@ public class DocumentFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        /**
+         * 파일 업로드 실행 버튼
+         * 사용자가 파일을 선택할 수 있는 화면으로 이동
+         */
         ImageButton SAFUploadPdf = getView().findViewById(R.id.btn_SAFUploadPdf);
         SAFUploadPdf.bringToFront();
         SAFUploadPdf.setOnClickListener(new View.OnClickListener(){
@@ -250,17 +260,11 @@ public class DocumentFragment extends Fragment {
         getFolderFileList();
         return inflater.inflate(R.layout.activity_select_pdf, container, false);
     }
+
+    /**
+     * 앱 로컬폴더에서 사용자의 pdf 파일 리스트를 가져오는 함수
+     */
     public void getFolderFileList() {
-        //internal
-        //File dir = new File(getFilesDir().getAbsolutePath(), "test");
-//        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath().toString());
-//        Log.d("PDF",dir.getPath());
-//        File[] files = dir.listFiles();
-//        Log.d("PDF",files.length+"");
-//        for(File f : files) {
-//            Log.d("PDF"," f : "+f.getPath() +" , "+f.getPath());
-//            Log.d("PDF"," f : "+f.getName() +" , "+f.getName());
-//        }
         Log.d("Files","dirPath : "+LocalDir.getPath());
         files = LocalDir.listFiles();
 
@@ -322,6 +326,12 @@ public class DocumentFragment extends Fragment {
         past_files_list = null;
         Log.d("반복문","끝");
     }
+
+    /**
+     * 사용자의 pdf 파일을 AWS S3와 DB에 저장하는 함수
+     * @param key S3 업로드에 사용되는 고유 key
+     * @param file 실제로 업로드 되는 파일
+     */
     public void uploadWithTransferUtility(String key,File file) {
         AWSCredentials awsCredentials = new BasicAWSCredentials(BuildConfig.AWS_ACCESS_KEY, BuildConfig.AWS_ACCESS_SECRET_KEY);    // IAM 생성하며 받은 것 입력
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
@@ -330,6 +340,10 @@ public class DocumentFragment extends Fragment {
         TransferNetworkLossHandler.getInstance(getActivity().getApplicationContext());
         TransferObserver uploadObserver = transferUtility.upload("touchlesspdf", filenameAndKey, file);    // (bucket api, file이름, file객체)
         Toast.makeText(getContext(), "문서 업로드", Toast.LENGTH_SHORT).show();
+        /**
+         * S3에 업로드 하는 함수
+         * S3에 업로드가 성공할시, S3에서 pdf 파일 다운로드를 진행한다.
+         */
         uploadObserver.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
@@ -370,6 +384,13 @@ public class DocumentFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * S3로 부터 사용자의 pdf파일을 다운로드 하는 함수
+     * 다운로드 후, 사용자 로컬 폴더에 저장이 되게 된다.
+     * @param key 해당 pdf 고유 key
+     * @param filename 저장할 파일 이름
+     */
     public void downloadWithTransferUtility(String key, String filename) {
         Log.d("key : ",key+"");
         AWSCredentials awsCredentials = new BasicAWSCredentials(BuildConfig.AWS_ACCESS_KEY, BuildConfig.AWS_ACCESS_SECRET_KEY);    // IAM 생성하며 받은 것 입력
@@ -541,6 +562,12 @@ public class DocumentFragment extends Fragment {
         }
     }
 
+    /**
+     * 사용자가 외부 폴더에서 pdf를 선택하였을때 로컬 폴더로 이동시켜주는 함수
+     * @param requestCode // Android 문서 선택 api로 요청하는 코드
+     * @param resultCode // Android 문서 선택 api에서 반환되는 코드
+     * @param data // 실제 반환되는 문서 데이터
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -556,6 +583,11 @@ public class DocumentFragment extends Fragment {
             }
         }
     }
+
+    /**
+     * 사용자 문서 동기화를 하는 함수
+     * @param userId 유저의 고유 ID
+     */
     public void getDocumentList(Long userId){
         final List<DocumentDTO>[] result = new List[]{new ArrayList<>()};
         Response<ResponseDTO<DocumentDTO>> response;
@@ -581,6 +613,5 @@ public class DocumentFragment extends Fragment {
                 Toast.makeText(getContext(), "통신 실패", Toast.LENGTH_SHORT).show();
             }
         });
-//        Log.d("getDocumentList",""+result[0].get(0).getTitle());
     }
 }
