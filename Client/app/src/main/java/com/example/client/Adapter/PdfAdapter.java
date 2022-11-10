@@ -16,6 +16,10 @@ import com.example.client.R;
 
 import java.util.ArrayList;
 
+/**
+ * RecyclerView 내부 어댑터를 구현하는 Class
+ * Adapter 선택시 동작하는 method들이 구현됨
+ */
 public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.ViewHolder> {
 
 
