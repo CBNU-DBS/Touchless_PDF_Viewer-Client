@@ -11,6 +11,13 @@ import androidx.fragment.app.Fragment;
 import com.example.client.R;
 
 public class SettingFragment extends Fragment {
+    /**
+     * 설정 화면 fragment 선언 및 예외처리
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try{
