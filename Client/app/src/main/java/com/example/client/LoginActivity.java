@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     MotionFunctionApi motionFunctionApi;
     List<MotionFunctionDTO> motionFunctionList;
     long userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +74,10 @@ public class LoginActivity extends AppCompatActivity {
             login(user);
         }
 
-        // 로그인 버튼 이벤트 리스너
+        /**
+         * 로그인 버튼
+         * 기존 로그인 정보가 존재한다면 자동 로그인 실행 (로그아웃 시, 자동로그인 해제)
+         */
         Button btn_login = (Button) findViewById(R.id.btn_login);
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +91,6 @@ public class LoginActivity extends AppCompatActivity {
                 editor_login.commit();
                 Log.e("저장된 패스워드",sharedPref_login.getString("auto_pw0",""));
 
-
                 if(false == checkEmail(email)){
                     return;
                 }
@@ -95,14 +98,14 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-
                 UserDTO user = new UserDTO("", email, password, "");
-
                 login(user);
             }
         });
 
-        // 회원가입 버튼 이벤트 리스너
+        /**
+         * 회원가입 화면으로 이동하는 버튼
+         */
         Button btn_join = (Button) findViewById(R.id.btn_join);
         btn_join.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +117,11 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 입력받은 이메일을 유저 데이터와 비교 및 결과 반환
+     * @param email
+     * @return
+     */
     private Boolean checkEmail(String email){
         if(true == TextUtils.isEmpty(email)){
             Toast.makeText(getApplicationContext(), "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -123,6 +131,11 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * 입력받은 비밀번호의 입력조건 확인
+     * @param password
+     * @return
+     */
     private Boolean checkPassword(String password){
         // 숫자, 문자, 특수문자를 모두 포함한 8~15자리
         String passwordValidation = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&]).{8,15}.$";
@@ -145,6 +158,12 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * 로그인 실행 함수
+     * 입력받은 이메일과 비밀번호를 서버와 통신하여 유저데이터 비교 후 로그인 진행
+     * 서버로부터 개인 유저의 정보를 DTO 데이터 형식으로 클라이언트에 저장
+     * @param user
+     */
     private void login(UserDTO user){
         userApi.loginUser(user).enqueue(new Callback<ResponseDTO<UserDTO>>() {
             @Override
@@ -182,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Log.e("", "로그인 실패");
                     try {
+                        //로그인 실패 사유를 화면에 출력
                         String body = response.errorBody().string();
                         if(body.charAt(15) == 1){
                             Toast.makeText(getApplicationContext(), body.substring(30,44), Toast.LENGTH_SHORT).show();

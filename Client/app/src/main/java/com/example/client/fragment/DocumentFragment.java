@@ -168,7 +168,11 @@ public class DocumentFragment extends Fragment {
         });
         recyclerView.setAdapter(adapter);
 
-        // 구글 드라이브 실행 이벤트 리스너
+        /**
+         * 구글드라이브 앱 실행 버튼
+         * 유저의 기기에 설치되어 있는 구글드라이브 실행
+         * 구글드라이브 실행을 기점으로 현재 Download 폴더의 과거 파일리스트 저장
+         */
         ImageButton btn_google_drive = getView().findViewById(R.id.btn_googledrive);
         btn_google_drive.bringToFront();
         btn_google_drive.setOnClickListener(new View.OnClickListener() {
@@ -179,13 +183,13 @@ public class DocumentFragment extends Fragment {
                 past_files = PastDir.listFiles(new FilenameFilter() {
                     @Override
                     public boolean accept(File pathname, String name) {
+                        //"pdf"가 포함되어 있는 파일로만 이루어진 리스트 반환
                         return name.endsWith("pdf");
                     }
                 });
 
                 //과거 Download폴더의 pdf파일 리스트
                 past_files_list = new String[past_files.length];
-
                 for(int i = 0; i < past_files.length; i++){
                     past_files_list[i] = past_files[i].getPath();
                     Log.d("과거 pdf리스트",past_files_list[i]);
@@ -206,7 +210,10 @@ public class DocumentFragment extends Fragment {
         SttIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getActivity().getPackageName()); //여분의 키
         SttIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR"); //한국어 사용
 
-
+        /**
+         * 음성인식 시작 버튼
+         * Recognizer를 통해 사람의 음성을 인식하여 String으로 변환
+         */
         Btn_record_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -264,6 +271,11 @@ public class DocumentFragment extends Fragment {
             Log.d("Files", "Filepath:" + files[i].getPath());
         }
     }
+
+    /**
+     * 구글드라이브 업데이트 함수
+     * 구글드라이브에서 다운받은 새로 추가된 PDF 파일을 유저의 DB와 서버의 S3에 업로드 및 앱 로컬 폴더로 다운로드 진행
+     */
     public void GoogledriveUpdate(){
         //스마트폰 기기의 Downlaod 파일 변수선언(구글드라이브로부터 pdf를 다운받은 후의 Download폴더)
         File CurrentDir = new File("/storage/emulated/0/Download/");
@@ -279,6 +291,7 @@ public class DocumentFragment extends Fragment {
         for(int h = 0; h < current_files_list.length; h++){
             current_files_list[h] = current_files[h].getPath();
         }
+        //앱을 처음 설치하여 파일을 받는 경우 Download 폴더의 모든 PDF파일을 앱 로컬폴더에 저장합니다.
         if(files.length == 0){
             for(int l=0; l<current_files_list.length; l++) {
                 Log.d("빈 상태에서 새로추가된 pdf", current_files_list[l]);
@@ -391,7 +404,9 @@ public class DocumentFragment extends Fragment {
         });
     }
 
-    // 음성인식을 위한 RecognitionListener 선언
+    /**
+     * 음성인식을 위한 RecognitionListener 선언 및 음성인식 기능
+     */
     private RecognitionListener listener = new RecognitionListener() {
         @Override
         public void onReadyForSpeech(Bundle bundle) {
@@ -461,7 +476,10 @@ public class DocumentFragment extends Fragment {
             onDestroy();
         }
 
-        // 입력된 음성메세지를 String 형식으로 전환하는 함수
+        /**
+         * 입력된 음성메세지를 String 형식으로 전환하는 함수
+         * @param results
+         */
         @Override
         public void onResults(Bundle results) {
             String key = "";
@@ -486,7 +504,10 @@ public class DocumentFragment extends Fragment {
         }
     };
 
-    //입력된 음성 메세지 확인 후 동작 처리
+    /**
+     * 입력된 음성 메세지 확인 후 동작 처리 함수
+     * @param VoiceMsg
+     */
     private void FuncVoiceOrderCheck(String VoiceMsg){
         if(VoiceMsg.length() < 1) {
             return;
@@ -506,7 +527,9 @@ public class DocumentFragment extends Fragment {
 
     }
 
-    //기능 실행 후, 음성인식이 종료되지 않아 계속 실행되는 경우를 막기위한 종료 함수
+    /**
+     * 기능 실행 후, 음성인식이 종료되지 않아 계속 실행되는 경우를 막기위한 종료 함수
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();

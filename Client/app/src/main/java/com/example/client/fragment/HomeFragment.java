@@ -48,7 +48,9 @@ public class HomeFragment extends Fragment {
         us_mail.setText(sharedPref_login.getString("auto_email0",""));
         us_phone.setText(sharedPref_login.getString("auto_phone0",""));
 
-        // 마이페이지 비밀번호 변경 버튼 이벤트 리스너
+        /**
+         * 마이페이지 비밀번호 변경 버튼
+         */
         Button btn_change_PW = (Button) view.findViewById(R.id.btn_change_pw);
         btn_change_PW.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +60,12 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        // 로그아웃 버튼 이벤트 리스너
+
+        /**
+         * 로그아웃 버튼
+         * 로그아웃 시, 클라이언트에 저장되어 있는 유저의 정보를 모두 초기화
+         * 재로그인을 유도하여 사용하고자 하는 유저의 정보 최신화
+         */
         Button btn_logout = (Button) view.findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,18 +83,16 @@ public class HomeFragment extends Fragment {
 
                 //개인 정보를 초기화 한 후, 앱을 재시작합니다. 직접 다시 로그인해야합니다.
                 restart();
-
-//                //다시 로그인화면으로 돌아갑니다. 앱 재실행 시, 다시 직접 로그인해야됩니다.
-//                Intent intent = new Intent(view.getContext(), LoginActivity.class);
-//                startActivity(intent);
             }
         });
-
 
         // Inflate the layout for this fragment
         return view;
     }
 
+    /**
+     * 앱 재실행 함수
+     */
     public void restart(){
         Intent intent = getActivity().getPackageManager().
                 getLaunchIntentForPackage(getActivity().getPackageName());

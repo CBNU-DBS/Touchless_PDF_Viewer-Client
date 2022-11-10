@@ -52,10 +52,15 @@ public class Personal_info_setting_Activity extends AppCompatActivity {
 
         currentPW_Btn = (Button) findViewById(R.id.currentPW_btn);
         changePW_Btn = (Button) findViewById(R.id.changePW_btn);
+        Button back_to_mypage_Btn = (Button) findViewById(R.id.btn_back_to_mypage);
 
-        //현재 비밀번호를 확인하지 않으면 변경버튼이 보이지 않습니다.
+        //현재 비밀번호를 확인하지 않으면 변경버튼이 보이지 않도록 합니다.
         changePW_Btn.setVisibility(View.INVISIBLE);
 
+        /**
+         * 현재 비밀번호 확인 함수
+         * 현재 로그인되어 있는 유저의 비밀번호를 입력받아 일치하는지 확인
+         */
         currentPW_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,6 +84,11 @@ public class Personal_info_setting_Activity extends AppCompatActivity {
             }
         });
 
+        /**
+         * 비밀번호 변경 함수
+         * 새로운 비밀번호를 입력받아 조건을 확인하고 기존 비밀번호를 변경
+         * 서버통신을 통해 현재 유저 정보의 비밀번호 또한 새로운 비밀번호로 변경
+         */
         changePW_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,18 +110,20 @@ public class Personal_info_setting_Activity extends AppCompatActivity {
                         Log.e("아이디 잘 저장됬는지",Long.toString(change_pw.getId()));
                         Log.e("비밀번호 잘 저장됬는지",change_pw.getPassword());
 
+                        //기존 비밀번호를 새로운 비밀번호로 변경합니다.
+                        //DB와 연동하여 비밀번호가 변경되면 토스트 메세지를 띄웁니다.
                         changePassword(change_pw);
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "새 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
                 }
-                //기존 비밀번호를 새로운 비밀번호로 변경합니다.
-                //DB와 연동하여 비밀번호가 변경되면 토스트 메세지를 띄웁니다.
+
             }
         });
 
-
-        Button back_to_mypage_Btn = (Button) findViewById(R.id.btn_back_to_mypage);
+        /**
+         * 마이페이지 화면으로 돌아가는 버튼
+         */
         back_to_mypage_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,6 +133,11 @@ public class Personal_info_setting_Activity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 입력받은 비밀번호의 입력조건 확인 함수
+     * @param password
+     * @return
+     */
     private Boolean checkPassword(String password){
         // 숫자, 문자, 특수문자를 모두 포함한 8~15자리
         String passwordValidation = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&]).{8,15}.$";
@@ -143,6 +160,12 @@ public class Personal_info_setting_Activity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * 비밀번호 변경 함수
+     * 서버 통신을 통해 현재 유저의 비밀번호를 입력받은 새로운 비밀번호로 변경
+     * 비밀번호 변경 후, 자동 로그인 정보 초기화
+     * @param change
+     */
     private void changePassword(ChangeDTO change){
         userApi.changePW(change).enqueue(new Callback<ResponseDTO<ChangeDTO>>() {
             @Override
@@ -164,6 +187,7 @@ public class Personal_info_setting_Activity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "비밀번호 변경 성공", Toast.LENGTH_SHORT).show();
                 Toast.makeText(getApplicationContext(), "다시 로그인 해주세요", Toast.LENGTH_SHORT).show();
+                //비밀번호 변경 후, 다시 로그인화면으로 돌아가 다시 로그인 하도록 합니다.
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
             } else {
