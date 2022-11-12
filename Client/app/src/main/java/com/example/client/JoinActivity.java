@@ -21,6 +21,9 @@ import java.util.regex.Pattern;
 import retrofit2.Call;
 import retrofit2.Callback;
 
+/**
+ * 회원가입 관련 화면
+ */
 public class JoinActivity extends AppCompatActivity {
     EditText    et_join_name;
     EditText    et_join_password;
@@ -72,6 +75,7 @@ public class JoinActivity extends AppCompatActivity {
         });
     }
 
+    // 이름 체크 함수
     private Boolean checkName(String name){
         if(true == TextUtils.isEmpty(name)){
             Toast.makeText(getApplicationContext(), "이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -81,6 +85,7 @@ public class JoinActivity extends AppCompatActivity {
         return true;
     }
 
+    // 패스워드 양식 검사 함수
     private Boolean checkPassword(String password, String confirmPw){
         // 숫자, 문자, 특수문자를 모두 포함한 8~15자리
         String passwordValidation = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&]).{8,15}.$";
@@ -113,6 +118,7 @@ public class JoinActivity extends AppCompatActivity {
         return true;
     }
 
+    // 이메일 체크 함수
     private Boolean checkEmail(String email){
         // 이메일 확인 정규식
         if(true == TextUtils.isEmpty(email)){
@@ -128,6 +134,7 @@ public class JoinActivity extends AppCompatActivity {
         return true;
     }
 
+    // 핸드폰 양식 체크 함수
     private Boolean checkPhone(String phone){
         if(true == TextUtils.isEmpty(phone)){
             Toast.makeText(getApplicationContext(), "전화번호 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -137,6 +144,7 @@ public class JoinActivity extends AppCompatActivity {
         return true;
     }
 
+    // 회원 가입 API 호출 함수
     private void join(UserDTO user){
         userApi.joinUser(user).enqueue(new Callback<ResponseDTO<UserDTO>>() {
             @Override

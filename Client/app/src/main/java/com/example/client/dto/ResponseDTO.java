@@ -3,6 +3,10 @@ package com.example.client.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 데이터를 받는 응답 DTO
+ * @param <T>
+ */
 public class ResponseDTO<T> extends BaseResponse {
     private List<T> list;
 

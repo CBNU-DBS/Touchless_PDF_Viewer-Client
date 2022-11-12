@@ -1,11 +1,13 @@
 package com.example.client.dto;
 
+/**
+ * API 기본 응답 클래스
+ */
 public class BaseResponse {
     protected int resultCode;
     protected String resultMsg;
 
     public BaseResponse(){
-
     }
 
     public BaseResponse(int resultCode, String resultMsg) {

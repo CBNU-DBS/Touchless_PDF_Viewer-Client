@@ -223,19 +223,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    private List<MotionFunctionDTO> getMotionSetting(long userId){
-        Response<ResponseDTO<MotionFunctionDTO>> response;
-        List<MotionFunctionDTO> result = new ArrayList<>();
-        try {
-            response = motionFunctionApi.getMotionSetting(userId).execute();
-            if (response.isSuccessful()){
-                result = response.body().getList();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 
     /**
      * 권한 확인 함수. 권한이 없다면 사용자에게 요청

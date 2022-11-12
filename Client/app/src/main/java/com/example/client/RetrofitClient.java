@@ -1,12 +1,13 @@
 package com.example.client;
 
-import com.example.client.BuildConfig;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * API 통신을 위한 클라이언트 클래스(싱글톤 패턴)
+ */
 public class RetrofitClient {
     private final static String BASE_URL = "http://52.79.244.120:8080";
     private static Retrofit retrofit = null;
@@ -16,6 +17,11 @@ public class RetrofitClient {
     private RetrofitClient(){
 
     }
+
+    /**
+     * 싱글톤 패턴을 위한 인스턴스 불러오는 함수
+     * @return
+     */
     public static Retrofit getClient() {
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         clientBuilder.addInterceptor(loggingInterceptor);

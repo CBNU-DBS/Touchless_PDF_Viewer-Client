@@ -1,7 +1,9 @@
 package com.example.client.dto;
 
-import java.time.LocalDateTime;
 
+/**
+ * 문서 정보 DTO
+ */
 public class DocumentDTO {
     private Long id;
     private Long userId;
