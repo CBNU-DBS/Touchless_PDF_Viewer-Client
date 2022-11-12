@@ -154,7 +154,7 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
         try {
             startActivityForResult(intent, REQUEST_CODE);
         } catch (ActivityNotFoundException e) {
-            //alert user that file manager not working
+            //사용자에게 파일 관리자가 작동하지 않음을 알림
             Toast.makeText(this, R.string.toast_pick_file_error, Toast.LENGTH_SHORT).show();
         }
     }
@@ -171,7 +171,7 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
                 .enableAnnotationRendering(true)
                 .onLoad(this)
                 .scrollHandle(new DefaultScrollHandle(this))
-                .spacing(10) // in dp
+                .spacing(10) // dp
                 .onPageError(this)
                 .load();
         setTitle(pdfFileName);
@@ -304,7 +304,7 @@ public class PDF_View_Activity extends AppCompatActivity implements OnPageChange
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        // Do nothing.
+        // 아무것도 않함
     }
 
     @Override

@@ -168,6 +168,11 @@ public class MotionSettingActivity extends PreferenceFragment {
         motionFunctionPrefs.registerOnSharedPreferenceChangeListener(prefListener);
         if(save_btn != null){
             save_btn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                /**
+                 * 서버에 모션-설정 저장을 위한 MotionFunctionDTOList를 생성하고 저장
+                 * @param preference
+                 * @return 성공 실패 여부
+                 */
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     List<MotionFunctionDTO> motionFunctionDTOList = new ArrayList<>();
@@ -339,6 +344,10 @@ public class MotionSettingActivity extends PreferenceFragment {
         }
     };
 
+    /**
+     * 저장된 MotionFunctionDTOList를 서버에 저장을 위해 요청을 보냄.
+     * @param motionFunctionDTOList 모션-설정이 저장되어있는 MotionFunctionDTOList
+     */
     private void saveMotionSetting(List<MotionFunctionDTO> motionFunctionDTOList){
         motionFunctionApi.saveMotionSetting(motionFunctionDTOList).enqueue(
                 new Callback<BaseResponse>() {
