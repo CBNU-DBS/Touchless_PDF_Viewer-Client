@@ -18,12 +18,12 @@ import android.widget.TextView;
 import com.example.client.BuildConfig;
 import com.example.client.R;
 
-/** Demo app chooser which allows you pick from all available testing Activities. */
+/** 해당 앱에서는 접근 불가능한 FaceDetection 설정 선택 도구 */
 public final class ChooserActivity extends AppCompatActivity
         implements AdapterView.OnItemClickListener {
     private static final String TAG = "ChooserActivity";
 
-    @SuppressWarnings("NewApi") // CameraX is only available on API 21+
+    @SuppressWarnings("NewApi") // CameraX 는 API 21 이상에서만 구동
     private static final Class<?>[] CLASSES =
             VERSION.SDK_INT < VERSION_CODES.LOLLIPOP
                     ? new Class<?>[] {
@@ -65,7 +65,7 @@ public final class ChooserActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_chooser);
 
-        // Set up ListView and Adapter
+        // 목록 보기 및 어댑터 설정
         ListView listView = findViewById(R.id.test_activity_list_view);
 
         MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_list_item_2, CLASSES);
@@ -75,6 +75,13 @@ public final class ChooserActivity extends AppCompatActivity
         listView.setOnItemClickListener(this);
     }
 
+    /**
+     * 아이템 선택시 실행
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Class<?> clicked = CLASSES[position];

@@ -7,7 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.StringRes;
 import com.example.client.R;
 
-/** Used to setup face detection for Live Preview Activity and Still Image Activity. */
+/** 라이브 미리 보기 활동 및 정지 이미지 활동에 대한 얼굴 탐지를 설정하는 데 사용하는 Activity */
 public class FaceDetectionUtils {
     public static void setUpFaceDetectionPreferences(
             PreferenceFragment preferenceFragment, boolean isStreamMode) {
@@ -35,7 +35,7 @@ public class FaceDetectionUtils {
                                 return true;
                             }
                         } catch (NumberFormatException e) {
-                            // Fall through intentionally.
+                            // 고의로 실패
                         }
 
                         Toast.makeText(

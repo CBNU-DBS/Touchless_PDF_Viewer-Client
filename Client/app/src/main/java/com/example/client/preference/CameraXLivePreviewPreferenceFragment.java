@@ -18,7 +18,7 @@ import com.example.client.R;
 import java.util.Arrays;
 import java.util.List;
 
-/** Configures CameraX live preview demo settings. */
+/** CameraX API 라이브 이미지에 대한 설정 */
 @RequiresApi(VERSION_CODES.LOLLIPOP)
 public class CameraXLivePreviewPreferenceFragment extends LivePreviewPreferenceFragment {
 
@@ -96,7 +96,7 @@ public class CameraXLivePreviewPreferenceFragment extends LivePreviewPreferenceF
                 }
             }
         } catch (CameraAccessException e) {
-            // Accessing camera ID info got error
+            // 카메라 ID 정보에 액세스하는 중 오류가 발생
         }
         return null;
     }

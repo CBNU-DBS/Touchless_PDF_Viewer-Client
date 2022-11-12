@@ -7,7 +7,7 @@ import android.preference.PreferenceScreen;
 import androidx.annotation.RequiresApi;
 import com.example.client.R;
 
-/** Configures CameraXSource live preview demo settings. */
+/** CameraX API 라이브 이미지에 대한 설정 */
 @RequiresApi(VERSION_CODES.LOLLIPOP)
 public class CameraXSourceDemoPreferenceFragment extends CameraXLivePreviewPreferenceFragment {
 
@@ -22,10 +22,10 @@ public class CameraXSourceDemoPreferenceFragment extends CameraXLivePreviewPrefe
 
         preferenceCategory.removePreference(
                 findPreference(getString(R.string.pref_key_camera_live_viewport)));
-        // Remove the PreferenceCategories for hiding camera detection info.
+        // 카메라 탐지 정보를 숨기기 위한 기본 설정 범주를 제거합니다.
         preferenceScreen.removePreference(preferenceScreen.getPreference(1));
 
-        // Remove the last 3 PreferenceCategories
+        // 마지막 세 가지 기본 설정 범주 제거
         preferenceScreen.removePreference(preferenceScreen.getPreference(2));
         preferenceScreen.removePreference(preferenceScreen.getPreference(2));
         preferenceScreen.removePreference(preferenceScreen.getPreference(2));

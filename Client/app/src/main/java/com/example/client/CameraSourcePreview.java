@@ -11,7 +11,7 @@ import com.google.android.gms.common.images.Size;
 import com.example.client.preference.PreferenceUtils;
 import java.io.IOException;
 
-/** Preview the camera image in the screen. */
+/** 화면에서 카메라 이미지 미리 보기 */
 public class CameraSourcePreview extends ViewGroup {
     private static final String TAG = "MIDemoApp:Preview";
 
@@ -77,8 +77,8 @@ public class CameraSourcePreview extends ViewGroup {
                 int max = Math.max(size.getWidth(), size.getHeight());
                 boolean isImageFlipped = cameraSource.getCameraFacing() == CameraSource.CAMERA_FACING_FRONT;
                 if (isPortraitMode()) {
-                    // Swap width and height sizes when in portrait, since it will be rotated by 90 degrees.
-                    // The camera preview and the image being processed have the same size.
+                    // 세로 방향으로 90도 회전하므로 가로 및 높이 크기를 바꿉니다.
+                    // 카메라 미리 보기와 처리 중인 이미지의 크기가 같습니다.
                     overlay.setImageSourceInfo(min, max, isImageFlipped);
                 } else {
                     overlay.setImageSourceInfo(max, min, isImageFlipped);
@@ -121,7 +121,7 @@ public class CameraSourcePreview extends ViewGroup {
             }
         }
 
-        // Swap width and height sizes when in portrait, since it will be rotated 90 degrees
+        // 세로 방향으로 90도 회전하므로 가로 및 높이 크기를 바꿉니다.
         if (isPortraitMode()) {
             int tmp = width;
             width = height;
@@ -133,13 +133,11 @@ public class CameraSourcePreview extends ViewGroup {
         int layoutHeight = bottom - top;
         float layoutAspectRatio = (float) layoutWidth / layoutHeight;
         if (previewAspectRatio > layoutAspectRatio) {
-            // The preview input is wider than the layout area. Fit the layout height and crop
-            // the preview input horizontally while keep the center.
+            // 미리 보기 입력이 레이아웃 영역보다 넓다면 레이아웃 높이를 맞추고 가운데를 유지하면서 미리보기 입력을 가로로 자릅니다.
             int horizontalOffset = (int) (previewAspectRatio * layoutHeight - layoutWidth) / 2;
             surfaceView.layout(-horizontalOffset, 0, layoutWidth + horizontalOffset, layoutHeight);
         } else {
-            // The preview input is taller than the layout area. Fit the layout width and crop the preview
-            // input vertically while keep the center.
+            // 미리 보기 입력이 레이아웃 영역보다 크다면 레이아웃 너비를 맞추고 가운데를 유지하면서 미리보기 입력을 수직으로 자릅니다.
             int verticalOffset = (int) (layoutWidth / previewAspectRatio - layoutHeight) / 2;
             surfaceView.layout(0, -verticalOffset, layoutWidth, layoutHeight + verticalOffset);
         }

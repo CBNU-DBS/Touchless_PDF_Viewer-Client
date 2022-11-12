@@ -26,9 +26,16 @@ import javax.annotation.Nullable;
 import retrofit2.Call;
 import retrofit2.Callback;
 
+/**
+ * 모션 설정 화면 Activity
+ */
 public class MotionSettingActivity extends PreferenceFragment {
+    /**
+     * SharedPreferences를 통해 전역적으로 접근 가능
+     */
     SharedPreferences motionFunctionPrefs;
 
+    // 모션 설정, 저장 버튼 Preference 선언
     ListPreference motionPreference1;
     ListPreference motionPreference2;
     ListPreference motionPreference3;
@@ -53,6 +60,13 @@ public class MotionSettingActivity extends PreferenceFragment {
 
     MotionFunctionApi motionFunctionApi;
 
+    /**
+     * 생성자.
+     * motionPreference를 통해 모션에 따른 각 행동들을 저장
+     * 만약 앱을 처음 실행한다면 Default값을 저장
+     * 설정에서 중복되는 값은 거부시킴
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,8 +91,6 @@ public class MotionSettingActivity extends PreferenceFragment {
 
         sp = this.getActivity().getSharedPreferences("auto_login",MODE_PRIVATE);
         userId = sp.getLong("auto_id0",0L);
-//        setDefaultMotionSetting();
-//        getMotion();
         motionFunctionPrefs.registerOnSharedPreferenceChangeListener(prefListener);
 
         Log.d("what", motionFunctionPrefs.getString("Scroll_up",""));
@@ -90,6 +102,7 @@ public class MotionSettingActivity extends PreferenceFragment {
         Log.d("what", motionFunctionPrefs.getString("Zoom_out",""));
         Log.d("what", "========================================================");
 
+        //앱 최초실행시 Default 값 저장
         if(!motionFunctionPrefs.contains("Scroll_up")){
             editon.putString("Scroll_up", "Head_up");
             editon.apply();
@@ -119,23 +132,7 @@ public class MotionSettingActivity extends PreferenceFragment {
             editon.apply();
         }
 
-        Log.d("what", motionFunctionPrefs.getString("Scroll_up",""));
-        Log.d("what", motionFunctionPrefs.getString("Scroll_down",""));
-        Log.d("what", motionFunctionPrefs.getString("Scroll_left",""));
-        Log.d("what", motionFunctionPrefs.getString("Scroll_right",""));
-        Log.d("what", motionFunctionPrefs.getString("Back",""));
-        Log.d("what", motionFunctionPrefs.getString("Zoom_in",""));
-        Log.d("what", motionFunctionPrefs.getString("Zoom_out",""));
-        Log.d("what", "========================================================");
-        Log.d("what", change_language(motionFunctionPrefs.getString("Scroll_up","")));
-        Log.d("what", change_language(motionFunctionPrefs.getString("Scroll_down","")));
-        Log.d("what", change_language(motionFunctionPrefs.getString("Scroll_left","")));
-        Log.d("what", change_language(motionFunctionPrefs.getString("Scroll_right","")));
-        Log.d("what", change_language(motionFunctionPrefs.getString("Back","")));
-        Log.d("what", change_language(motionFunctionPrefs.getString("Zoom_in","")));
-        Log.d("what", change_language(motionFunctionPrefs.getString("Zoom_out","")));
-
-
+        //각 MotionPreference들의 Summary 수정
         if(!motionFunctionPrefs.getString("Scroll_up", "").equals("")){
             motionPreference1.setSummary(change_language(motionFunctionPrefs.getString("Scroll_up", "")));
         }
@@ -158,7 +155,7 @@ public class MotionSettingActivity extends PreferenceFragment {
             motionPreference7.setSummary(change_language(motionFunctionPrefs.getString("Zoom_out", "")));
         }
 
-
+        // 할당된 모션들을 저장
         motion1 = motionFunctionPrefs.getString("Scroll_up", "");
         motion2 = motionFunctionPrefs.getString("Scroll_down", "");
         motion3 = motionFunctionPrefs.getString("Scroll_left", "");
@@ -171,6 +168,11 @@ public class MotionSettingActivity extends PreferenceFragment {
         motionFunctionPrefs.registerOnSharedPreferenceChangeListener(prefListener);
         if(save_btn != null){
             save_btn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                /**
+                 * 서버에 모션-설정 저장을 위한 MotionFunctionDTOList를 생성하고 저장
+                 * @param preference
+                 * @return 성공 실패 여부
+                 */
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     List<MotionFunctionDTO> motionFunctionDTOList = new ArrayList<>();
@@ -188,7 +190,9 @@ public class MotionSettingActivity extends PreferenceFragment {
         }
     }//onCreate
 
-
+    /**
+     * 값이 변할경우 각 설정들에 대해 중복되는 값이 있는지 확인, 중복이 없다면 설정 변경
+     */
     SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -340,6 +344,10 @@ public class MotionSettingActivity extends PreferenceFragment {
         }
     };
 
+    /**
+     * 저장된 MotionFunctionDTOList를 서버에 저장을 위해 요청을 보냄.
+     * @param motionFunctionDTOList 모션-설정이 저장되어있는 MotionFunctionDTOList
+     */
     private void saveMotionSetting(List<MotionFunctionDTO> motionFunctionDTOList){
         motionFunctionApi.saveMotionSetting(motionFunctionDTOList).enqueue(
                 new Callback<BaseResponse>() {
@@ -362,6 +370,11 @@ public class MotionSettingActivity extends PreferenceFragment {
                 });
     }
 
+    /**
+     * 모션 설정에서 중복이 있는지 검사
+     * @param code 모션 String
+     * @return 중복이 있다면 중복되는 String 반환, 없다면 nothing
+     */
     private String checkMotionduplication(String code){
         if(!code.equals("Scroll_up")){
             if(checkduplication("Scroll_up", code)) return "Scroll_up";
@@ -408,23 +421,7 @@ public class MotionSettingActivity extends PreferenceFragment {
         motionString.put("오른쪽 눈 감기", "Eye_close_right");
     }
 
-    private void setDefaultMotionSetting(){
-        motionPreference1.setSummary(
-                motionString.get(motionFunctionPrefs.getString("Scroll_up", "Head_up")));
-        motionPreference2.setSummary(
-                motionString.get(motionFunctionPrefs.getString("Scroll_down", "Head_down")));
-        motionPreference3.setSummary(
-                motionString.get(motionFunctionPrefs.getString("Scroll_left", "Head_left")));
-        motionPreference4.setSummary(
-                motionString.get(motionFunctionPrefs.getString("Scroll_right", "Head_right")));
-        motionPreference5.setSummary(
-                motionString.get(motionFunctionPrefs.getString("Back", "Eyes_close")));
-        motionPreference6.setSummary(
-                motionString.get(motionFunctionPrefs.getString("Zoom_in", "Eyes_close_left")));
-        motionPreference7.setSummary(
-                motionString.get(motionFunctionPrefs.getString("Zoom_out", "Eyes_close_right")));
-    }
-
+    //HashMap으로 영어 - 한글 변환
     private String change_language(String str){
         return motionString.get(str);
     }
@@ -463,13 +460,19 @@ public class MotionSettingActivity extends PreferenceFragment {
         return result[0];
     }
 
+    /**
+     * 두 String 간의 중복 확인
+     * @param code1 확인 대상 1
+     * @param code2 확인 대상 2
+     * @return 중복이라면 True, 아니라면 False
+     */
     private Boolean checkduplication(String code1, String code2){
         if(motionFunctionPrefs.getString(code1,"1").equals(motionFunctionPrefs.getString(code2,"2"))){
             return true;
         }
         else return false;
     }
-
+    //중복일 경우 변경사항을 이전으로 되돌리는 코드
     private void changeduplication(String code1, String code2){ //code1: 사용자가 바꾼 모션 설정, code2: 바꾼 설정과 중복되는 모션
         SharedPreferences.Editor editor = motionFunctionPrefs.edit();
         editor.putString(code2, "Nothing");
@@ -532,17 +535,6 @@ public class MotionSettingActivity extends PreferenceFragment {
             motion7 = motionFunctionPrefs.getString(code2, "");
             motionPreference7.setSummary(change_language(motionFunctionPrefs.getString(code2,"")));
         }
-    }
-
-    private Boolean checknothing(){
-        if("Nothing".equals(motionFunctionPrefs.getString("Scroll_up",""))) return true;
-        if("Nothing".equals(motionFunctionPrefs.getString("Scroll_down",""))) return true;
-        if("Nothing".equals(motionFunctionPrefs.getString("Scroll_left",""))) return true;
-        if("Nothing".equals(motionFunctionPrefs.getString("Scroll_right",""))) return true;
-        if("Nothing".equals(motionFunctionPrefs.getString("Back",""))) return true;
-        if("Nothing".equals(motionFunctionPrefs.getString("Zoom_in",""))) return true;
-        if("Nothing".equals(motionFunctionPrefs.getString("Zoom_out",""))) return true;
-        return false;
     }
 
 }

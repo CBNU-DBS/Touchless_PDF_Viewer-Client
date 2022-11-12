@@ -24,11 +24,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-/** Utils functions for bitmap conversions. */
+/** 비트맵 변환을 위한 유틸리티 */
 public class BitmapUtils {
     private static final String TAG = "BitmapUtils";
 
-    /** Converts NV21 format byte buffer to bitmap. */
+    /** NV21 형식 바이트 버퍼를 비트맵으로 변환합니다. */
     @Nullable
     public static Bitmap getBitmap(ByteBuffer data, FrameMetadata metadata) {
         data.rewind();
@@ -51,7 +51,7 @@ public class BitmapUtils {
         return null;
     }
 
-    /** Converts a YUV_420_888 image from CameraX API to a bitmap. */
+    /** YUV_420_888 이미지를 CameraX API에서 비트맵으로 변환합니다. */
     @RequiresApi(VERSION_CODES.LOLLIPOP)
     @Nullable
     @ExperimentalGetImage
@@ -68,20 +68,20 @@ public class BitmapUtils {
         return getBitmap(nv21Buffer, frameMetadata);
     }
 
-    /** Rotates a bitmap if it is converted from a bytebuffer. */
+    /** 비트맵이 바이트 버퍼에서 변환된 경우 비트맵을 회전합니다. */
     private static Bitmap rotateBitmap(
             Bitmap bitmap, int rotationDegrees, boolean flipX, boolean flipY) {
         Matrix matrix = new Matrix();
 
-        // Rotate the image back to straight.
+        // 이미지를 다시 바르게 회전합니다.
         matrix.postRotate(rotationDegrees);
 
-        // Mirror the image along the X or Y axis.
+        // X 또는 Y 축을 따라 이미지를 미러링합니다.
         matrix.postScale(flipX ? -1.0f : 1.0f, flipY ? -1.0f : 1.0f);
         Bitmap rotatedBitmap =
                 Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
-        // Recycle the old bitmap if it has changed.
+        // 이전 비트맵이 변경된 경우 해당 비트맵을 재활용합니다.
         if (rotatedBitmap != bitmap) {
             bitmap.recycle();
         }
@@ -100,8 +100,6 @@ public class BitmapUtils {
         int rotationDegrees = 0;
         boolean flipX = false;
         boolean flipY = false;
-        // See e.g. https://magnushoff.com/articles/jpeg-orientation/ for a detailed explanation on each
-        // orientation.
         switch (orientation) {
             case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
                 flipX = true;
@@ -129,16 +127,14 @@ public class BitmapUtils {
             case ExifInterface.ORIENTATION_UNDEFINED:
             case ExifInterface.ORIENTATION_NORMAL:
             default:
-                // No transformations necessary in this case.
+                // 이 경우에는 변환이 필요하지 않습니다.
         }
 
         return rotateBitmap(decodedBitmap, rotationDegrees, flipX, flipY);
     }
 
     private static int getExifOrientationTag(ContentResolver resolver, Uri imageUri) {
-        // We only support parsing EXIF orientation tag from local file on the device.
-        // See also:
-        // https://android-developers.googleblog.com/2016/12/introducing-the-exifinterface-support-library.html
+        // 장치의 로컬 파일에서 EXIF 방향 태그 구문 분석만을 지원
         if (!ContentResolver.SCHEME_CONTENT.equals(imageUri.getScheme())
                 && !ContentResolver.SCHEME_FILE.equals(imageUri.getScheme())) {
             return 0;
@@ -160,21 +156,16 @@ public class BitmapUtils {
     }
 
     /**
-     * Converts YUV_420_888 to NV21 bytebuffer.
+     * YUV_420_888을 NV21 바이트 버퍼로 변환합니다.
      *
-     * <p>The NV21 format consists of a single byte array containing the Y, U and V values. For an
-     * image of size S, the first S positions of the array contain all the Y values. The remaining
-     * positions contain interleaved V and U values. U and V are subsampled by a factor of 2 in both
-     * dimensions, so there are S/4 U values and S/4 V values. In summary, the NV21 array will contain
-     * S Y values followed by S/4 VU values: YYYYYYYYYYYYYY(...)YVUVUVUVU(...)VU
+     * <p> NV21 형식은 Y, U 및 V 값을 포함하는 단일 바이트 배열로 구성됩니다. 크기가 S인 이미지의 경우
+     * 배열의 첫 번째 S 위치에 모든 Y 값이 포함됩니다. 나머지 위치에는 인터리빙된 V 및 U 값이 포함됩니다.
+     * U와 V는 두 차원 모두에서 2의 계수로 하위 샘플링되므로 S/4U 값과 S/4V 값이 있습니다
      *
-     * <p>YUV_420_888 is a generic format that can describe any YUV image where U and V are subsampled
-     * by a factor of 2 in both dimensions. {@link Image#getPlanes} returns an array with the Y, U and
-     * V planes. The Y plane is guaranteed not to be interleaved, so we can just copy its values into
-     * the first part of the NV21 array. The U and V planes may already have the representation in the
-     * NV21 format. This happens if the planes share the same buffer, the V buffer is one position
-     * before the U buffer and the planes have a pixelStride of 2. If this is case, we can just copy
-     * them to the NV21 array.
+     * <p> YUV_420_888은 U와 V가 두 차원 모두에서 2배만큼 하위 샘플링된 모든 YUV 이미지를 기술할 수 있는 일반적인 형식
+     * Y 평면은 인터리브되지 않도록 보장되므로 NV21 어레이의 첫 번째 부분에 값을 복사할 수 있습니다.
+     * U 및 V 평면은 이미 NV21 형식의 표현을 가지고 있을 수 있습니다.
+     * 이 문제는 평면이 동일한 버퍼를 공유하고 V 버퍼가 U 버퍼 앞의 한 위치이고 평면의 픽셀 스트라이드가 2인 경우에 발생합니다.
      */
     @RequiresApi(VERSION_CODES.KITKAT)
     private static ByteBuffer yuv420ThreePlanesToNV21(
@@ -183,17 +174,17 @@ public class BitmapUtils {
         byte[] out = new byte[imageSize + 2 * (imageSize / 4)];
 
         if (areUVPlanesNV21(yuv420888planes, width, height)) {
-            // Copy the Y values.
+            // Y 값을 복사합니다.
             yuv420888planes[0].getBuffer().get(out, 0, imageSize);
 
             ByteBuffer uBuffer = yuv420888planes[1].getBuffer();
             ByteBuffer vBuffer = yuv420888planes[2].getBuffer();
-            // Get the first V value from the V buffer, since the U buffer does not contain it.
+            // U 버퍼에 V 값이 포함되어 있지 않으므로 V 버퍼에서 첫 번째 V 값을 가져옵니다.
             vBuffer.get(out, imageSize, 1);
-            // Copy the first U value and the remaining VU values from the U buffer.
+            // U 버퍼에서 첫 번째 U 값과 나머지 VU 값을 복사합니다.
             uBuffer.get(out, imageSize + 1, 2 * imageSize / 4 - 1);
         } else {
-            // Fallback to copying the UV values one by one, which is slower but also works.
+            // UV 값을 하나씩 복사하는 것으로 되돌아가면 속도가 느리지만 작동하기도 합니다.
             // Unpack Y.
             unpackPlane(yuv420888planes[0], width, height, out, 0, 1);
             // Unpack U.
@@ -205,7 +196,7 @@ public class BitmapUtils {
         return ByteBuffer.wrap(out);
     }
 
-    /** Checks if the UV plane buffers of a YUV_420_888 image are in the NV21 format. */
+    /** YUV_420_888 이미지의 UV 평면 버퍼가 NV21 형식인지 확인합니다. */
     @RequiresApi(VERSION_CODES.KITKAT)
     private static boolean areUVPlanesNV21(Plane[] planes, int width, int height) {
         int imageSize = width * height;
@@ -213,20 +204,20 @@ public class BitmapUtils {
         ByteBuffer uBuffer = planes[1].getBuffer();
         ByteBuffer vBuffer = planes[2].getBuffer();
 
-        // Backup buffer properties.
+        // 백업 버퍼 속성.
         int vBufferPosition = vBuffer.position();
         int uBufferLimit = uBuffer.limit();
 
-        // Advance the V buffer by 1 byte, since the U buffer will not contain the first V value.
+        // U 버퍼에 첫 번째 V 값이 포함되지 않으므로 V 버퍼를 1바이트 전진시킵니다.
         vBuffer.position(vBufferPosition + 1);
-        // Chop off the last byte of the U buffer, since the V buffer will not contain the last U value.
+        // V 버퍼에 마지막 U 값이 포함되지 않으므로 U 버퍼의 마지막 바이트를 잘라냅니다.
         uBuffer.limit(uBufferLimit - 1);
 
-        // Check that the buffers are equal and have the expected number of elements.
+        // 버퍼가 같고 예상되는 요소 수가 있는지 확인합니다.
         boolean areNV21 =
                 (vBuffer.remaining() == (2 * imageSize / 4 - 2)) && (vBuffer.compareTo(uBuffer) == 0);
 
-        // Restore buffers to their initial state.
+        // 버퍼를 초기 상태로 복원합니다.
         vBuffer.position(vBufferPosition);
         uBuffer.limit(uBufferLimit);
 
@@ -234,10 +225,7 @@ public class BitmapUtils {
     }
 
     /**
-     * Unpack an image plane into a byte array.
-     *
-     * <p>The input plane data will be copied in 'out', starting at 'offset' and every pixel will be
-     * spaced by 'pixelStride'. Note that there is no row padding on the output.
+     * 이미지 평면을 바이트 배열로 압축을 풉니다.
      */
     @TargetApi(VERSION_CODES.KITKAT)
     private static void unpackPlane(
@@ -245,8 +233,8 @@ public class BitmapUtils {
         ByteBuffer buffer = plane.getBuffer();
         buffer.rewind();
 
-        // Compute the size of the current plane.
-        // We assume that it has the aspect ratio as the original image.
+        // 현재 평면의 크기를 계산합니다.
+        // 원래 이미지와 같은 가로 세로 비율을 가지고 있다고 가정
         int numRow = (buffer.limit() + plane.getRowStride() - 1) / plane.getRowStride();
         if (numRow == 0) {
             return;
@@ -254,7 +242,7 @@ public class BitmapUtils {
         int scaleFactor = height / numRow;
         int numCol = width / scaleFactor;
 
-        // Extract the data in the output buffer.
+        // 출력 버퍼에서 데이터를 추출
         int outputPos = offset;
         int rowStart = 0;
         for (int row = 0; row < numRow; row++) {

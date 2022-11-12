@@ -34,12 +34,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Activity demonstrating different image detector features with a still image from camera. */
+/** 카메라의 정지된 이미지를 사용하여 다양한 이미지 검출기 기능 실행 */
 @KeepName
 public final class StillImageActivity extends AppCompatActivity {
-
+    //MLkit에서 지원하는 모든 기능들. 해당 앱에서는 Face Detection만 사용
     private static final String TAG = "StillImageActivity";
-
     private static final String OBJECT_DETECTION = "Object Detection";
     private static final String OBJECT_DETECTION_CUSTOM = "Custom Object Detection";
     private static final String CUSTOM_AUTOML_OBJECT_DETECTION =
@@ -57,10 +56,10 @@ public final class StillImageActivity extends AppCompatActivity {
     private static final String TEXT_RECOGNITION_JAPANESE = "Text Recognition Japanese (Beta)";
     private static final String TEXT_RECOGNITION_KOREAN = "Text Recognition Korean (Beta)";
 
-    private static final String SIZE_SCREEN = "w:screen"; // Match screen width
-    private static final String SIZE_1024_768 = "w:1024"; // ~1024*768 in a normal ratio
-    private static final String SIZE_640_480 = "w:640"; // ~640*480 in a normal ratio
-    private static final String SIZE_ORIGINAL = "w:original"; // Original image size
+    private static final String SIZE_SCREEN = "w:screen"; // 화면 너비 일치
+    private static final String SIZE_1024_768 = "w:1024"; // ~1024*768 의 정상 비율
+    private static final String SIZE_640_480 = "w:640"; // ~640*480 의 정상 비율
+    private static final String SIZE_ORIGINAL = "w:original"; // 원본 이미지 크기
 
     private static final String KEY_IMAGE_URI = "com.google.mlkit.vision.demo.KEY_IMAGE_URI";
     private static final String KEY_SELECTED_SIZE = "com.google.mlkit.vision.demo.KEY_SELECTED_SIZE";
@@ -89,7 +88,8 @@ public final class StillImageActivity extends AppCompatActivity {
         findViewById(R.id.select_image_button)
                 .setOnClickListener(
                         view -> {
-                            // Menu for selecting either: a) take new photo b) select from existing
+                            // 다음 중 하나를 선택하는 메뉴: a) 새 사진 찍기 b) 기존 중에서 선택.
+                            // 해당 앱에서는 새 사진 찍기만을 사용
                             PopupMenu popup = new PopupMenu(StillImageActivity.this, view);
                             popup.setOnMenuItemClickListener(
                                     menuItem -> {
@@ -147,6 +147,9 @@ public final class StillImageActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * 다시 실행, 일시정지, 소멸자
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -171,7 +174,13 @@ public final class StillImageActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 아래 코드는 MLkit 환경설정 관련 코드
+     * 해당 앱에서는 Face Detection만을 사용하고, 앱 정상작동을 위해 설정화면 접근 불가
+     */
+
     private void populateFeatureSelector() {
+        //스피너 선언 및 기설정된 옵션을 가져와서 List
         Spinner featureSpinner = findViewById(R.id.feature_selector);
         List<String> options = new ArrayList<>();
         options.add(OBJECT_DETECTION);
@@ -190,11 +199,11 @@ public final class StillImageActivity extends AppCompatActivity {
         options.add(TEXT_RECOGNITION_JAPANESE);
         options.add(TEXT_RECOGNITION_KOREAN);
 
-        // Creating adapter for featureSpinner
+        // spinner를 위한 Adapter 선언
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.spinner_outer_style, options);
-        // Drop down layout style - list view with radio button
+        // 드롭다운 레이아웃 스타일 - 라디오 단추가 있는 목록 보기
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // attaching data adapter to spinner
+        // 스피너에 데이터 어댑터 연결
         featureSpinner.setAdapter(dataAdapter);
         featureSpinner.setOnItemSelectedListener(
                 new OnItemSelectedListener() {
@@ -213,6 +222,7 @@ public final class StillImageActivity extends AppCompatActivity {
     }
 
     private void populateSizeSelector() {
+        //스피너 선언 및 화면 사이즈 관련 옵션 List
         Spinner sizeSpinner = findViewById(R.id.size_selector);
         List<String> options = new ArrayList<>();
         options.add(SIZE_SCREEN);
@@ -220,11 +230,11 @@ public final class StillImageActivity extends AppCompatActivity {
         options.add(SIZE_640_480);
         options.add(SIZE_ORIGINAL);
 
-        // Creating adapter for featureSpinner
+        // spinner를 위한 Adapter 선언
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.spinner_outer_style, options);
-        // Drop down layout style - list view with radio button
+        // 드롭다운 레이아웃 스타일 - 라디오 단추가 있는 목록 보기
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // attaching data adapter to spinner
+        // 스피너에 데이터 어댑터 연결
         sizeSpinner.setAdapter(dataAdapter);
         sizeSpinner.setOnItemSelectedListener(
                 new OnItemSelectedListener() {
@@ -241,6 +251,10 @@ public final class StillImageActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Activity가 종료될 경우에도 데이터 저장
+     * @param outState
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -249,7 +263,7 @@ public final class StillImageActivity extends AppCompatActivity {
     }
 
     private void startCameraIntentForResult() {
-        // Clean up last time's image
+        // 마지막(지난번) 이미지 삭제
         imageUri = null;
         preview.setImageBitmap(null);
 
@@ -276,7 +290,7 @@ public final class StillImageActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             tryReloadAndDetectInImage();
         } else if (requestCode == REQUEST_CHOOSE_IMAGE && resultCode == RESULT_OK) {
-            // In this case, imageUri is returned by the chooser, save it.
+            // 이 경우 선택자가 imageUri를 반환
             imageUri = data.getData();
             tryReloadAndDetectInImage();
         } else {
@@ -292,7 +306,7 @@ public final class StillImageActivity extends AppCompatActivity {
             }
 
             if (SIZE_SCREEN.equals(selectedSize) && imageMaxWidth == 0) {
-                // UI layout has not finished yet, will reload once it's ready.
+                // UI 레이아웃이 아직 완료되지 않을 경우, 준비가 되면 다시 로드.
                 return;
             }
 
@@ -301,17 +315,17 @@ public final class StillImageActivity extends AppCompatActivity {
                 return;
             }
 
-            // Clear the overlay first
+            // 오버레이를 먼저 삭제
             graphicOverlay.clear();
 
             Bitmap resizedBitmap;
             if (selectedSize.equals(SIZE_ORIGINAL)) {
                 resizedBitmap = imageBitmap;
             } else {
-                // Get the dimensions of the image view
+                // 이미지 뷰의 해상도 가져오기
                 Pair<Integer, Integer> targetedSize = getTargetedWidthHeight();
 
-                // Determine how much to scale down the image
+                // 이미지를 얼마나 축소할지 결정
                 float scaleFactor =
                         max(
                                 (float) imageBitmap.getWidth() / (float) targetedSize.first,
@@ -329,7 +343,7 @@ public final class StillImageActivity extends AppCompatActivity {
 
             if (imageProcessor != null) {
                 graphicOverlay.setImageSourceInfo(
-                        resizedBitmap.getWidth(), resizedBitmap.getHeight(), /* isFlipped= */ false);
+                        resizedBitmap.getWidth(), resizedBitmap.getHeight(), false);
                 imageProcessor.processBitmap(resizedBitmap, graphicOverlay);
             } else {
                 Log.e(TAG, "Null imageProcessor, please check adb logs for imageProcessor creation error");
