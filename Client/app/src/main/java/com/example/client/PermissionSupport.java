@@ -14,7 +14,9 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * 앱의 정상적인 구동을 위한 기기 권한 취득
+ */
 public class PermissionSupport {
 
     private Context context;

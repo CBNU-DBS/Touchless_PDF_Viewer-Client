@@ -28,7 +28,8 @@ import java.util.List;
 import androidx.core.app.ActivityCompat;
 
 
-/** ML Kit API에 대한 미리보기. */
+/** ML Kit API에 대한 카메라 미리보기
+ */
 @KeepName
 public final class LivePreviewActivity extends AppCompatActivity
         implements OnItemSelectedListener, CompoundButton.OnCheckedChangeListener,ActivityCompat.OnRequestPermissionsResultCallback {

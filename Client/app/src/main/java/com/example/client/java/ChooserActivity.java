@@ -18,7 +18,10 @@ import android.widget.TextView;
 import com.example.client.BuildConfig;
 import com.example.client.R;
 
-/** 해당 앱에서는 접근 불가능한 FaceDetection 설정 선택 도구 */
+/**
+ * 해당 앱에서는 접근 불가능한 FaceDetection 설정 선택 도구
+ * 앱의 정상적인 구동을 위해 FaceDetection 설정은 수정 불가
+ * */
 public final class ChooserActivity extends AppCompatActivity
         implements AdapterView.OnItemClickListener {
     private static final String TAG = "ChooserActivity";
