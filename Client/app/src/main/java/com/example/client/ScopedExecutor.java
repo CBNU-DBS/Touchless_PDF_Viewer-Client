@@ -5,7 +5,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * 제출된 실행 파일을 나중에 취소할 수 있는 메서드를 제공하도록 기존 실행자를 래핑
+ * 제출된 실행 파일을 나중에 취소할 수 있는 메서드를 제공하도록 기존 실행자를 래핑하는 Activity Class.
  */
 public class ScopedExecutor implements Executor {
 

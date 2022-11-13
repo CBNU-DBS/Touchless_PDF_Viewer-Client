@@ -5,9 +5,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
 
-/** 오버레이 보기에서 추론 정보(대기 시간, FPS, 해상도)를 렌더링하기 위한 그래픽 인스턴스입니다.
- *  해당 앱에서는 가시성 문제로 사용 X
- * */
+/**
+ * 오버레이 보기에서 추론 정보(대기 시간, FPS, 해상도)를 렌더링하기 위한 그래픽 인스턴스 Activity Class.
+ * 해당 앱에서는 가시성 문제로 사용하지 않음.
+ */
 public class InferenceInfoGraphic extends GraphicOverlay.Graphic {
 
     private static final int TEXT_COLOR = Color.WHITE;

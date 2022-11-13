@@ -15,7 +15,7 @@ import com.example.client.Adapter.PdfAdapter;
 import java.util.ArrayList;
 
 /**
- * pdf를 recyclerview 방식으로 보여줄 수 있게 하는 Class
+ * pdf를 recyclerview 방식으로 보여줄 수 있게 하는 Activity Class.
  */
 public class SelectPdfActivity extends AppCompatActivity {
     @Override

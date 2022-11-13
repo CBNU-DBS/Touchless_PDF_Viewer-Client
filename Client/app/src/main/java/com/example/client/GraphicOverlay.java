@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 일련의 사용자 지정 그래픽을 관련 미리 보기(예: 카메라 미리 보기) 위에 오버레이하는 보기
+ * 일련의 사용자 지정 그래픽을 관련 미리 보기(예: 카메라 미리 보기) 위에 오버레이하는 Activity Class.
  * 그래픽 객체를 추가하고 객체를 업데이트하고 제거하여 뷰 내에서 적절한 도면과 무효화를 트리거할 수 있습니다.
  */
 public class GraphicOverlay extends View {

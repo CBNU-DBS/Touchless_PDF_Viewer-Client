@@ -38,6 +38,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 로그인 화면 Activity Class.
+ * 유저로부터 이메일과 비밀번호를 입력받아 서버통신을 통해
+ * 로그인 후, 유저의 정보를 클라이언트로 불러옵니다.
+ */
 public class LoginActivity extends AppCompatActivity {
     private PermissionSupport permission;
     EditText et_login_email;

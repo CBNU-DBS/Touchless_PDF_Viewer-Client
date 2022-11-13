@@ -15,7 +15,7 @@ import com.example.client.fragment.DocumentFragment;
 import com.google.android.material.navigation.NavigationBarView;
 
 /**
- * Fragment들을 하단 메뉴에서 선택해서 이동 할 수 있게 만드는 Class
+ * Fragment들을 하단 메뉴에서 선택해서 이동 할 수 있게 만드는 Activity Class.
  */
 public class HomeActivity extends AppCompatActivity {
 

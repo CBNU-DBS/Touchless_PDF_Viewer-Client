@@ -6,7 +6,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * API 통신을 위한 클라이언트 클래스(싱글톤 패턴)
+ * API 통신을 위한 Client Class (Singleton 패턴)
  */
 public class RetrofitClient {
     private final static String BASE_URL = "http://52.79.244.120:8080";
