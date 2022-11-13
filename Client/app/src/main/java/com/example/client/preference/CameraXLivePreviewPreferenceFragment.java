@@ -18,7 +18,7 @@ import com.example.client.R;
 import java.util.Arrays;
 import java.util.List;
 
-/** CameraX API 라이브 이미지에 대한 설정 */
+/** CameraX API 카메라 미리보기에 대한 설정 */
 @RequiresApi(VERSION_CODES.LOLLIPOP)
 public class CameraXLivePreviewPreferenceFragment extends LivePreviewPreferenceFragment {
 

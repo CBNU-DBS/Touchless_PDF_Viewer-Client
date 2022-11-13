@@ -28,6 +28,8 @@ import retrofit2.Callback;
 
 /**
  * 모션 설정 화면 Activity
+ * 기기에 저장된 모션 설정을 관리
+ * 서버와의 통신을 통해 서버에 저장된 모션 설정을 기기로 가져옴
  */
 public class MotionSettingActivity extends PreferenceFragment {
     /**

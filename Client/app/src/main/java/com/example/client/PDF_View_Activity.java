@@ -69,26 +69,16 @@ import com.shockwave.pdfium.PdfDocument;
 import java.util.List;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
-
+/**
+ * 화면에 PDF 파일을 비트맵 이미지로 노출
+ * FaceDetection과의 상호작용을 위한 시스템 interface 작성
+ */
 
 public class PDF_View_Activity extends AppCompatActivity implements OnPageChangeListener, OnLoadCompleteListener, OnItemSelectedListener, CompoundButton.OnCheckedChangeListener,
         ActivityCompat.OnRequestPermissionsResultCallback, OnPageErrorListener {
 
-    private static final String OBJECT_DETECTION = "Object Detection";
-    private static final String OBJECT_DETECTION_CUSTOM = "Custom Object Detection";
-    private static final String CUSTOM_AUTOML_OBJECT_DETECTION = "Custom AutoML Object Detection (Flower)";
+
     private static final String FACE_DETECTION = "Face Detection";
-    private static final String BARCODE_SCANNING = "Barcode Scanning";
-    private static final String IMAGE_LABELING = "Image Labeling";
-    private static final String IMAGE_LABELING_CUSTOM = "Custom Image Labeling (Birds)";
-    private static final String CUSTOM_AUTOML_LABELING = "Custom AutoML Image Labeling (Flower)";
-    private static final String POSE_DETECTION = "Pose Detection";
-    private static final String SELFIE_SEGMENTATION = "Selfie Segmentation";
-    private static final String TEXT_RECOGNITION_LATIN = "Text Recognition Latin";
-    private static final String TEXT_RECOGNITION_CHINESE = "Text Recognition Chinese (Beta)";
-    private static final String TEXT_RECOGNITION_DEVANAGARI = "Text Recognition Devanagari (Beta)";
-    private static final String TEXT_RECOGNITION_JAPANESE = "Text Recognition Japanese (Beta)";
-    private static final String TEXT_RECOGNITION_KOREAN = "Text Recognition Korean (Beta)";
     private static final String TAG = "LivePreviewActivity";
     private static PDFView pdfView;
 

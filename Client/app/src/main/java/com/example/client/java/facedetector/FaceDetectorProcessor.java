@@ -19,6 +19,7 @@ import java.util.Locale;
 
 /**
  * MLKit FaceDetector 코드
+ * FaceDetector로 입력 이미지에 대해 결과값을 확률로 생성
  */
 public class FaceDetectorProcessor extends VisionProcessorBase<List<Face>> {
 
