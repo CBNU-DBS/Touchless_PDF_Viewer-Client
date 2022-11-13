@@ -70,7 +70,7 @@ import java.util.List;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 /**
- * 선택된 PDF파일의 내용을 보여주는 Class
+ * 선택된 PDF파일의 내용을 보여주는 Activity Class.
  * 화면에 PDF 파일을 비트맵 이미지로 노출
  * FaceDetection과의 상호작용을 위한 시스템 interface 작성
  */
