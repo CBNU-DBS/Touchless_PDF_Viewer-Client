@@ -12,7 +12,8 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * 장치 온도를 모니터링 (MLkit 안정성 문제)
+ * 장치 온도를 모니터링 하는 Activity Class.
+ * (MLkit 안정성 문제)
  */
 public final class TemperatureMonitor implements SensorEventListener {
 

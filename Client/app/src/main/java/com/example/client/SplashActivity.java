@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+/**
+ * 앱의 Title 화면을 위한 Activity Class.
+ */
 public class SplashActivity extends AppCompatActivity {
 
     @Override

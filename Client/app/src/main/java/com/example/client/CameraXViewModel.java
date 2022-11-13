@@ -13,7 +13,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.common.util.concurrent.ListenableFuture;
 import java.util.concurrent.ExecutionException;
 
-/** CameraX와 상호 작용하기 위한 모델 */
+/**
+ * CameraX와 상호 작용하기 위한 모델 Activity Class.
+ */
 @RequiresApi(VERSION_CODES.LOLLIPOP)
 public final class CameraXViewModel extends AndroidViewModel {
 

@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * 전역적으로 카메라 설정을 저장하기 위한 Activity.
+ * 전역적으로 카메라 설정을 저장하기 위한 Activity Class.   
  * 오직 FaceGraphic에서만 접근
  */
 public class ActivityLocal extends Application {

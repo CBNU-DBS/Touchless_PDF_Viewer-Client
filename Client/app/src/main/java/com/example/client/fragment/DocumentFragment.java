@@ -82,7 +82,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * 사용자의 문서를 관리하는 Class
+ * 사용자의 문서를 관리하는 Fragment Class
  */
 public class DocumentFragment extends Fragment {
     private static final int READ_REQUEST_CODE = 101;

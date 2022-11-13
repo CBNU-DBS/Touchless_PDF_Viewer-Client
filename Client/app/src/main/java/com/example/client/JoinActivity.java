@@ -22,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 /**
- * 회원가입 관련 화면
+ * 회원가입 화면 Activity Class.
  */
 public class JoinActivity extends AppCompatActivity {
     EditText    et_join_name;

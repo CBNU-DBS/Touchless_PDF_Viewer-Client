@@ -23,9 +23,9 @@ import java.util.IdentityHashMap;
 import java.util.List;
 
 /**
- * 카메라를 관리하고 그 위에 UI 업데이트를 허용합니다
+ * 카메라를 관리하고 그 위에 UI 업데이트를 허용하는 Activity Class.
  * 카메라에서 지정된 속도로 미리 보기 프레임을 수신하여
- *  처리할 수 있는 한 빨리 자식 클래스의 디텍터/분류기로 프레임을 전송합니다.
+ * 처리할 수 있는 한 빨리 자식 클래스의 디텍터/분류기로 프레임을 전송합니다.
  */
 public class CameraSource {
     @SuppressLint("InlinedApi")

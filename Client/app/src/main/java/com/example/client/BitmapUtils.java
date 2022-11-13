@@ -24,7 +24,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-/** 비트맵 변환을 위한 유틸리티 */
+/**
+ * 비트맵 변환을 위한 유틸리티 Activity Class.
+ */
 public class BitmapUtils {
     private static final String TAG = "BitmapUtils";
 

@@ -1,6 +1,8 @@
 package com.example.client;
 
-/** 프레임 정보 설명. */
+/**
+ * 프레임 정보 설명 Activity Class.
+ */
 public class FrameMetadata {
 
     private final int width;

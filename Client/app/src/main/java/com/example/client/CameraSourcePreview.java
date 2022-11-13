@@ -11,7 +11,9 @@ import com.google.android.gms.common.images.Size;
 import com.example.client.preference.PreferenceUtils;
 import java.io.IOException;
 
-/** 화면에서 카메라 이미지 미리 보기 */
+/**
+ * 화면에서 카메라 이미지 미리 보기 Activity Class.
+ */
 public class CameraSourcePreview extends ViewGroup {
     private static final String TAG = "MIDemoApp:Preview";
 
