@@ -147,6 +147,8 @@ dependencies {
     implementation 'com.blankj:utilcodex:1.31.0'
     // logging
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+    // refresh
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }
 
 configurations {

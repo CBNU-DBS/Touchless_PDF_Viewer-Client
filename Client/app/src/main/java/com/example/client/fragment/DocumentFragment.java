@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -34,9 +35,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -106,18 +110,23 @@ public class DocumentFragment extends Fragment {
 
     private File LocalDir;
 
+    Fragment fragment;
+    FragmentManager fragmentM;
+    FragmentTransaction ft;
+    ArrayList<String> list;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // 리사이클러뷰에 표시할 데이터 리스트 생성.
         super.onCreate(savedInstanceState);
-        ArrayList<String> list = new ArrayList<>();
+        fragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.frame_layout);
+        list = new ArrayList<>();
         documentApi = RetrofitClient.getClient().create(DocumentApi.class);
         SharedPreferences sharedPref_login = this.getActivity().getSharedPreferences("auto_login",MODE_PRIVATE);
         SharedPreferences.Editor editor_login = sharedPref_login.edit();
         userId = sharedPref_login.getLong("auto_id0",0L);
 
-//        getFolderFileList();
+        getFolderFileList();
 
         SharedPreferences Pref_search = getActivity().getSharedPreferences("pref_search",Context.MODE_PRIVATE);
         String voice_search0 = Pref_search.getString("voiceMsg","");
@@ -145,6 +154,29 @@ public class DocumentFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
         PdfAdapter adapter = new PdfAdapter(list);
+        // 새로고침
+        SwipeRefreshLayout mSwipeRefreshLayout = getView().findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                list.clear();
+                getFolderFileList();
+                for (int i = 0; i < files.length; i++) {
+                    list.add(files[i].getName().toString());
+                }
+                ft = getFragmentManager().beginTransaction();
+                ft.commit();
+                adapter.notifyDataSetChanged();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 500);
+
+            }
+        });
         adapter.setOnItemClickListener(new PdfAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -344,6 +376,7 @@ public class DocumentFragment extends Fragment {
                                 if(response.body().getResultCode() == 0){
 //                                    Toast.makeText(getContext(), response.body().getResultMsg(), Toast.LENGTH_SHORT).show();
                                         downloadWithTransferUtility(key,file.getName());
+
                                 } else {
 //                                    Toast.makeText(getContext(), response.body().getResultMsg(), Toast.LENGTH_SHORT).show();
                                 }
@@ -387,7 +420,7 @@ public class DocumentFragment extends Fragment {
             public void onStateChanged(int id, TransferState state) {
                 if (state == TransferState.COMPLETED) {
                     // Handle a completed upload
-
+                    Log.d("downloadPDF","문서 다운로드 완료");
                 }
             }
 
