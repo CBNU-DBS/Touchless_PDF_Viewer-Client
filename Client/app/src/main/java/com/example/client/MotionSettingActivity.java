@@ -35,6 +35,7 @@ public class MotionSettingActivity extends PreferenceFragment {
     /**
      * SharedPreferences를 통해 전역적으로 접근 가능
      */
+    SharedPreferences finalmotionFunctionPrefs;
     SharedPreferences motionFunctionPrefs;
 
     // 모션 설정, 저장 버튼 Preference 선언
@@ -86,10 +87,26 @@ public class MotionSettingActivity extends PreferenceFragment {
         motionPreference7 = (ListPreference)findPreference("Zoom_out");
         save_btn = (Preference)findPreference("save");
 
-
+        finalmotionFunctionPrefs = this.getActivity().getSharedPreferences("motionFunction",MODE_PRIVATE);
         motionFunctionPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editon = motionFunctionPrefs.edit();
 
+        editon.putString("Scroll_up", finalmotionFunctionPrefs.getString("Scroll_up",""));
+        editon.putString("Scroll_down", finalmotionFunctionPrefs.getString("Scroll_down",""));
+        editon.putString("Scroll_left", finalmotionFunctionPrefs.getString("Scroll_left",""));
+        editon.putString("Scroll_right", finalmotionFunctionPrefs.getString("Scroll_right",""));
+        editon.putString("Back", finalmotionFunctionPrefs.getString("Back",""));
+        editon.putString("Zoom_in", finalmotionFunctionPrefs.getString("Zoom_in",""));
+        editon.putString("Zoom_out", finalmotionFunctionPrefs.getString("Zoom_out",""));
+        editon.apply();
+
+        motionPreference1.setValue(motionFunctionPrefs.getString("Scroll_up",""));
+        motionPreference2.setValue(motionFunctionPrefs.getString("Scroll_down",""));
+        motionPreference3.setValue(motionFunctionPrefs.getString("Scroll_left",""));
+        motionPreference4.setValue(motionFunctionPrefs.getString("Scroll_right",""));
+        motionPreference5.setValue(motionFunctionPrefs.getString("Back",""));
+        motionPreference6.setValue(motionFunctionPrefs.getString("Zoom_in",""));
+        motionPreference7.setValue(motionFunctionPrefs.getString("Zoom_out",""));
 
         sp = this.getActivity().getSharedPreferences("auto_login",MODE_PRIVATE);
         userId = sp.getLong("auto_id0",0L);
@@ -201,6 +218,15 @@ public class MotionSettingActivity extends PreferenceFragment {
             SharedPreferences.Editor editor = motionFunctionPrefs.edit();
 //            Toast alertToast = Toast.makeText(getActivity(),"중복된 설정이 있습니다", Toast.LENGTH_SHORT);
 //            Toast nothingToast = Toast.makeText(getActivity(),"없는 설정이 있습니다", Toast.LENGTH_SHORT);
+
+            Log.d("changeListener", motionFunctionPrefs.getString("Scroll_up",""));
+            Log.d("changeListener", motionFunctionPrefs.getString("Scroll_down",""));
+            Log.d("changeListener", motionFunctionPrefs.getString("Scroll_left",""));
+            Log.d("changeListener", motionFunctionPrefs.getString("Scroll_right",""));
+            Log.d("changeListener", motionFunctionPrefs.getString("Back",""));
+            Log.d("changeListener", motionFunctionPrefs.getString("Zoom_in",""));
+            Log.d("changeListener", motionFunctionPrefs.getString("Zoom_out",""));
+            Log.d("changeListener", "========================================================");
 
 
             if(key.equals("Scroll_up")){
