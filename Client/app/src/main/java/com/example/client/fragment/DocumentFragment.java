@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.DocumentsContract;
+import android.provider.OpenableColumns;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -70,6 +71,8 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -167,8 +170,24 @@ public class DocumentFragment extends Fragment {
             public void onRefresh() {
                 list.clear();
                 getFolderFileList();
-                for (int i = 0; i < files.length; i++) {
-                    list.add(files[i].getName().toString());
+                SharedPreferences Pref_search = getActivity().getSharedPreferences("pref_search",Context.MODE_PRIVATE);
+                String voice_search0 = Pref_search.getString("voiceMsg","");
+                SharedPreferences.Editor editor_search = Pref_search.edit();
+
+                //음성인식 결과가 존재할 경우, 음성인식 결과가 포함된 이름의 pdf만 리스트에 저장 후, 출력
+                if(voice_search0 != ""){
+                    for(int j = 0; j < files.length; j++){
+                        if(files[j].getName().contains(voice_search0)){
+                            list.add(files[j].getName().toString());
+                        }
+                    }
+                    //음성인식 결과에 따른 문서 출력 후, 음성인식결과 삭제(다시 문서목록 출력 시, 모든 문서가 출력됨)
+                    editor_search.clear();
+                    editor_search.commit();
+                } else {
+                    for (int i = 0; i < files.length; i++) {
+                        list.add(files[i].getName().toString());
+                    }
                 }
                 ft = getFragmentManager().beginTransaction();
                 ft.commit();
@@ -262,6 +281,7 @@ public class DocumentFragment extends Fragment {
                 mRecognizer = SpeechRecognizer.createSpeechRecognizer(cThis);
                 mRecognizer.setRecognitionListener(listener);
                 mRecognizer.startListening(SttIntent);
+
             }
         });
 
@@ -526,7 +546,7 @@ public class DocumentFragment extends Fragment {
                     errormsg = "알 수 없는 오류임";
                     break;
             }
-            Toast.makeText(getActivity(), errormsg, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), errormsg, Toast.LENGTH_SHORT).show();
             onDestroy();
         }
 
@@ -541,7 +561,7 @@ public class DocumentFragment extends Fragment {
             ArrayList<String> mResult = results.getStringArrayList(key);
             String[] rs = new String[mResult.size()];
             mResult.toArray(rs);
-            Toast.makeText(getActivity(), rs.toString(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), rs.toString(), Toast.LENGTH_SHORT).show();
 //            STT_Result.setText(rs[0] + "\r\n" + STT_Result.getText());
 //            Log.d("STT_Result",STT_Result.getText().toString());
             FuncVoiceOrderCheck(rs[0]); //입력된 음성에 따라 기능을 작동하도록 하는 함수
@@ -609,12 +629,43 @@ public class DocumentFragment extends Fragment {
             if (data != null) {
                 Uri uri = data.getData();
                 Log.e("uri", uri.toString());
-                File file = UriUtils.uri2File(uri);
+
+//                File file = UriUtils.uri2File(uri);
+//               File file = new File(uri.getPath());
+//                URL url = null;
+//                try {
+//                    url = new URL(uri.getScheme(), uri.getHost(), uri.getPath());
+//                } catch (MalformedURLException e) {
+//                    e.printStackTrace();
+//                }
+                 String fileName = getFileName(uri);
+                 File file = new File("/sdcard/Download/"+fileName);
+//               File file = new File(String.valueOf(url));
                 String key = UUID.randomUUID().toString();
                 uploadWithTransferUtility(key,file);
 
             }
         }
+    }
+    @SuppressLint("Range")
+    public String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getLastPathSegment();
+        }
+        return result;
     }
 
     /**
