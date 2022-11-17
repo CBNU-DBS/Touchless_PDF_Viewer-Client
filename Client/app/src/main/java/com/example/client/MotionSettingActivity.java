@@ -199,8 +199,8 @@ public class MotionSettingActivity extends PreferenceFragment {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             SharedPreferences.Editor editor = motionFunctionPrefs.edit();
-            Toast alertToast = Toast.makeText(getActivity(),"중복된 설정이 있습니다", Toast.LENGTH_SHORT);
-            Toast nothingToast = Toast.makeText(getActivity(),"없는 설정이 있습니다", Toast.LENGTH_SHORT);
+//            Toast alertToast = Toast.makeText(getActivity(),"중복된 설정이 있습니다", Toast.LENGTH_SHORT);
+//            Toast nothingToast = Toast.makeText(getActivity(),"없는 설정이 있습니다", Toast.LENGTH_SHORT);
 
 
             if(key.equals("Scroll_up")){
@@ -216,7 +216,7 @@ public class MotionSettingActivity extends PreferenceFragment {
                         ||motionFunctionPrefs.getString("Scroll_up","").equals(motionFunctionPrefs.getString("Zoom_in",""))
                         ||motionFunctionPrefs.getString("Scroll_up","").equals(motionFunctionPrefs.getString("Zoom_out",""))){
                     changeduplication("Scroll_up",checkMotionduplication("Scroll_up"));
-                    alertToast.show();
+  //                  alertToast.show();
                 }
                 else{
                     motionPreference1.setSummary(change_language(motionFunctionPrefs.getString("Scroll_up","")));
@@ -236,7 +236,7 @@ public class MotionSettingActivity extends PreferenceFragment {
                         ||motionFunctionPrefs.getString("Scroll_down","").equals(motionFunctionPrefs.getString("Zoom_in",""))
                         ||motionFunctionPrefs.getString("Scroll_down","").equals(motionFunctionPrefs.getString("Zoom_out",""))){
                     changeduplication("Scroll_down",checkMotionduplication("Scroll_down"));
-                    alertToast.show();
+     //               alertToast.show();
                 }
                 else{
                     motionPreference2.setSummary(change_language(motionFunctionPrefs.getString("Scroll_down","")));
@@ -256,7 +256,7 @@ public class MotionSettingActivity extends PreferenceFragment {
                         ||motionFunctionPrefs.getString("Scroll_left","").equals(motionFunctionPrefs.getString("Zoom_in",""))
                         ||motionFunctionPrefs.getString("Scroll_left","").equals(motionFunctionPrefs.getString("Zoom_out",""))){
                     changeduplication("Scroll_left",checkMotionduplication("Scroll_left"));
-                    alertToast.show();
+          //          alertToast.show();
                 }
                 else{
                     motionPreference3.setSummary(change_language(motionFunctionPrefs.getString("Scroll_left","")));
@@ -276,7 +276,7 @@ public class MotionSettingActivity extends PreferenceFragment {
                         ||motionFunctionPrefs.getString("Scroll_right","").equals(motionFunctionPrefs.getString("Zoom_in",""))
                         ||motionFunctionPrefs.getString("Scroll_right","").equals(motionFunctionPrefs.getString("Zoom_out",""))){
                     changeduplication("Scroll_right",checkMotionduplication("Scroll_right"));
-                    alertToast.show();
+       //             alertToast.show();
                 }
                 else{
                     motionPreference4.setSummary(change_language(motionFunctionPrefs.getString("Scroll_right","")));
@@ -296,7 +296,7 @@ public class MotionSettingActivity extends PreferenceFragment {
                         ||motionFunctionPrefs.getString("Back","").equals(motionFunctionPrefs.getString("Zoom_in",""))
                         ||motionFunctionPrefs.getString("Back","").equals(motionFunctionPrefs.getString("Zoom_out",""))){
                     changeduplication("Back",checkMotionduplication("Back"));
-                    alertToast.show();
+      //              alertToast.show();
                 }
                 else{
                     motionPreference5.setSummary(change_language(motionFunctionPrefs.getString("Back","")));
@@ -316,7 +316,7 @@ public class MotionSettingActivity extends PreferenceFragment {
                         ||motionFunctionPrefs.getString("Zoom_in","").equals(motionFunctionPrefs.getString("Back",""))
                         ||motionFunctionPrefs.getString("Zoom_in","").equals(motionFunctionPrefs.getString("Zoom_out",""))){
                     changeduplication("Zoom_in",checkMotionduplication("Zoom_in"));
-                    alertToast.show();
+       //             alertToast.show();
                 }
                 else{
                     motionPreference6.setSummary(change_language(motionFunctionPrefs.getString("Zoom_in","")));
@@ -336,7 +336,7 @@ public class MotionSettingActivity extends PreferenceFragment {
                         ||motionFunctionPrefs.getString("Zoom_out","").equals(motionFunctionPrefs.getString("Back",""))
                         ||motionFunctionPrefs.getString("Zoom_out","").equals(motionFunctionPrefs.getString("Zoom_in",""))){
                     changeduplication("Zoom_out",checkMotionduplication("Zoom_out"));
-                    alertToast.show();
+      //              alertToast.show();
                 }
                 else{
                     motionPreference7.setSummary(change_language(motionFunctionPrefs.getString("Zoom_out","")));

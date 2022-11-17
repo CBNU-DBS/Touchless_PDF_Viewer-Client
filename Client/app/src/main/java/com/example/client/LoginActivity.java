@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
@@ -200,7 +201,11 @@ public class LoginActivity extends AppCompatActivity {
                     motionFunctionList = result.getList().get(0).getMotionFunctionList();
                     for(MotionFunctionDTO motionFunction : motionFunctionList){
                         editor_motionFunction.putString(motionFunction.getFunction(), motionFunction.getMotion());
+                        Log.d("motionFunction",motionFunction.getMotion());
                     }
+//                    ArrayList<String> motionString = new ArrayList<String>({"Scroll_up","Scroll_down","Scroll_left","Scroll_right",});
+//                    motionString.add("Scroll_up")
+//                    editor_motionFunction.putString("Scroll_up", motionFunctionList);
                     editor_motionFunction.commit();
                     startActivity(logined_intent); //로그인 성공하여 마이페이지로 이동
                 } else {
