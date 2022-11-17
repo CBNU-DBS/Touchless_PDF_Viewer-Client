@@ -1,5 +1,8 @@
 package com.example.client.dto;
 
+/**
+ * 모션 기능 관련 DTO
+ */
 public class MotionFunctionDTO {
     private long userId;
     private String motion;

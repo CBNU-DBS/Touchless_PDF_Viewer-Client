@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import com.example.client.R;
 
-/** Configures still image demo settings. */
+/** 정지 이미지 기본 설정을 구성 */
 public class StillImagePreferenceFragment extends PreferenceFragment {
 
     @Override

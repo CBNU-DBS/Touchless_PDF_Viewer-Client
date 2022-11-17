@@ -38,6 +38,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 로그인 화면 Activity Class.
+ * 유저로부터 이메일과 비밀번호를 입력받아 서버통신을 통해
+ * 로그인 후, 유저의 정보를 클라이언트로 불러옵니다.
+ */
 public class LoginActivity extends AppCompatActivity {
     private PermissionSupport permission;
     EditText et_login_email;
@@ -223,20 +228,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    private List<MotionFunctionDTO> getMotionSetting(long userId){
-        Response<ResponseDTO<MotionFunctionDTO>> response;
-        List<MotionFunctionDTO> result = new ArrayList<>();
-        try {
-            response = motionFunctionApi.getMotionSetting(userId).execute();
-            if (response.isSuccessful()){
-                result = response.body().getList();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 
+    /**
+     * 권한 확인 함수. 권한이 없다면 사용자에게 요청
+     */
     private void permissionCheck() {
         permission = new PermissionSupport(this, this);
         if (!permission.checkPermission()){
@@ -247,6 +242,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 권한 요청 반환시 실행하는 함수. 거절된 권한이 있다면 안내 문구를 생성
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (!permission.permissionResult(requestCode, permissions, grantResults)) {
@@ -255,10 +256,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    /**
+     * 사용자가 권한 거절시 표시하는 경고창
+     */
     private void showDialogGuideForPermissionSettingGuide(){
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
         builder.setTitle("주의");
         builder.setMessage("정상적인 앱 사용을 위해 모든 파일 접근 권한이 요구됩니다.");
+        /**
+         * 권한을 설정하기 위해 앱 설정 화면으로 이동
+         */
         builder.setPositiveButton("권한설정하러가기", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i)  {
@@ -266,6 +273,9 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(appDetail);
             }
         });
+        /**
+         * 거절시 앱 종료
+         */
         builder.setNegativeButton("종료", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -275,6 +285,11 @@ public class LoginActivity extends AppCompatActivity {
         builder.create().show();
     }
 
+    /**
+     * 화면 터치 이밴트 발생시마다 권한 확인
+     * @param event
+     * @return
+     */
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -285,24 +300,4 @@ public class LoginActivity extends AppCompatActivity {
         }
         return true;
     }
-
-//    private void showDialogGuideForNegetiveButton(){
-//        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-//        builder.setTitle("주의");
-//        builder.setMessage("권한 거절로 인해 일부기능이 제한됩니다");
-//        builder.setPositiveButton("권한설정하러가기", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i)  {
-//                Intent appDetail = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
-//                startActivity(appDetail);
-//            }
-//        });
-//        builder.setNegativeButton("취소하기", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//
-//            }
-//        });
-//        builder.create().show();
-//    }
 }

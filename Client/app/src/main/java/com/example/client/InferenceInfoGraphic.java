@@ -5,7 +5,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import androidx.annotation.Nullable;
 
-/** Graphic instance for rendering inference info (latency, FPS, resolution) in an overlay view. */
+/**
+ * 오버레이 보기에서 추론 정보(대기 시간, FPS, 해상도)를 렌더링하기 위한 그래픽 인스턴스 Activity Class.
+ * 해당 앱에서는 가시성 문제로 사용하지 않음.
+ */
 public class InferenceInfoGraphic extends GraphicOverlay.Graphic {
 
     private static final int TEXT_COLOR = Color.WHITE;
@@ -16,7 +19,7 @@ public class InferenceInfoGraphic extends GraphicOverlay.Graphic {
     private final long frameLatency;
     private final long detectorLatency;
 
-    // Only valid when a stream of input images is being processed. Null for single image mode.
+    // 입력 이미지 스트림이 처리되는 경우에만 유효합니다. 단일 이미지 모드의 경우 null
     @Nullable private final Integer framesPerSecond;
     private boolean showLatencyInfo = true;
 
@@ -37,7 +40,6 @@ public class InferenceInfoGraphic extends GraphicOverlay.Graphic {
         postInvalidate();
     }
 
-    /** Creates an {@link InferenceInfoGraphic} to only display image size. */
     public InferenceInfoGraphic(GraphicOverlay overlay) {
         this(overlay, 0, 0, null);
         showLatencyInfo = false;
@@ -57,7 +59,7 @@ public class InferenceInfoGraphic extends GraphicOverlay.Graphic {
         if (!showLatencyInfo) {
             return;
         }
-        // Draw FPS (if valid) and inference latency
+        // FPS 표시 및 추론 대기 시간
         if (framesPerSecond != null) {
             canvas.drawText(
                     "FPS: " + framesPerSecond + ", Frame latency: " + frameLatency + " ms",

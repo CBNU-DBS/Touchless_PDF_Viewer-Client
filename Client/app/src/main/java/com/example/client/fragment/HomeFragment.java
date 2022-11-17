@@ -27,7 +27,9 @@ import com.example.client.R;
 import java.io.File;
 import java.io.FilenameFilter;
 
-
+/**
+ * 유저의 개인정보 출력 및 변경, 로그아웃을 할 수 있게 해주는 Fragment Class
+ */
 public class HomeFragment extends Fragment {
 
     @Override

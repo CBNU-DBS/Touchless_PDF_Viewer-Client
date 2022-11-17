@@ -2,6 +2,9 @@ package com.example.client.dto;
 
 import java.util.List;
 
+/**
+ * 회원 관련 DTO
+ */
 public class UserDTO {
     private Long id;
 

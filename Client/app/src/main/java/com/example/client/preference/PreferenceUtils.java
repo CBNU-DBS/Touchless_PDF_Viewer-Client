@@ -22,7 +22,7 @@ import com.google.mlkit.vision.pose.PoseDetectorOptionsBase;
 import com.google.mlkit.vision.pose.accurate.AccuratePoseDetectorOptions;
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions;
 
-/** Utility class to retrieve shared preferences. */
+/** CameraX API 라이브 이미지에 대한 설정 */
 public class PreferenceUtils {
 
     private static final int POSE_DETECTOR_PERFORMANCE_MODE_FAST = 1;
@@ -320,11 +320,6 @@ public class PreferenceUtils {
         return sharedPreferences.getBoolean(prefKey, false);
     }
 
-    /**
-     * Mode type preference is backed by {@link android.preference.ListPreference} which only support
-     * storing its entry value as string type, so we need to retrieve as string and then convert to
-     * integer.
-     */
     private static int getModeTypePreferenceValue(
             Context context, @StringRes int prefKeyResId, int defaultValue) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);

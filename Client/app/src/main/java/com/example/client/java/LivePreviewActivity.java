@@ -28,10 +28,12 @@ import java.util.List;
 import androidx.core.app.ActivityCompat;
 
 
-/** Live preview demo for ML Kit APIs. */
+/** ML Kit API에 대한 카메라 미리보기
+ */
 @KeepName
 public final class LivePreviewActivity extends AppCompatActivity
         implements OnItemSelectedListener, CompoundButton.OnCheckedChangeListener,ActivityCompat.OnRequestPermissionsResultCallback {
+    //MLkit에서 지원하는 모든 기능들. 해당 앱에서는 Face Detection만 사용
     private static final String OBJECT_DETECTION = "Object Detection";
     private static final String OBJECT_DETECTION_CUSTOM = "Custom Object Detection";
     private static final String CUSTOM_AUTOML_OBJECT_DETECTION =
@@ -56,6 +58,10 @@ public final class LivePreviewActivity extends AppCompatActivity
     private GraphicOverlay graphicOverlay;
     private String selectedModel = FACE_DETECTION;
 
+    /**
+     * 생성자, 카메라 미리보기 실행을 위한 CameraX API 확인
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +78,7 @@ public final class LivePreviewActivity extends AppCompatActivity
             Log.d(TAG, "graphicOverlay is null");
         }
 
+        //스피너 선언 및 기설정된 옵션을 가져와서 List
         Spinner spinner = findViewById(R.id.spinner);
         List<String> options = new ArrayList<>();
         options.add(OBJECT_DETECTION);
@@ -90,11 +97,11 @@ public final class LivePreviewActivity extends AppCompatActivity
         options.add(TEXT_RECOGNITION_JAPANESE);
         options.add(TEXT_RECOGNITION_KOREAN);
 
-        // Creating adapter for spinner
+        // spinner를 위한 Adapter 선언
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.spinner_outer_style, options);
-        // Drop down layout style - list view with radio button
+        // 드롭다운 레이아웃 스타일 - 라디오 단추가 있는 목록 보기
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // attaching data adapter to spinner
+        // 스피너에 데이터 어댑터 연결
         spinner.setAdapter(dataAdapter);
         spinner.setOnItemSelectedListener(this);
 
@@ -113,10 +120,10 @@ public final class LivePreviewActivity extends AppCompatActivity
         createCameraSource(selectedModel);
     }
 
+    // 항목이 선택된다면 선택된 항목을 검색하고 해당 항목으로 실행
+    // 해당 앱에서는 Face Detection으로 고정하여 사용
     @Override
     public synchronized void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos)
         selectedModel = parent.getItemAtPosition(pos).toString();
         Log.d(TAG, "Selected model: " + selectedModel);
         preview.stop();
@@ -126,9 +133,15 @@ public final class LivePreviewActivity extends AppCompatActivity
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        // Do nothing.
+        // 아무것도 하지 않음
     }
 
+    /**
+     * CheckChanged 컨트롤의 CheckBox 이밴트 발생시 실행
+     * 카메라 방향 확인, 해당 앱에서는 전면 카메라로 고정하여 사용
+     * @param buttonView
+     * @param isChecked
+     */
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         Log.d(TAG, "Set facing");
@@ -143,136 +156,20 @@ public final class LivePreviewActivity extends AppCompatActivity
         startCameraSource();
     }
 
+    /**
+     * 기존 카cameraSource가 없다면, 새로운 cameraSource 생성
+     * @param model
+     */
     private void createCameraSource(String model) {
-        // If there's no existing cameraSource, create one.
         if (cameraSource == null) {
             cameraSource = new CameraSource(this, graphicOverlay);
         }
 
-        /*수정 부분 : 차재현(try-catch문 에서 switch 문을 모두 주석처리하고 face_detection 만 실행되게 수정함.)*/
+        /*face_detection 만 실행되게 수정함*/
         try {
 
             Log.i(TAG, "Using Face Detector Processor");
             cameraSource.setMachineLearningFrameProcessor(new FaceDetectorProcessor(this));
-
-      /*switch (model) {
-        case OBJECT_DETECTION:
-          Log.i(TAG, "Using Object Detector Processor");
-          ObjectDetectorOptions objectDetectorOptions =
-              PreferenceUtils.getObjectDetectorOptionsForLivePreview(this);
-          cameraSource.setMachineLearningFrameProcessor(
-              new ObjectDetectorProcessor(this, objectDetectorOptions));
-          break;
-        case OBJECT_DETECTION_CUSTOM:
-          Log.i(TAG, "Using Custom Object Detector Processor");
-          LocalModel localModel =
-              new LocalModel.Builder()
-                  .setAssetFilePath("custom_models/object_labeler.tflite")
-                  .build();
-          CustomObjectDetectorOptions customObjectDetectorOptions =
-              PreferenceUtils.getCustomObjectDetectorOptionsForLivePreview(this, localModel);
-          cameraSource.setMachineLearningFrameProcessor(
-              new ObjectDetectorProcessor(this, customObjectDetectorOptions));
-          break;
-        case CUSTOM_AUTOML_OBJECT_DETECTION:
-          Log.i(TAG, "Using Custom AutoML Object Detector Processor");
-          LocalModel customAutoMLODTLocalModel =
-              new LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build();
-          CustomObjectDetectorOptions customAutoMLODTOptions =
-              PreferenceUtils.getCustomObjectDetectorOptionsForLivePreview(
-                  this, customAutoMLODTLocalModel);
-          cameraSource.setMachineLearningFrameProcessor(
-              new ObjectDetectorProcessor(this, customAutoMLODTOptions));
-          break;
-        case TEXT_RECOGNITION_LATIN:
-          Log.i(TAG, "Using on-device Text recognition Processor for Latin.");
-          cameraSource.setMachineLearningFrameProcessor(
-              new TextRecognitionProcessor(this, new TextRecognizerOptions.Builder().build()));
-          break;
-        case TEXT_RECOGNITION_CHINESE:
-          Log.i(TAG, "Using on-device Text recognition Processor for Latin and Chinese.");
-          cameraSource.setMachineLearningFrameProcessor(
-              new TextRecognitionProcessor(
-                  this, new ChineseTextRecognizerOptions.Builder().build()));
-          break;
-        case TEXT_RECOGNITION_DEVANAGARI:
-          Log.i(TAG, "Using on-device Text recognition Processor for Latin and Devanagari.");
-          cameraSource.setMachineLearningFrameProcessor(
-              new TextRecognitionProcessor(
-                  this, new DevanagariTextRecognizerOptions.Builder().build()));
-          break;
-        case TEXT_RECOGNITION_JAPANESE:
-          Log.i(TAG, "Using on-device Text recognition Processor for Latin and Japanese.");
-          cameraSource.setMachineLearningFrameProcessor(
-              new TextRecognitionProcessor(
-                  this, new JapaneseTextRecognizerOptions.Builder().build()));
-          break;
-        case TEXT_RECOGNITION_KOREAN:
-          Log.i(TAG, "Using on-device Text recognition Processor for Latin and Korean.");
-          cameraSource.setMachineLearningFrameProcessor(
-              new TextRecognitionProcessor(
-                  this, new KoreanTextRecognizerOptions.Builder().build()));
-          break;
-        case FACE_DETECTION:
-          Log.i(TAG, "Using Face Detector Processor");
-          cameraSource.setMachineLearningFrameProcessor(new FaceDetectorProcessor(this));
-          break;
-        case BARCODE_SCANNING:
-          Log.i(TAG, "Using Barcode Detector Processor");
-          cameraSource.setMachineLearningFrameProcessor(new BarcodeScannerProcessor(this));
-          break;
-        case IMAGE_LABELING:
-          Log.i(TAG, "Using Image Label Detector Processor");
-          cameraSource.setMachineLearningFrameProcessor(
-              new LabelDetectorProcessor(this, ImageLabelerOptions.DEFAULT_OPTIONS));
-          break;
-        case IMAGE_LABELING_CUSTOM:
-          Log.i(TAG, "Using Custom Image Label Detector Processor");
-          LocalModel localClassifier =
-              new LocalModel.Builder()
-                  .setAssetFilePath("custom_models/bird_classifier.tflite")
-                  .build();
-          CustomImageLabelerOptions customImageLabelerOptions =
-              new CustomImageLabelerOptions.Builder(localClassifier).build();
-          cameraSource.setMachineLearningFrameProcessor(
-              new LabelDetectorProcessor(this, customImageLabelerOptions));
-          break;
-        case CUSTOM_AUTOML_LABELING:
-          Log.i(TAG, "Using Custom AutoML Image Label Detector Processor");
-          LocalModel customAutoMLLabelLocalModel =
-              new LocalModel.Builder().setAssetManifestFilePath("automl/manifest.json").build();
-          CustomImageLabelerOptions customAutoMLLabelOptions =
-              new CustomImageLabelerOptions.Builder(customAutoMLLabelLocalModel)
-                  .setConfidenceThreshold(0)
-                  .build();
-          cameraSource.setMachineLearningFrameProcessor(
-              new LabelDetectorProcessor(this, customAutoMLLabelOptions));
-          break;
-        case POSE_DETECTION:
-          PoseDetectorOptionsBase poseDetectorOptions =
-              PreferenceUtils.getPoseDetectorOptionsForLivePreview(this);
-          Log.i(TAG, "Using Pose Detector with options " + poseDetectorOptions);
-          boolean shouldShowInFrameLikelihood =
-              PreferenceUtils.shouldShowPoseDetectionInFrameLikelihoodLivePreview(this);
-          boolean visualizeZ = PreferenceUtils.shouldPoseDetectionVisualizeZ(this);
-          boolean rescaleZ = PreferenceUtils.shouldPoseDetectionRescaleZForVisualization(this);
-          boolean runClassification = PreferenceUtils.shouldPoseDetectionRunClassification(this);
-          cameraSource.setMachineLearningFrameProcessor(
-              new PoseDetectorProcessor(
-                  this,
-                  poseDetectorOptions,
-                  shouldShowInFrameLikelihood,
-                  visualizeZ,
-                  rescaleZ,
-                  runClassification,
-                  *//* isStreamMode = *//* true));
-          break;
-        case SELFIE_SEGMENTATION:
-          cameraSource.setMachineLearningFrameProcessor(new SegmenterProcessor(this));
-          break;
-        default:
-          Log.e(TAG, "Unknown model: " + model);
-      }*/
         } catch (RuntimeException e) {
             Log.e(TAG, "Can not create image processor: " + model, e);
             Toast.makeText(
@@ -284,9 +181,9 @@ public final class LivePreviewActivity extends AppCompatActivity
     }
 
     /**
-     * Starts or restarts the camera source, if it exists. If the camera source doesn't exist yet
-     * (e.g., because onResume was called before the camera source was created), this will be called
-     * again when the camera source is created.
+     * cameraSource가 있는 경우 해당 소스를 시작하거나 다시 시작
+     * cameraSource가 없는 경우 cameraSource가 생성될 때 다시 호출
+     * cameraSource가 생성되기 전에 호출이 계속될 수 있기 때문에 작성
      */
     private void startCameraSource() {
         if (cameraSource != null) {
@@ -306,6 +203,7 @@ public final class LivePreviewActivity extends AppCompatActivity
         }
     }
 
+    /** 카메라 다시 재생시 */
     @Override
     public void onResume() {
         super.onResume();
@@ -314,13 +212,14 @@ public final class LivePreviewActivity extends AppCompatActivity
         startCameraSource();
     }
 
-    /** Stops the camera. */
+    /** 카메라 일시 정지시 */
     @Override
     protected void onPause() {
         super.onPause();
         preview.stop();
     }
 
+    /** 카메라 종료시 */
     @Override
     public void onDestroy() {
         super.onDestroy();

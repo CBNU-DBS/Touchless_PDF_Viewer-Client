@@ -13,7 +13,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.common.util.concurrent.ListenableFuture;
 import java.util.concurrent.ExecutionException;
 
-/** View model for interacting with CameraX. */
+/**
+ * CameraX와 상호 작용하기 위한 모델 Activity Class.
+ */
 @RequiresApi(VERSION_CODES.LOLLIPOP)
 public final class CameraXViewModel extends AndroidViewModel {
 
@@ -21,7 +23,7 @@ public final class CameraXViewModel extends AndroidViewModel {
     private MutableLiveData<ProcessCameraProvider> cameraProviderLiveData;
 
     /**
-     * Create an instance which interacts with the camera service via the given application context.
+     * 지정된 응용 프로그램 컨텍스트를 통해 카메라 서비스와 상호 작용하는 인스턴스를 만듭니다.
      */
     public CameraXViewModel(@NonNull Application application) {
         super(application);
@@ -38,7 +40,7 @@ public final class CameraXViewModel extends AndroidViewModel {
                         try {
                             cameraProviderLiveData.setValue(cameraProviderFuture.get());
                         } catch (ExecutionException | InterruptedException e) {
-                            // Handle any errors (including cancellation) here.
+                            // 여기서 모든 오류(취소 포함)를 처리
                             Log.e(TAG, "Unhandled exception", e);
                         }
                     },

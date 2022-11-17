@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Configures live preview demo settings. */
+/** CameraX API 라이브 이미지에 대한 설정 */
 public class LivePreviewPreferenceFragment extends PreferenceFragment {
 
     @Override
@@ -22,7 +22,7 @@ public class LivePreviewPreferenceFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.preference_live_preview_quickstart);
         setUpCameraPreferences();
-        FaceDetectionUtils.setUpFaceDetectionPreferences(this, /* isStreamMode = */ true);
+        FaceDetectionUtils.setUpFaceDetectionPreferences(this,  true);
     }
 
     void setUpCameraPreferences() {
@@ -66,7 +66,7 @@ public class LivePreviewPreferenceFragment extends PreferenceFragment {
             previewSizePreference.setEntryValues(previewSizeStringValues);
 
             if (previewSizePreference.getEntry() == null) {
-                // First time of opening the Settings page.
+                // 설정 페이지를 처음 여는 경우
                 SizePair sizePair =
                         CameraSource.selectSizePair(
                                 camera,
@@ -94,7 +94,7 @@ public class LivePreviewPreferenceFragment extends PreferenceFragment {
                         return true;
                     });
         } catch (RuntimeException e) {
-            // If there's no camera for the given camera id, hide the corresponding preference.
+            // 지정된 카메라 ID에 대한 카메라가 없으면 해당 기본 설정을 숨기기
             ((PreferenceCategory) findPreference(getString(R.string.pref_category_key_camera)))
                     .removePreference(previewSizePreference);
         } finally {

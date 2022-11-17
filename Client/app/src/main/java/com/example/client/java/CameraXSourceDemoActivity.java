@@ -30,7 +30,9 @@ import com.google.mlkit.vision.objects.custom.CustomObjectDetectorOptions;
 import java.util.List;
 import java.util.Objects;
 
-/** Live preview demo app for ML Kit APIs using CameraXSource API. */
+/**
+ * CameraX를 이용한 ML키트 API용 라이브 미리보기
+ */
 @KeepName
 @RequiresApi(VERSION_CODES.LOLLIPOP)
 public final class CameraXSourceDemoActivity extends AppCompatActivity
@@ -51,6 +53,10 @@ public final class CameraXSourceDemoActivity extends AppCompatActivity
     private CustomObjectDetectorOptions customObjectDetectorOptions;
     private Size targetResolution;
 
+    /**
+     * 생성자, 사용자 기기 카메라 활성화 및 FaceDetection 기설정된 옵션 가져오기.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +91,12 @@ public final class CameraXSourceDemoActivity extends AppCompatActivity
                                 .addOnFailureListener(this::onDetectionTaskFailure);
     }
 
+    /**
+     * CheckChanged 컨트롤의 CheckBox 이밴트 발생시 실행
+     * 카메라 방향 확인, 해당 앱에서는 전면 카메라로 고정하여 사용
+     * @param buttonView
+     * @param isChecked
+     */
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         lensFacing =
@@ -95,6 +107,9 @@ public final class CameraXSourceDemoActivity extends AppCompatActivity
         createThenStartCameraXSource();
     }
 
+    /**
+     * Activity 일시중지시 실행할 행동 정의
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -111,6 +126,9 @@ public final class CameraXSourceDemoActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * 실행중에 다른 Activity가 올 경우 실행할 행동 정의
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -119,6 +137,9 @@ public final class CameraXSourceDemoActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Activity 소멸시 실행할 행동 정의
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -149,6 +170,10 @@ public final class CameraXSourceDemoActivity extends AppCompatActivity
         cameraXSource.start();
     }
 
+    /**
+     * 감지가 성공일 경우 실행, 카메라 사이즈 확인 및 처리중인 이미지 수정
+     * @param results
+     */
     private void onDetectionTaskSuccess(List<DetectedObject> results) {
         graphicOverlay.clear();
         if (needUpdateGraphicOverlayImageSourceInfo) {
@@ -159,8 +184,8 @@ public final class CameraXSourceDemoActivity extends AppCompatActivity
                 boolean isImageFlipped =
                         cameraXSource.getCameraFacing() == CameraSourceConfig.CAMERA_FACING_FRONT;
                 if (isPortraitMode()) {
-                    // Swap width and height sizes when in portrait, since it will be rotated by
-                    // 90 degrees. The camera preview and the image being processed have the same size.
+                    // 세로 방향으로 90도 회전하므로 가로 및 높이값을 변경,
+                    // 카메라 미리 보기와 처리 중인 이미지의 크기가 같도록
                     graphicOverlay.setImageSourceInfo(size.getHeight(), size.getWidth(), isImageFlipped);
                 } else {
                     graphicOverlay.setImageSourceInfo(size.getWidth(), size.getHeight(), isImageFlipped);
@@ -175,6 +200,10 @@ public final class CameraXSourceDemoActivity extends AppCompatActivity
         graphicOverlay.postInvalidate();
     }
 
+    /**
+     * 감지가 실패할 경우 실행, 예외처리
+     * @param e
+     */
     private void onDetectionTaskFailure(Exception e) {
         graphicOverlay.clear();
         graphicOverlay.postInvalidate();

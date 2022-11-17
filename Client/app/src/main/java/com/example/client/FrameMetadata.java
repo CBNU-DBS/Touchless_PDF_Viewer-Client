@@ -1,6 +1,8 @@
 package com.example.client;
 
-/** Describing a frame info. */
+/**
+ * 프레임 정보 설명 Activity Class.
+ */
 public class FrameMetadata {
 
     private final int width;
@@ -25,7 +27,6 @@ public class FrameMetadata {
         this.rotation = rotation;
     }
 
-    /** Builder of {@link FrameMetadata}. */
     public static class Builder {
 
         private int width;

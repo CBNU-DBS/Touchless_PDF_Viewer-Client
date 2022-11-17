@@ -22,6 +22,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 유저의 개인정보를 변경하는 Activity Class.
+ */
 public class Personal_info_setting_Activity extends AppCompatActivity {
 
     UserApi userApi;

@@ -18,11 +18,13 @@
 
     <com.example.client.CameraSourcePreview
         android:id="@+id/preview_view"
-        android:layout_width="147dp"
-        android:layout_height="237dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintWidth_percent="0.33"
+        app:layout_constraintHeight_percent="0.33"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.example.client.GraphicOverlay
@@ -33,74 +35,6 @@
         app:layout_constraintRight_toRightOf="@id/preview_view"
         app:layout_constraintTop_toTopOf="@id/preview_view"
         app:layout_constraintBottom_toBottomOf="@id/preview_view"/>
-
-<!--    <include-->
-<!--        android:id="@+id/settings_button"-->
-<!--        layout="@layout/settings_style"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintRight_toRightOf="@id/preview_view"-->
-<!--        app:layout_constraintTop_toTopOf="@id/preview_view" />-->
-
-
-    <!--    <Button-->
-<!--            android:id="@+id/prevBtn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="10dp"-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:layout_marginEnd="10dp"-->
-<!--            android:layout_marginRight="10dp"-->
-<!--            android:text="이전"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/nextBtn"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
-
-<!--    <Button-->
-<!--            android:id="@+id/nextBtn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="10dp"-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:text="다음"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/prevBtn" />-->
-
-<!--    <Button-->
-<!--            android:id="@+id/zoomInBtn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="확대"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/zoomOutBtn"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/nextBtn" />-->
-
-<!--    <Button-->
-<!--            android:id="@+id/zoomOutBtn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="축소"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent" />-->
-
-<!--    <Button-->
-<!--            android:id="@+id/scrollUpBtn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="스크롤 업"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/prevBtn"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/scrollDownBtn"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
-
-<!--    <Button-->
-<!--            android:id="@+id/scrollDownBtn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="스크롤 다운"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/zoomInBtn"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/scrollUpBtn"-->
-<!--    />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

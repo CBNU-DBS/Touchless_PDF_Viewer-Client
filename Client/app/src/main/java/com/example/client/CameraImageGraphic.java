@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import com.example.client.GraphicOverlay.Graphic;
 
-/** Draw camera image to background. */
+/**
+ * background 상태에서 카메라 이미지 생성 Activity Class.
+ */
 public class CameraImageGraphic extends Graphic {
 
     private final Bitmap bitmap;

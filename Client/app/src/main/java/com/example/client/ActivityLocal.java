@@ -7,9 +7,14 @@ import android.content.Context;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * 전역적으로 카메라 설정을 저장하기 위한 Activity Class.   
+ * 오직 FaceGraphic에서만 접근
+ */
 public class ActivityLocal extends Application {
     private static Context context;
 
+    // 생성자
     public void onCreate(){
         super.onCreate();
         ActivityLocal.context = getApplicationContext();
@@ -23,6 +28,7 @@ public class ActivityLocal extends Application {
     Queue<Float> eulerYqueue = new LinkedList<>();
 
 
+    // 기본적으로 Set(), Get()만 가능
     public long gettime1() {
         return time1;
     }

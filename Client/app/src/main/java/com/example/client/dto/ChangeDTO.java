@@ -1,5 +1,8 @@
 package com.example.client.dto;
 
+/**
+ * 비밀번호 변경을 위한 DTO
+ */
 public class ChangeDTO {
     private Long id;
 

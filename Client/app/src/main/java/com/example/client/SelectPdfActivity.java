@@ -14,10 +14,12 @@ import com.example.client.Adapter.PdfAdapter;
 
 import java.util.ArrayList;
 
+/**
+ * pdf를 recyclerview 방식으로 보여줄 수 있게 하는 Activity Class.
+ */
 public class SelectPdfActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // ... 코드 계속
         // 리사이클러뷰에 표시할 데이터 리스트 생성.
         super.onCreate(savedInstanceState);
         ArrayList<String> list = new ArrayList<>();

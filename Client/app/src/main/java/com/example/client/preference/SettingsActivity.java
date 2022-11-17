@@ -7,15 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.client.R;
 
 /**
- * Hosts the preference fragment to configure settings for a demo activity that specified by the
- * {@link LaunchSource}.
+ * 설정에서 지정된 작업에 대한 설정을 구성하는 기본 설정을 호스팅
  */
 public class SettingsActivity extends AppCompatActivity {
 
     public static final String EXTRA_LAUNCH_SOURCE = "extra_launch_source";
 
-    /** Specifies where this activity is launched from. */
-    @SuppressWarnings("NewApi") // CameraX is only available on API 21+
+    /** 이 활동을 시작할 위치를 지정합니다. */
+    @SuppressWarnings("NewApi") // CameraX는 API 21+에서만 사용할 수 있습니다.
     public enum LaunchSource {
         LIVE_PREVIEW(R.string.pref_screen_title_live_preview, LivePreviewPreferenceFragment.class),
         STILL_IMAGE(R.string.pref_screen_title_still_image, StillImagePreferenceFragment.class),
