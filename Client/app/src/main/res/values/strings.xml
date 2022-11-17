@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Client</string>
+    <string name="app_name">Touchless PDF</string>
     <string name="pick_file">Pick file</string>
     <string name="toast_pick_file_error">Unable to pick file. Check status of file manager.</string>
     <string name="java_entry_title" translatable="false">Run the ML Kit quickstart written in Java</string>
