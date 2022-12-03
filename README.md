@@ -22,7 +22,7 @@ ML Kit의 Face Detection, 음성인식, 클라우드 기술을 활용한 어플�
 
 ## 2️⃣ 산출물
 - [클라이언트 레포지토리](https://github.com/CBNU-DBS/Touchless_PDF_Viewer-Client)
-- [서버 레포지토리](https://github.com/CBNU-DBS/Touchless_PDF_Viewer-Client)
+- [서버 레포지토리](https://github.com/CBNU-DBS/Touchless_PDF_Viewer-Server)
 - [프로젝트 산출물 - 소프트웨어 요구사항명세서(SRS), 소프트웨어 설계 명세서 (SDD)](https://drive.google.com/file/d/1pQUcg5--GiQagu-L4SHyFKVAD8Mt3RX3/view?usp=sharing)
 
 
