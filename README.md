@@ -1,7 +1,6 @@
 <img width="1436" alt="image" src="https://user-images.githubusercontent.com/44061558/205437423-f02c1e63-8651-4956-bd14-0baab79a272d.png">
 
 ## 0️⃣ 프로젝트 소개
-***
 손을 사용할 수 없거나 어려운 상황에서 정보취약계층이 편리하게
 PDF 문서 정보를 확인할 수 있도록 도움을 주는 안드로이드 기반의 어플리케이션.
 
@@ -28,26 +27,22 @@ ML Kit의 Face Detection, 음성인식, 클라우드 기술을 활용한 어플�
 
 
 ## 3️⃣ 프로젝트 협업 규칙 
-*** 
 - [브랜치, 풀리퀘스트 전략](docs/%EB%B8%8C%EB%9E%9C%EC%B9%98%20%EC%A0%84%EB%9E%B5%EA%B3%BC%20%ED%92%80%EB%A6%AC%ED%80%98%EC%8A%A4%ED%8A%B8.md)
 - [코드 컨벤션](docs/%EC%BD%94%EB%93%9C%EC%BB%A8%EB%B2%A4%EC%85%98.md)
 - [커밋 컨벤션](docs/%EC%BB%A4%EB%B0%8B%EC%BB%A8%EB%B2%A4%EC%85%98.md)
 
 ## 4️⃣ 서비스 구성도
-***
 
 <img width="1194" alt="image" src="https://user-images.githubusercontent.com/44061558/205437595-35db35d1-2857-497c-ad72-01c96a8b0aac.png">
 
 
 ## 5️⃣ 프로젝트 구현
-***
 
 <img width="1280" alt="image" src="https://user-images.githubusercontent.com/44061558/205439040-6ad12f57-3e48-4864-b336-0bee323f1913.png">
 
 
-
-## Appendix A. 참여자
 *** 
+## Appendix A. 참여자
 | 이름  | Github | 역할 | 비고 |
 | --- | --- | --- | --- |
 | 김강민 | [*Link*](https://github.com/kkmin223) |서버관리, 회원관리 |  |
