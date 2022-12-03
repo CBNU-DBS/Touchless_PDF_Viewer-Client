@@ -8,7 +8,7 @@ ML Kit의 Face Detection, 음성인식, 클라우드 기술을 활용한 어플�
 
 <img width="1424" alt="image" src="https://user-images.githubusercontent.com/44061558/205437513-ec04a477-4ebb-4a0f-9e8d-894656892c40.png">
 
-## 1️⃣ 개발 스택
+## 1️⃣ 개발 
 | SoftWare  | 세부 Spec 사양 (Version) | 
 | --- | --- | 
 | Java | Java SDK 11.0.13 |
